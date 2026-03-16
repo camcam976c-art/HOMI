@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOMI · Spend Planner — 142 Maple Ridge Drive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1C4A2E;--green-mid:#2D6A4F;--green-light:#52B788;--green-pale:#D8F3DC;
+  --cream:#FAF6F0;--cream-dark:#F0E9DC;
+  --gold:#C9963A;--gold-light:#E8B84B;--gold-pale:#FDF3E0;
+  --amber:#D97706;--amber-pale:#FEF3C7;
+  --red:#C0392B;--red-pale:#FDECEA;
+  --white:#FFFFFF;--text:#1A1A1A;--muted:#8A8A8A;--border:#E4DDD3;
+  --r:12px;--rl:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);line-height:1.6;min-height:100vh}
+h1,h2,h3{font-family:'Playfair Display',serif}
+button{font-family:'DM Sans',sans-serif;cursor:pointer;border:none;outline:none}
+input,select{font-family:'DM Sans',sans-serif}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--cream-dark)}::-webkit-scrollbar-thumb{background:var(--green-light);border-radius:3px}
+input[type=range]{-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:#E4DDD3;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#1C4A2E;cursor:pointer;border:3px solid #fff;box-shadow:0 2px 6px rgba(28,74,46,0.3)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#1C4A2E;cursor:pointer;border:3px solid #fff;box-shadow:0 2px 6px rgba(28,74,46,0.3)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes checkPop{0%{transform:scale(0) rotate(-10deg)}70%{transform:scale(1.2) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes statusSlide{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+@keyframes barGrow{from{width:0}to{width:100%}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.fade-up{animation:fadeUp .5s ease both}
+.fade-up-1{animation:fadeUp .5s .08s ease both}
+.fade-up-2{animation:fadeUp .5s .16s ease both}
+.fade-up-3{animation:fadeUp .5s .24s ease both}
+.status-slide{animation:statusSlide .35s ease both}
+
+/* ── PRINT ── */
+@media print{
+  #top-nav,#print-btn,#footer{display:none!important}
+  body{background:#fff}
+  .no-print{display:none!important}
+  .page-break{page-break-before:always}
+  *{box-shadow:none!important}
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .grid-2{grid-template-columns:1fr!important}
+  .grid-3{grid-template-columns:1fr!important}
+  .grid-4{grid-template-columns:1fr 1fr!important}
+  .prop-meta{flex-direction:column;gap:8px!important}
+  .nav-addr{display:none}
+  .forecast-nums{grid-template-columns:1fr 1fr!important}
+  .scenario-grid{grid-template-columns:1fr!important}
+  .hide-mobile{display:none!important}
+  .table-scroll{overflow-x:auto}
+  .hero-h1{font-size:24px!important}
+  .section-pad{padding:0 16px 60px!important}
+  .card-pad{padding:20px!important}
+}
+@media(max-width:480px){
+  .grid-4{grid-template-columns:1fr!important}
+  .forecast-nums{grid-template-columns:1fr!important}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useMemo,useEffect,useRef,useCallback} = React;
+
+/* ═══════════════════════════════════════════════════════ DATA */
+const PROPERTY = {address:"142 Maple Ridge Drive",city:"Allentown, PA 18104",built:2004,sqft:2847,beds:4,baths:2.5,climate:"IECC Zone 5A"};
+
+const SYSTEMS = [
+  {id:"water-heater",name:"Water Heater",icon:"💧",installed:2018,lifespan:12,condition:"urgent",pct:67,nextEvent:"Replace within 18 months",nextYear:2026,urgency:"act",urgencyLabel:"Act Now",costLow:900,costHigh:1800,maintLow:0,maintHigh:100,diy:false,detail:"Sediment buildup detected and efficiency is dropping. This system is entering its replacement window. Replacement is the most cost-effective path. A tankless upgrade ($2,200–$3,500) offers long-term energy savings.",savingsMonths:12,priority:1,timelineX:12},
+  {id:"electrical",name:"Electrical Panel",icon:"⚡",installed:2004,lifespan:40,condition:"attention",pct:30,nextEvent:"Panel inspection overdue",nextYear:2026,urgency:"plan",urgencyLabel:"Plan This Year",costLow:3000,costHigh:6000,maintLow:200,maintHigh:400,diy:false,detail:"200A panel from 2004. Inspection is overdue — common in homes this age. No immediate replacement expected, but a safety audit is recommended this year.",savingsMonths:36,priority:2,timelineX:22},
+  {id:"roof",name:"Roof",icon:"🏠",installed:2004,lifespan:25,condition:"fair",pct:84,nextEvent:"Entering repair window 2027",nextYear:2027,urgency:"plan",urgencyLabel:"Plan This Year",costLow:11000,costHigh:15000,maintLow:500,maintHigh:1200,diy:false,detail:"Architectural shingles showing granule loss. 80 freeze cycles/year accelerates wear. Inspection + minor repairs recommended before full replacement window opens.",savingsMonths:48,priority:3,timelineX:38},
+  {id:"hvac",name:"HVAC System",icon:"❄️",installed:2016,lifespan:15,condition:"good",pct:60,nextEvent:"Annual service due 2026",nextYear:2031,urgency:"watch",urgencyLabel:"On Track",costLow:7000,costHigh:9500,maintLow:150,maintHigh:300,diy:false,detail:"Carrier 2-stage system in good condition. Annual tune-up extends life 3–5 years. Filter replacement every 90 days is recommended for Zone 5A climates.",savingsMonths:60,priority:4,timelineX:65},
+  {id:"exterior",name:"Exterior & Siding",icon:"🏡",installed:2004,lifespan:30,condition:"good",pct:40,nextEvent:"Caulking recommended this season",nextYear:2030,urgency:"watch",urgencyLabel:"On Track",costLow:4000,costHigh:8000,maintLow:300,maintHigh:800,diy:true,detail:"Vinyl siding in good shape. Caulking around windows and doors prevents moisture intrusion. Power wash + touch-up paint on trim recommended this spring.",savingsMonths:60,priority:5,timelineX:55},
+  {id:"plumbing",name:"Plumbing",icon:"🔧",installed:2004,lifespan:40,condition:"good",pct:28,nextEvent:"No immediate action needed",nextYear:2035,urgency:"watch",urgencyLabel:"On Track",costLow:2000,costHigh:5000,maintLow:100,maintHigh:300,diy:false,detail:"Original supply lines in good condition. Routine drain cleaning every 2 years recommended. Minor leak check around fixtures annually.",savingsMonths:96,priority:6,timelineX:82},
+  {id:"landscaping",name:"Landscaping",icon:"🌿",installed:2004,lifespan:1,condition:"good",pct:100,nextEvent:"Spring treatment due",nextYear:2025,urgency:"watch",urgencyLabel:"On Track",costLow:800,costHigh:2400,maintLow:800,maintHigh:2400,diy:true,detail:"Annual spring treatment includes aeration, overseeding, and fertilization. Mulching beds reduces maintenance. 4-zone irrigation system needs spring startup.",savingsMonths:12,priority:7,timelineX:5},
+];
+
+const PRIORITIES = [
+  {rank:1,system:"Water Heater",action:"Replace water heater",urgency:"act",costLow:900,costHigh:1800,timing:"Within 12–18 months",diy:false,score:94},
+  {rank:2,system:"Electrical",action:"Schedule panel inspection",urgency:"plan",costLow:200,costHigh:400,timing:"This year (2025–2026)",diy:false,score:71},
+  {rank:3,system:"Roof",action:"Professional inspection + minor repairs",urgency:"plan",costLow:500,costHigh:1200,timing:"Spring 2026–2027",diy:false,score:68},
+  {rank:4,system:"Exterior",action:"Caulk windows & doors",urgency:"watch",costLow:150,costHigh:400,timing:"This spring",diy:true,score:42},
+  {rank:5,system:"Landscaping",action:"Spring lawn treatment & irrigation startup",urgency:"watch",costLow:800,costHigh:1500,timing:"April–May 2025",diy:true,score:35},
+  {rank:6,system:"HVAC",action:"Annual tune-up & filter replacement",urgency:"watch",costLow:150,costHigh:300,timing:"Before summer 2026",diy:false,score:30},
+  {rank:7,system:"Plumbing",action:"Drain cleaning & leak check",urgency:"watch",costLow:100,costHigh:300,timing:"No rush — 2026+",diy:false,score:18},
+];
+
+const SCENARIOS = [
+  {id:"nothing",label:"Do Nothing",icon:"😴",color:"#C0392B",bg:"#FDECEA",cost10:58000,scoreImpact:-22,risk:"High",desc:"Emergency replacements cost 30–40% more. Deferred maintenance compounds quickly into expensive crises.",items:["Emergency water heater failure (~$2,400+)","Roof leak causing interior damage ($5,000+)","HVAC breakdown mid-season","Electrical hazards go unaddressed"]},
+  {id:"maintain",label:"Maintain on Schedule",icon:"📅",color:"#D97706",bg:"#FEF3C7",cost10:41000,scoreImpact:+5,risk:"Low",desc:"Planned maintenance prevents most emergencies. The recommended baseline for any homeowner.",items:["Annual HVAC service & filter changes","Water heater replaced on schedule","Roof inspections every 3 years","Electrical panel inspected in 2026"],recommended:true},
+  {id:"proactive",label:"Full Proactive",icon:"🏆",color:"#1C4A2E",bg:"#D8F3DC",cost10:35000,scoreImpact:+18,risk:"Minimal",desc:"Proactive upgrades maximize home value and efficiency. Best long-term financial outcome.",items:["Tankless water heater upgrade","High-efficiency HVAC system","50-year metal roof","Smart home systems integration"]},
+];
+
+/* ═══════════════════════════════════════════════════════ HELPERS */
+const fmt = n => "$"+Math.round(n).toLocaleString();
+const fmtRange = (lo,hi) => `${fmt(lo)} – ${fmt(hi)}`;
+const uc = u => u==="act"?"#C0392B":u==="plan"?"#D97706":"#2D6A4F";
+const ub = u => u==="act"?"#FDECEA":u==="plan"?"#FEF3C7":"#D8F3DC";
+
+
+/* ═══════════════════════════════════════════════════════ ATOMS */
+const S = {
+  card:(extra={})=>({background:"#fff",borderRadius:16,padding:28,boxShadow:"0 2px 12px rgba(28,74,46,0.08)",border:"1px solid #E4DDD3",...extra}),
+  btn:(bg,color,border)=>({background:bg,color:color,border:border||"none",borderRadius:8,padding:"10px 20px",fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:"'DM Sans',sans-serif",transition:"all .18s ease",display:"inline-flex",alignItems:"center",gap:6}),
+  btnSm:(bg,color,border)=>({background:bg,color:color,border:border||"none",borderRadius:6,padding:"6px 14px",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"'DM Sans',sans-serif",transition:"all .15s ease",display:"inline-flex",alignItems:"center",gap:4}),
+  label:{fontSize:11,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",color:"#8A8A8A"},
+  tag:(bg,color)=>({background:bg,color:color,borderRadius:20,padding:"3px 12px",fontSize:12,fontWeight:600,display:"inline-flex",alignItems:"center",gap:4}),
+  h2:{fontSize:28,fontWeight:700,color:"#1C4A2E",fontFamily:"'Playfair Display',serif"},
+  h3:{fontSize:20,fontWeight:600,color:"#1C4A2E",fontFamily:"'Playfair Display',serif"},
+};
+
+function LifecycleBar({pct,urgency}){
+  return(
+    <div style={{position:"relative",height:8,background:"#F0E9DC",borderRadius:4,overflow:"hidden"}}>
+      <div style={{position:"absolute",left:0,top:0,height:"100%",width:`${Math.min(pct,100)}%`,background:uc(urgency),borderRadius:4,transition:"width 0.8s cubic-bezier(.4,0,.2,1)"}}/>
+    </div>
+  );
+}
+
+function HomiGuidance({text}){
+  return(
+    <div style={{background:"#F0FDF4",border:"1px solid #D8F3DC",borderLeft:"3px solid #52B788",borderRadius:10,padding:"12px 16px",display:"flex",gap:10,alignItems:"flex-start",marginTop:14}}>
+      <span style={{fontSize:15,flexShrink:0}}>💡</span>
+      <p style={{fontSize:13,color:"#2D6A4F",lineHeight:1.55}}><strong style={{fontWeight:700}}>HOMI Guidance · </strong>{text}</p>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ NAV */
+function TopNav({onPrint}){
+  return(
+    <div id="top-nav" style={{background:"#1C4A2E",position:"sticky",top:0,zIndex:100,boxShadow:"0 2px 16px rgba(0,0,0,0.18)"}}>
+      <div style={{maxWidth:1200,margin:"0 auto",padding:"0 24px",display:"flex",justifyContent:"space-between",alignItems:"center",height:60}}>
+        <div style={{display:"flex",alignItems:"center",gap:12}}>
+          <div style={{width:32,height:32,background:"linear-gradient(135deg,#52B788,#C9963A)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <span style={{fontSize:16}}>🏡</span>
+          </div>
+          <span style={{color:"#fff",fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:700}}>HOMI</span>
+          <span style={{color:"#52B788",fontSize:13,fontWeight:500}}>Spend Planner</span>
+        </div>
+        <div style={{display:"flex",alignItems:"center",gap:16}}>
+          <div className="nav-addr" style={{display:"flex",alignItems:"center",gap:8}}>
+            <span style={{color:"#D8F3DC",fontSize:13}}>142 Maple Ridge Drive</span>
+            <div style={{width:5,height:5,borderRadius:"50%",background:"#52B788"}}/>
+            <span style={{color:"#52B788",fontSize:13,fontWeight:500}}>Allentown, PA</span>
+          </div>
+          <button id="print-btn" onClick={onPrint} style={{...S.btnSm("rgba(255,255,255,0.12)","#D8F3DC","1px solid rgba(255,255,255,0.2)"),fontSize:12}}>
+            🖨 Print Plan
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ PROPERTY HEADER */
+function PropertyHeader(){
+  return(
+    <div style={{background:"linear-gradient(135deg,#1C4A2E 0%,#2D6A4F 100%)",padding:"40px 0 32px"}}>
+      <div style={{maxWidth:1200,margin:"0 auto",padding:"0 24px"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:20}}>
+          <div>
+            <p style={{color:"#D8F3DC",fontSize:12,fontWeight:600,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:6}}>Property Lifecycle Intelligence</p>
+            <h1 className="hero-h1" style={{fontFamily:"'Playfair Display',serif",fontSize:32,fontWeight:700,color:"#fff",marginBottom:6,lineHeight:1.2}}>142 Maple Ridge Drive</h1>
+            <p style={{color:"#A8D5BA",fontSize:15}}>Allentown, PA 18104 · Built {PROPERTY.built} · {PROPERTY.sqft.toLocaleString()} sq ft · {PROPERTY.beds}bd / {PROPERTY.baths}ba</p>
+          </div>
+          <div className="prop-meta" style={{display:"flex",gap:12,flexWrap:"wrap"}}>
+            {[["Climate","IECC 5A"],["Freeze Cycles","80/yr"],["Hail Risk","Moderate"],["Systems","7 tracked"]].map(([k,v])=>(
+              <div key={k} style={{background:"rgba(255,255,255,0.1)",borderRadius:10,padding:"10px 16px",backdropFilter:"blur(4px)",border:"1px solid rgba(255,255,255,0.15)"}}>
+                <p style={{color:"#A8D5BA",fontSize:11,fontWeight:600,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:2}}>{k}</p>
+                <p style={{color:"#fff",fontSize:14,fontWeight:600}}>{v}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ SECTION 1: COST FORECAST */
+function CostForecast({scenario,setScenario}){
+  const costs = useMemo(()=>{
+    const m = scenario==="full"?1:0.72;
+    return {y1:Math.round(2400*m),y3:Math.round(8200*m),y5:Math.round(18500*m),y10:Math.round(41000*m)};
+  },[scenario]);
+
+  // SVG timeline — proportional to actual years 2025–2035
+  const events = [
+    {year:2025,label:"Landscaping",color:"#2D6A4F",r:6,cost:1200},
+    {year:2026,label:"Water Heater",color:"#C0392B",r:10,cost:1350},
+    {year:2026.5,label:"Electrical",color:"#D97706",r:8,cost:350},
+    {year:2027,label:"Roof Repair",color:"#D97706",r:9,cost:850},
+    {year:2029,label:"Roof Replace",color:"#1C4A2E",r:14,cost:13000},
+    {year:2031,label:"HVAC",color:"#2D6A4F",r:12,cost:8250},
+    {year:2035,label:"Plumbing",color:"#52B788",r:7,cost:3500},
+  ];
+  const minYr=2025,maxYr=2036,span=maxYr-minYr;
+  const xOf=yr=>((yr-minYr)/span)*100;
+
+  return(
+    <div style={{marginBottom:48}} className="fade-up">
+      <div style={S.card()}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:16,marginBottom:28}}>
+          <div>
+            <p style={S.label}>Cost Forecast</p>
+            <h2 style={{...S.h2,marginTop:4}}>What Will My Home Cost Over Time?</h2>
+          </div>
+          <div style={{display:"flex",background:"#F0E9DC",borderRadius:10,padding:4,gap:2}}>
+            {[["conservative","Conservative"],["full","Full Replacement"]].map(([k,v])=>(
+              <button key={k} onClick={()=>setScenario(k)}
+                style={{background:scenario===k?"#1C4A2E":"transparent",color:scenario===k?"#fff":"#8A8A8A",border:"none",borderRadius:7,padding:"8px 16px",fontSize:13,fontWeight:600,cursor:"pointer",transition:"all .2s",fontFamily:"'DM Sans',sans-serif"}}>
+                {v}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="forecast-nums" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:16,marginBottom:36}}>
+          {[["1 Year","y1","#52B788",false],["3 Years","y3","#2D6A4F",false],["5 Years","y5","#C9963A",false],["10 Years","y10","#1C4A2E",true]].map(([label,key,color,inv])=>(
+            <div key={key} style={{background:inv?"#1C4A2E":"#fff",border:`1px solid ${inv?"#1C4A2E":"#E4DDD3"}`,borderRadius:12,padding:"20px 18px",position:"relative",overflow:"hidden",transition:"transform .2s"}}>
+              <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:color}}/>
+              <p style={{fontSize:11,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",color:inv?"#A8D5BA":"#8A8A8A",marginBottom:8}}>{label}</p>
+              <p style={{fontSize:28,fontWeight:700,color:inv?"#fff":"#1A1A1A",transition:"all .4s"}}>{fmt(costs[key])}</p>
+              <p style={{fontSize:12,color:inv?"#A8D5BA":"#8A8A8A",marginTop:2}}>{scenario==="conservative"?"Planned costs":"Full replacement"}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* SVG TIMELINE */}
+        <div>
+          <p style={{...S.label,marginBottom:16}}>When Costs Arrive · 2025–2035</p>
+          <div style={{overflowX:"auto"}}>
+            <svg viewBox="0 0 800 110" style={{width:"100%",minWidth:420,display:"block"}} aria-label="Cost timeline">
+              {/* track */}
+              <line x1="20" y1="42" x2="780" y2="42" stroke="#E4DDD3" strokeWidth="2"/>
+              {/* year ticks */}
+              {[2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035].map(yr=>{
+                const x=20+(xOf(yr)/100)*760;
+                return(
+                  <g key={yr}>
+                    <line x1={x} y1="38" x2={x} y2="46" stroke="#C8C2BB" strokeWidth="1"/>
+                    <text x={x} y="60" textAnchor="middle" fontSize="9" fill="#A8A3A0" fontFamily="DM Sans,sans-serif">{yr}</text>
+                  </g>
+                );
+              })}
+              {/* events */}
+              {events.map((ev,i)=>{
+                const x=20+(xOf(ev.year)/100)*760;
+                const above=i%2===0;
+                const ly=above?28:56;
+                const labelY=above?12:80;
+                const costY=above?22:92;
+                return(
+                  <g key={i}>
+                    <line x1={x} y1={above?ly+4:42} x2={x} y2={above?42:ly-4} stroke={ev.color} strokeWidth="1" strokeDasharray="3,2" opacity="0.5"/>
+                    <circle cx={x} cy="42" r={ev.r} fill={ev.color} opacity="0.9"/>
+                    <circle cx={x} cy="42" r={ev.r+3} fill={ev.color} opacity="0.15"/>
+                    <text x={x} y={labelY} textAnchor="middle" fontSize="8.5" fill={ev.color} fontWeight="600" fontFamily="DM Sans,sans-serif">{ev.label}</text>
+                    <text x={x} y={costY} textAnchor="middle" fontSize="8" fill="#8A8A8A" fontFamily="DM Sans,sans-serif">{fmt(ev.cost)}</text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+        </div>
+        <HomiGuidance text="Most homeowners in the Lehigh Valley budget $200–$350/month for home maintenance and replacement reserves. Planning early typically costs 30% less than emergency repairs."/>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ SECTION 1B: STATUS */
+function StatusIndicator({monthlySavings}){
+  const upcomingCosts5yr = 18500; // actual 5yr projected cost
+  const months = 60;
+  // Accurate: start from $0 savings, project based on slider
+  const projected = monthlySavings * months;
+  const gap = Math.max(0, upcomingCosts5yr - projected);
+  const pct = Math.min(100, Math.round((projected/upcomingCosts5yr)*100));
+  const adjustNeeded = gap>0 ? Math.ceil((gap/months)/25)*25 : 0;
+
+  const status = pct>=95?"track":pct>=70?"close":"attention";
+  const cfg = {
+    track:{label:"You're On Track",color:"#1C4A2E",bg:"#D8F3DC",border:"#52B78840",icon:"✓",msg:`Your current savings plan covers projected costs over the next 5 years. Keep it up.`},
+    close:{label:"Almost There",color:"#D97706",bg:"#FEF3C7",border:"#D9770640",icon:"◎",msg:`A small increase of ${fmt(adjustNeeded)}/month would fully cover your 5-year plan.`},
+    attention:{label:"Needs Attention",color:"#C0392B",bg:"#FDECEA",border:"#C0392B40",icon:"○",msg:`Your plan falls short by ${fmt(gap)} over 5 years. Saving ${fmt(adjustNeeded)} more/month would close the gap.`},
+  }[status];
+
+  return(
+    <div style={{...S.card({border:`1px solid ${cfg.border}`,background:cfg.bg}),marginBottom:32,transition:"all .4s ease"}} className="fade-up-1 status-slide">
+      <div style={{display:"flex",gap:16,alignItems:"center",flexWrap:"wrap"}}>
+        <div style={{width:52,height:52,borderRadius:14,background:cfg.color,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"background .4s"}}>
+          <span style={{color:"#fff",fontSize:22,fontWeight:700}}>{cfg.icon}</span>
+        </div>
+        <div style={{flex:1,minWidth:180}}>
+          <p style={{fontSize:11,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",color:cfg.color,marginBottom:3,transition:"color .4s"}}>HOMI Status</p>
+          <h3 style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:700,color:cfg.color,marginBottom:4,transition:"color .4s"}}>{cfg.label}</h3>
+          <p style={{fontSize:14,color:"#1A1A1A",lineHeight:1.5}}>{cfg.msg}</p>
+        </div>
+        <div style={{textAlign:"right",flexShrink:0}}>
+          <p style={{fontSize:11,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",color:cfg.color,marginBottom:4}}>5yr Coverage</p>
+          <p style={{fontSize:38,fontWeight:700,color:cfg.color,fontFamily:"'DM Sans',sans-serif",transition:"all .4s"}}>{pct}%</p>
+          <p style={{fontSize:12,color:cfg.color,fontWeight:500}}>{fmt(projected)} saved</p>
+        </div>
+      </div>
+      <div style={{marginTop:16,height:8,background:"rgba(255,255,255,0.5)",borderRadius:4,overflow:"hidden"}}>
+        <div style={{height:"100%",width:`${pct}%`,background:cfg.color,borderRadius:4,transition:"width .6s cubic-bezier(.4,0,.2,1)"}}/>
+      </div>
+      <div style={{display:"flex",justifyContent:"space-between",marginTop:8,flexWrap:"wrap",gap:8}}>
+        <p style={{fontSize:12,color:cfg.color,fontWeight:500}}>Next major event: <strong>Water Heater replacement window</strong> · Within 18 months</p>
+        <p style={{fontSize:12,color:"#8A8A8A"}}>Projected savings vs. {fmt(upcomingCosts5yr)} needed</p>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ SECTION 2: NEXT BEST MOVE */
+function NextBestMove(){
+  const top = SYSTEMS.find(s=>s.id==="water-heater");
+  return(
+    <div style={{marginBottom:48}} className="fade-up-1">
+      <p style={S.label}>Next Best Move</p>
+      <div style={{...S.card({border:"2px solid #C0392B25",background:"linear-gradient(135deg,#fff 0%,#FDECEA18 100%)"}),marginTop:12}}>
+        <div style={{display:"flex",gap:20,alignItems:"flex-start",flexWrap:"wrap"}}>
+          <div style={{width:56,height:56,borderRadius:14,background:"#FDECEA",display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,flexShrink:0}}>{top.icon}</div>
+          <div style={{flex:1,minWidth:220}}>
+            <div style={{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap",marginBottom:8}}>
+              <span style={{...S.tag("#FDECEA","#C0392B")}}>● Act Now</span>
+              <span style={{fontSize:13,color:"#8A8A8A"}}>Urgency × impact score: 94/100</span>
+            </div>
+            <h2 style={{...S.h2,fontSize:24,marginBottom:10}}>Replace Water Heater</h2>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:16,marginBottom:18}}>
+              <div style={{background:"#FAF6F0",borderRadius:10,padding:14}}>
+                <p style={S.label}>Why Now</p>
+                <p style={{fontSize:13,color:"#1A1A1A",marginTop:4,lineHeight:1.5}}>This system is entering its replacement window. Planning now could prevent a larger repair later.</p>
+              </div>
+              <div style={{background:"#FAF6F0",borderRadius:10,padding:14}}>
+                <p style={S.label}>Estimated Cost</p>
+                <p style={{fontSize:22,fontWeight:700,color:"#1C4A2E",marginTop:4}}>{fmtRange(top.costLow,top.costHigh)}</p>
+                <p style={{fontSize:12,color:"#8A8A8A",marginTop:2}}>Lehigh Valley, PA</p>
+              </div>
+              <div style={{background:"#FAF6F0",borderRadius:10,padding:14}}>
+                <p style={S.label}>What To Do</p>
+                <p style={{fontSize:13,color:"#1A1A1A",marginTop:4,lineHeight:1.5}}>Start saving $95/month or request a quote from a licensed plumber.</p>
+              </div>
+            </div>
+            <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
+              <button style={{...S.btn("#1C4A2E","#fff"),fontSize:13}}>💰 Save for This</button>
+              <button style={{...S.btn("transparent","#1C4A2E","2px solid #1C4A2E"),fontSize:13}}>📋 Get Quote</button>
+              <button style={{...S.btn("transparent","#8A8A8A","1px solid #E4DDD3"),fontSize:13}}>Learn More →</button>
+            </div>
+          </div>
+        </div>
+        <HomiGuidance text="Scheduling a replacement proactively typically costs 20–30% less than responding to an emergency. Most licensed plumbers in Lehigh Valley can book within 2–3 weeks."/>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ SECTION 3: MONTHLY BUDGET */
+function MonthlyBudgetPlanner({monthlySavings,setMonthlySavings}){
+  const funds = [
+    {name:"Water Heater",target:1350,months:18,color:"#C0392B"},
+    {name:"Electrical Inspection",target:350,months:12,color:"#D97706"},
+    {name:"Roof Reserve",target:13000,months:60,color:"#2D6A4F"},
+  ];
+  const suggested = Math.ceil(funds.reduce((a,f)=>a+f.target/f.months,0)/10)*10;
+
+  return(
+    <div style={{marginBottom:48}} className="fade-up-2">
+      <p style={S.label}>Monthly Savings Plan</p>
+      <h2 style={{...S.h2,marginTop:4,marginBottom:20}}>How Much Should I Set Aside?</h2>
+      <div className="grid-2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20}}>
+
+        {/* Slider card */}
+        <div style={S.card()}>
+          <p style={{fontSize:14,color:"#8A8A8A",marginBottom:18,lineHeight:1.5}}>Adjust your monthly savings to see how it covers upcoming costs in real time.</p>
+          <div style={{marginBottom:24}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:10}}>
+              <p style={{fontSize:15,fontWeight:600}}>Monthly savings</p>
+              <p style={{fontSize:30,fontWeight:700,color:"#1C4A2E",transition:"all .3s"}}>{fmt(monthlySavings)}<span style={{fontSize:13,fontWeight:400,color:"#8A8A8A"}}>/mo</span></p>
+            </div>
+            <input type="range" min={50} max={800} step={25} value={monthlySavings}
+              onChange={e=>setMonthlySavings(Number(e.target.value))}
+              style={{width:"100%",cursor:"pointer",accentColor:"#1C4A2E"}}/>
+            <div style={{display:"flex",justifyContent:"space-between",marginTop:6}}>
+              <span style={{fontSize:11,color:"#8A8A8A"}}>$50/mo</span>
+              <button onClick={()=>setMonthlySavings(suggested)}
+                style={{...S.btnSm("#D8F3DC","#1C4A2E"),fontSize:11,padding:"3px 10px"}}>
+                Set suggested {fmt(suggested)}/mo
+              </button>
+              <span style={{fontSize:11,color:"#8A8A8A"}}>$800/mo</span>
+            </div>
+          </div>
+          <div style={{background:"#FAF6F0",borderRadius:10,padding:16}}>
+            <p style={{...S.label,marginBottom:12}}>At {fmt(monthlySavings)}/month you'll save:</p>
+            {[12,24,60].map(mo=>(
+              <div key={mo} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:"1px solid #E4DDD3"}}>
+                <span style={{fontSize:14,color:"#8A8A8A"}}>In {mo} month{mo>1?"s":""}</span>
+                <span style={{fontSize:15,fontWeight:700,color:"#1C4A2E",transition:"all .3s"}}>{fmt(monthlySavings*mo)}</span>
+              </div>
+            ))}
+          </div>
+          <HomiGuidance text={`Saving ${fmt(suggested)}/month covers your top 3 upcoming home costs without financial strain.`}/>
+        </div>
+
+        {/* Fund progress */}
+        <div style={S.card()}>
+          <p style={{fontSize:15,fontWeight:600,marginBottom:18}}>Progress Toward Each Fund</p>
+          <div style={{display:"flex",flexDirection:"column",gap:24}}>
+            {funds.map(f=>{
+              const willSave = monthlySavings*(f.months*0.9);
+              const pct = Math.min(100,Math.round((willSave/f.target)*100));
+              const onTrack = willSave>=f.target;
+              const shortfall = Math.max(0,f.target-monthlySavings*f.months);
+              return(
+                <div key={f.name}>
+                  <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
+                    <div>
+                      <p style={{fontSize:14,fontWeight:600}}>{f.name}</p>
+                      <p style={{fontSize:12,color:"#8A8A8A"}}>Target: {fmt(f.target)} in {f.months} mo</p>
+                    </div>
+                    <div style={{textAlign:"right"}}>
+                      <p style={{fontSize:15,fontWeight:700,color:f.color,transition:"all .3s"}}>{pct}%</p>
+                      {!onTrack && <p style={{fontSize:11,color:"#D97706"}}>Short {fmt(shortfall)}</p>}
+                      {onTrack && <p style={{fontSize:11,color:"#2D6A4F"}}>✓ Covered</p>}
+                    </div>
+                  </div>
+                  <div style={{height:10,background:"#F0E9DC",borderRadius:5,overflow:"hidden"}}>
+                    <div style={{height:"100%",width:`${pct}%`,background:f.color,borderRadius:5,transition:"width .6s cubic-bezier(.4,0,.2,1)"}}/>
+                  </div>
+                  <div style={{display:"flex",justifyContent:"space-between",marginTop:5}}>
+                    <p style={{fontSize:12,color:"#8A8A8A"}}>Saves {fmt(Math.min(willSave,f.target))} of {fmt(f.target)}</p>
+                    <p style={{fontSize:12,color:"#8A8A8A"}}>~{fmt(Math.ceil(f.target/f.months/10)*10)}/mo dedicated</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ SECTION 4: SYSTEM CARDS */
+function SystemCard({system,budgeted,onToggle}){
+  const [expanded,setExpanded] = useState(false);
+  const [justBudgeted,setJustBudgeted] = useState(false);
+
+  const handleToggle = ()=>{
+    if(!budgeted){setJustBudgeted(true);setTimeout(()=>setJustBudgeted(false),1200)}
+    onToggle(system.id);
+  };
+
+  const borderColor = system.urgency==="act"?"#C0392B30":system.urgency==="plan"?"#D9770625":"#E4DDD3";
+
+  return(
+    <div style={{...S.card({border:`1px solid ${borderColor}`,position:"relative",overflow:"hidden"}),transition:"box-shadow .2s,transform .2s"}}>
+      {/* budgeted flash */}
+      {justBudgeted&&<div style={{position:"absolute",inset:0,background:"#D8F3DC",opacity:0,animation:"budgetFlash .6s ease",pointerEvents:"none",zIndex:10,borderRadius:16}}/>}
+      {budgeted&&<div style={{position:"absolute",top:12,right:12,width:24,height:24,borderRadius:"50%",background:"#2D6A4F",display:"flex",alignItems:"center",justifyContent:"center",zIndex:5}}>
+        <span style={{color:"#fff",fontSize:13,fontWeight:700,animation:"checkPop .4s ease"}}>✓</span>
+      </div>}
+
+      <div style={{display:"flex",gap:14,alignItems:"flex-start"}}>
+        <div style={{width:44,height:44,borderRadius:10,background:ub(system.urgency),display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{system.icon}</div>
+        <div style={{flex:1,minWidth:0}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:6,marginBottom:8}}>
+            <h3 style={{...S.h3,fontSize:16}}>{system.name}</h3>
+            <span style={{...S.tag(ub(system.urgency),uc(system.urgency)),fontSize:11}}>● {system.urgencyLabel}</span>
+          </div>
+          <div style={{marginBottom:10}}>
+            <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}>
+              <span style={{fontSize:12,color:"#8A8A8A"}}>Lifecycle used</span>
+              <span style={{fontSize:12,fontWeight:700,color:uc(system.urgency)}}>{system.pct}%</span>
+            </div>
+            <LifecycleBar pct={system.pct} urgency={system.urgency}/>
+          </div>
+          <div style={{display:"flex",gap:16,flexWrap:"wrap",marginBottom:10}}>
+            {[["Installed",system.installed],["Lifespan",`${system.lifespan}yr`],["Next Event",system.nextYear],["Replacement",fmtRange(system.costLow,system.costHigh)]].map(([k,v])=>(
+              <div key={k}><p style={S.label}>{k}</p><p style={{fontSize:13,fontWeight:600,marginTop:2,color:k==="Replacement"?"#1C4A2E":"#1A1A1A"}}>{v}</p></div>
+            ))}
+          </div>
+          <p style={{fontSize:13,color:"#8A8A8A",marginBottom:12}}>{system.nextEvent}</p>
+          <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center",justifyContent:"space-between"}}>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              <button onClick={handleToggle}
+                style={{...S.btnSm(budgeted?"#D8F3DC":"#F0E9DC",budgeted?"#1C4A2E":"#8A8A8A",`1px solid ${budgeted?"#52B788":"#E4DDD3"}`),fontSize:12,transition:"all .3s"}}>
+                {budgeted?"✓ Budgeted":"Mark Budgeted"}
+              </button>
+              {system.diy&&<span style={{...S.tag("#FDF3E0","#C9963A"),fontSize:11}}>DIY Possible</span>}
+            </div>
+            <button onClick={()=>setExpanded(!expanded)}
+              style={{...S.btnSm("transparent","#2D6A4F","none"),fontSize:12,padding:"4px 0"}}>
+              {expanded?"Hide details ↑":"View details ↓"}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {expanded&&(
+        <div style={{marginTop:16,paddingTop:16,borderTop:"1px solid #F0E9DC",animation:"fadeUp .3s ease"}}>
+          <p style={{fontSize:13,color:"#1A1A1A",lineHeight:1.65,marginBottom:14}}>{system.detail}</p>
+          <div className="grid-2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:10}}>
+            <div style={{background:"#F7F9F7",borderRadius:8,padding:14}}>
+              <p style={S.label}>Annual Maintenance</p>
+              <p style={{fontSize:16,fontWeight:700,color:"#2D6A4F",marginTop:4}}>{fmtRange(system.maintLow,system.maintHigh)}</p>
+            </div>
+            <div style={{background:"#FDF3E0",borderRadius:8,padding:14}}>
+              <p style={S.label}>Replacement Cost</p>
+              <p style={{fontSize:16,fontWeight:700,color:"#C9963A",marginTop:4}}>{fmtRange(system.costLow,system.costHigh)}</p>
+            </div>
+          </div>
+          <p style={{fontSize:12,color:"#8A8A8A"}}>
+            Suggested savings: <strong>{fmt(Math.ceil(system.costLow/system.savingsMonths/10)*10)}/month</strong> starting {system.savingsMonths} months before needed
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SystemBreakdown({budgeted,setBudgeted}){
+  const toggle = id=>setBudgeted(prev=>({...prev,[id]:!prev[id]}));
+  const sorted = [...SYSTEMS].sort((a,b)=>a.priority-b.priority);
+  const budgetedCount = Object.values(budgeted).filter(Boolean).length;
+  return(
+    <div style={{marginBottom:48}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",flexWrap:"wrap",gap:12,marginBottom:20}}>
+        <div>
+          <p style={S.label}>System Breakdown</p>
+          <h2 style={{...S.h2,marginTop:4}}>What Systems Are Aging?</h2>
+        </div>
+        {budgetedCount>0&&(
+          <div style={{...S.tag("#D8F3DC","#1C4A2E"),fontSize:13,padding:"6px 14px"}}>
+            ✓ {budgetedCount} of {SYSTEMS.length} systems budgeted
+          </div>
+        )}
+      </div>
+      <div className="grid-2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+        {sorted.map(s=><SystemCard key={s.id} system={s} budgeted={!!budgeted[s.id]} onToggle={toggle}/>)}
+      </div>
+      <HomiGuidance text="Maintaining your HVAC annually can extend its life by 3–5 years and improve efficiency by up to 15%. Small investments in maintenance often prevent much larger replacement costs."/>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ SECTION 5: SCENARIO COMPARISON */
+function ScenarioComparison(){
+  const [selected,setSelected] = useState("maintain");
+  const sel = SCENARIOS.find(s=>s.id===selected);
+  const nothing = SCENARIOS.find(s=>s.id==="nothing");
+  const savingsDelta = nothing.cost10 - sel.cost10;
+
+  return(
+    <div style={{marginBottom:48}}>
+      <p style={S.label}>Scenario Comparison</p>
+      <h2 style={{...S.h2,marginTop:4,marginBottom:20}}>What Happens If I Maintain vs. Ignore?</h2>
+
+      {/* Savings delta headline */}
+      {selected!=="nothing"&&(
+        <div style={{background:"linear-gradient(135deg,#1C4A2E,#2D6A4F)",borderRadius:14,padding:"20px 24px",marginBottom:20,display:"flex",alignItems:"center",gap:20,flexWrap:"wrap"}}>
+          <div style={{fontSize:32}}>💰</div>
+          <div>
+            <p style={{color:"#D8F3DC",fontSize:13,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:4}}>
+              {sel.label} vs. Do Nothing
+            </p>
+            <p style={{color:"#fff",fontSize:22,fontWeight:700,fontFamily:"'Playfair Display',serif"}}>
+              You could save <span style={{color:"#E8B84B"}}>{fmt(savingsDelta)}</span> over 10 years
+            </p>
+            <p style={{color:"#A8D5BA",fontSize:14,marginTop:2}}>Planning early consistently outperforms emergency repair mode.</p>
+          </div>
+        </div>
+      )}
+
+      <div className="scenario-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:16,marginBottom:20}}>
+        {SCENARIOS.map(sc=>(
+          <div key={sc.id} onClick={()=>setSelected(sc.id)}
+            style={{...S.card({border:`2px solid ${selected===sc.id?sc.color:"#E4DDD3"}`,cursor:"pointer",transition:"all .2s",transform:selected===sc.id?"translateY(-3px)":"none",background:selected===sc.id?sc.bg:"#fff",position:"relative",overflow:"hidden"})}}>
+            {sc.recommended&&<div style={{position:"absolute",top:0,right:0,background:"#D97706",color:"#fff",fontSize:10,fontWeight:700,padding:"3px 10px",borderBottomLeftRadius:8,letterSpacing:"0.05em"}}>RECOMMENDED</div>}
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
+              <span style={{fontSize:26}}>{sc.icon}</span>
+              {selected===sc.id&&<span style={{...S.tag(sc.color,"#fff"),fontSize:10}}>Selected</span>}
+            </div>
+            <h3 style={{fontFamily:"'Playfair Display',serif",fontSize:16,color:sc.color,marginBottom:8}}>{sc.label}</h3>
+            <p style={{fontSize:26,fontWeight:700,color:"#1A1A1A",marginBottom:4,transition:"all .3s"}}>{fmt(sc.cost10)}</p>
+            <p style={{fontSize:12,color:"#8A8A8A",marginBottom:12}}>10-year total cost</p>
+            <div style={{...S.tag(sc.bg,sc.color),fontSize:11,marginBottom:10}}>
+              Score {sc.scoreImpact>0?"+":""}{sc.scoreImpact} · Risk: {sc.risk}
+            </div>
+            <p style={{fontSize:13,color:"#1A1A1A",lineHeight:1.5}}>{sc.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      {sel&&(
+        <div style={{...S.card({border:`1px solid ${sel.color}30`,background:sel.bg})}}>
+          <div style={{display:"flex",gap:12,alignItems:"center",marginBottom:14}}>
+            <span style={{fontSize:22}}>{sel.icon}</span>
+            <div>
+              <p style={{fontSize:11,fontWeight:700,color:sel.color,textTransform:"uppercase",letterSpacing:"0.07em"}}>What this includes</p>
+              <h3 style={{fontFamily:"'Playfair Display',serif",fontSize:17,color:sel.color}}>{sel.label}</h3>
+            </div>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:8}}>
+            {sel.items.map((item,i)=>(
+              <div key={i} style={{display:"flex",gap:8,alignItems:"flex-start",padding:"5px 0"}}>
+                <span style={{color:sel.color,fontSize:14,marginTop:1,flexShrink:0}}>›</span>
+                <p style={{fontSize:13,color:"#1A1A1A",lineHeight:1.5}}>{item}</p>
+              </div>
+            ))}
+          </div>
+          {sel.id==="maintain"&&<HomiGuidance text="This is the recommended path for most homeowners. Planned maintenance prevents most emergencies and keeps your home value strong."/>}
+          {sel.id==="proactive"&&<HomiGuidance text="Proactive upgrades typically add $15,000–$30,000 in assessed home value and significantly reduce energy costs over 10 years."/>}
+          {sel.id==="nothing"&&<HomiGuidance text="Deferred maintenance rarely saves money long-term. Small issues compound into expensive crises — often at the worst possible time."/>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ SECTION 6: PRIORITY QUEUE */
+function PriorityQueue(){
+  return(
+    <div style={{marginBottom:48}}>
+      <p style={S.label}>Priority Queue</p>
+      <h2 style={{...S.h2,marginTop:4,marginBottom:20}}>What's Urgent vs. Safe to Delay?</h2>
+      <div style={S.card()}>
+        <div className="table-scroll">
+          <table style={{width:"100%",borderCollapse:"collapse",minWidth:560}}>
+            <thead>
+              <tr style={{borderBottom:"2px solid #E4DDD3"}}>
+                {["#","System","Action","Status","Cost Range","Timing","Type","Score"].map(h=>(
+                  <th key={h} style={{textAlign:"left",padding:"10px 12px",fontSize:11,fontWeight:700,letterSpacing:"0.07em",textTransform:"uppercase",color:"#8A8A8A"}}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {PRIORITIES.map(p=>(
+                <tr key={p.rank} style={{borderBottom:"1px solid #F0E9DC"}}>
+                  <td style={{padding:"12px 12px",fontSize:14,fontWeight:700,color:"#8A8A8A"}}>{p.rank}</td>
+                  <td style={{padding:"12px 12px",fontSize:14,fontWeight:600}}>{p.system}</td>
+                  <td style={{padding:"12px 12px",fontSize:13,color:"#1A1A1A"}}>{p.action}</td>
+                  <td style={{padding:"12px 12px"}}><span style={{...S.tag(ub(p.urgency),uc(p.urgency)),fontSize:11}}>● {p.urgency==="act"?"Act Now":p.urgency==="plan"?"Plan This Year":"On Track"}</span></td>
+                  <td style={{padding:"12px 12px",fontSize:13,fontWeight:600,color:"#1C4A2E"}}>{fmtRange(p.costLow,p.costHigh)}</td>
+                  <td style={{padding:"12px 12px",fontSize:13,color:"#8A8A8A"}}>{p.timing}</td>
+                  <td style={{padding:"12px 12px"}}>{p.diy?<span style={{...S.tag("#FDF3E0","#C9963A"),fontSize:11}}>DIY</span>:<span style={{fontSize:12,color:"#8A8A8A"}}>Pro</span>}</td>
+                  <td style={{padding:"12px 12px"}}>
+                    <div style={{display:"flex",alignItems:"center",gap:8}}>
+                      <div style={{width:44,height:5,background:"#F0E9DC",borderRadius:2,overflow:"hidden"}}>
+                        <div style={{height:"100%",width:`${p.score}%`,background:uc(p.urgency),borderRadius:2}}/>
+                      </div>
+                      <span style={{fontSize:12,fontWeight:700,color:uc(p.urgency)}}>{p.score}</span>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div style={{display:"flex",gap:20,flexWrap:"wrap",marginTop:14,paddingTop:14,borderTop:"1px solid #F0E9DC"}}>
+          {[["act","Act Now"],["plan","Plan This Year"],["watch","On Track"]].map(([u,l])=>(
+            <div key={u} style={{display:"flex",alignItems:"center",gap:6}}>
+              <div style={{width:10,height:10,borderRadius:"50%",background:uc(u)}}/>
+              <span style={{fontSize:12,color:"#8A8A8A"}}>{l}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ SECTION 7: CONTRACTOR TRACKER */
+const QUOTE_KEY = "homi_quotes_v1";
+const STATUS_CFG = {
+  received:{color:"#2D6A4F",bg:"#D8F3DC",label:"Received"},
+  pending:{color:"#D97706",bg:"#FEF3C7",label:"Pending"},
+  accepted:{color:"#1C4A2E",bg:"#D8F3DC",label:"Accepted"},
+  declined:{color:"#C0392B",bg:"#FDECEA",label:"Declined"},
+};
+const DEFAULT_QUOTES = [
+  {id:1,system:"Water Heater",contractor:"Valley Plumbing Co.",amount:1450,date:"2025-03-01",status:"received"},
+  {id:2,system:"Water Heater",contractor:"HomeServe Lehigh Valley",amount:1280,date:"2025-03-08",status:"received"},
+  {id:3,system:"Electrical",contractor:"Premier Electric PA",amount:350,date:"",status:"pending"},
+];
+
+function ContractorTracker(){
+  const [quotes,setQuotes] = useState(DEFAULT_QUOTES);
+  const [showForm,setShowForm] = useState(false);
+  const [form,setForm] = useState({system:"",contractor:"",amount:"",date:"",status:"pending"});
+  const [editId,setEditId] = useState(null);
+
+  const save = ()=>{
+    if(!form.system||!form.contractor) return;
+    if(editId){
+      setQuotes(prev=>prev.map(q=>q.id===editId?{...form,id:editId,amount:Number(form.amount)||0}:q));
+      setEditId(null);
+    } else {
+      setQuotes(prev=>[...prev,{...form,id:Date.now(),amount:Number(form.amount)||0}]);
+    }
+    setForm({system:"",contractor:"",amount:"",date:"",status:"pending"});
+    setShowForm(false);
+  };
+
+  const startEdit = q=>{
+    setForm({system:q.system,contractor:q.contractor,amount:q.amount||"",date:q.date,status:q.status});
+    setEditId(q.id);
+    setShowForm(true);
+  };
+
+  const grouped = quotes.reduce((acc,q)=>{
+    if(!acc[q.system]) acc[q.system]=[];
+    acc[q.system].push(q);
+    return acc;
+  },{});
+
+  const isLowest = q=>{
+    const sys = quotes.filter(x=>x.system===q.system&&x.amount>0);
+    return sys.length>1 && q.amount===Math.min(...sys.map(x=>x.amount));
+  };
+
+  return(
+    <div style={{marginBottom:48}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12,marginBottom:20}}>
+        <div>
+          <p style={S.label}>Contractor Estimates</p>
+          <h2 style={{...S.h2,marginTop:4}}>How Do I Get This Done?</h2>
+        </div>
+        <div style={{display:"flex",gap:10}}>
+          <button onClick={()=>{setEditId(null);setForm({system:"",contractor:"",amount:"",date:"",status:"pending"});setShowForm(!showForm)}}
+            style={{...S.btn("#1C4A2E","#fff"),fontSize:14}}>+ Add Quote</button>
+        </div>
+      </div>
+
+      {showForm&&(
+        <div style={{...S.card({border:"1px solid #52B788",background:"#F0FDF4"}),marginBottom:20,animation:"fadeUp .3s ease"}}>
+          <p style={{fontSize:15,fontWeight:600,marginBottom:16,color:"#1C4A2E"}}>{editId?"Edit Quote":"New Contractor Quote"}</p>
+          <div className="grid-2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+            {[["System","system","text","e.g. Water Heater"],["Contractor Name","contractor","text","Company or individual"],["Quote Amount ($)","amount","number","0"],["Date","date","date",""]].map(([label,field,type,ph])=>(
+              <div key={field}>
+                <p style={{...S.label,marginBottom:5}}>{label}</p>
+                <input value={form[field]} onChange={e=>setForm(p=>({...p,[field]:e.target.value}))} type={type} placeholder={ph}
+                  style={{width:"100%",padding:"10px 12px",border:"1px solid #E4DDD3",borderRadius:8,fontSize:14,background:"#fff",outline:"none",transition:"border .2s"}}/>
+              </div>
+            ))}
+            <div>
+              <p style={{...S.label,marginBottom:5}}>Status</p>
+              <select value={form.status} onChange={e=>setForm(p=>({...p,status:e.target.value}))}
+                style={{width:"100%",padding:"10px 12px",border:"1px solid #E4DDD3",borderRadius:8,fontSize:14,background:"#fff",outline:"none"}}>
+                {Object.entries(STATUS_CFG).map(([v,{label}])=><option key={v} value={v}>{label}</option>)}
+              </select>
+            </div>
+          </div>
+          <div style={{display:"flex",gap:10,marginTop:16}}>
+            <button onClick={save} style={S.btn("#1C4A2E","#fff")}>{editId?"Update Quote":"Save Quote"}</button>
+            <button onClick={()=>{setShowForm(false);setEditId(null)}} style={S.btn("transparent","#8A8A8A","1px solid #E4DDD3")}>Cancel</button>
+          </div>
+        </div>
+      )}
+
+      <div style={S.card()}>
+        {Object.keys(grouped).length===0&&<p style={{color:"#8A8A8A",fontSize:14,textAlign:"center",padding:24}}>No quotes yet. Add your first quote above.</p>}
+        {Object.entries(grouped).map(([sys,qs])=>(
+          <div key={sys} style={{marginBottom:20}}>
+            <p style={{fontSize:13,fontWeight:700,color:"#1C4A2E",marginBottom:10,paddingBottom:6,borderBottom:"1px solid #F0E9DC"}}>{sys}</p>
+            <div className="table-scroll">
+              <table style={{width:"100%",borderCollapse:"collapse",minWidth:400}}>
+                <thead>
+                  <tr>
+                    {["Contractor","Quote","Date","Status",""].map(h=>(
+                      <th key={h} style={{textAlign:"left",padding:"8px 10px",fontSize:11,fontWeight:700,letterSpacing:"0.06em",textTransform:"uppercase",color:"#8A8A8A"}}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {qs.map(q=>{
+                    const cfg=STATUS_CFG[q.status]||STATUS_CFG.pending;
+                    const lowest=isLowest(q);
+                    return(
+                      <tr key={q.id} style={{borderBottom:"1px solid #F7F5F2"}}>
+                        <td style={{padding:"10px 10px",fontSize:14}}>{q.contractor}</td>
+                        <td style={{padding:"10px 10px"}}>
+                          <div style={{display:"flex",alignItems:"center",gap:6}}>
+                            <span style={{fontSize:15,fontWeight:700,color:"#1C4A2E"}}>{q.amount?fmt(q.amount):"—"}</span>
+                            {lowest&&<span style={{...S.tag("#D8F3DC","#2D6A4F"),fontSize:10}}>Lowest</span>}
+                          </div>
+                        </td>
+                        <td style={{padding:"10px 10px",fontSize:13,color:"#8A8A8A"}}>{q.date||"—"}</td>
+                        <td style={{padding:"10px 10px"}}><span style={{...S.tag(cfg.bg,cfg.color),fontSize:11}}>● {cfg.label}</span></td>
+                        <td style={{padding:"10px 10px"}}>
+                          <div style={{display:"flex",gap:6}}>
+                            <button onClick={()=>startEdit(q)} style={{...S.btnSm("transparent","#2D6A4F","1px solid #D8F3DC"),fontSize:11,padding:"3px 8px"}}>Edit</button>
+                            <button onClick={()=>setQuotes(prev=>prev.filter(x=>x.id!==q.id))} style={{...S.btnSm("transparent","#C0392B","1px solid #FDECEA"),fontSize:11,padding:"3px 8px"}}>×</button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))}
+        <HomiGuidance text="Getting 3 quotes for any job over $1,000 is standard practice. Your quotes are saved automatically and persist between sessions. HOMI highlights the lowest quote per system."/>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ FOOTER */
+function Footer(){
+  return(
+    <div id="footer" style={{background:"#1C4A2E",padding:"32px 0",marginTop:32}}>
+      <div style={{maxWidth:1200,margin:"0 auto",padding:"0 24px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:10}}>
+          <div style={{width:28,height:28,background:"linear-gradient(135deg,#52B788,#C9963A)",borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontSize:14}}>🏡</span></div>
+          <span style={{color:"#fff",fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700}}>HOMI</span>
+          <span style={{color:"#52B788",fontSize:13}}>· Property Lifecycle Intelligence</span>
+        </div>
+        <div style={{display:"flex",gap:16,flexWrap:"wrap"}}>
+          {["Dashboard","Documents","Maintenance","Marketplace"].map(l=>(
+            <button key={l} style={{background:"none",border:"none",color:"#A8D5BA",fontSize:13,cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}}>{l}</button>
+          ))}
+        </div>
+        <p style={{color:"#52B788",fontSize:12}}>Data updated March 2025 · Lehigh Valley, PA</p>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════ PRINT STYLESHEET */
+function PrintStyles(){
+  useEffect(()=>{
+    const style = document.createElement("style");
+    style.textContent=`
+      @media print {
+        @page { margin: 1.5cm; size: A4; }
+        body { font-size: 11pt; }
+        .card-pad { padding: 16px !important; }
+        h2 { font-size: 18pt !important; }
+        h3 { font-size: 14pt !important; }
+      }
+    `;
+    document.head.appendChild(style);
+    return()=>document.head.removeChild(style);
+  },[]);
+  return null;
+}
+
+/* ═══════════════════════════════════════════════════════ APP */
+function App(){
+  const [scenario,setScenario] = useState("conservative");
+  const [monthlySavings,setMonthlySavings] = useState(275);
+  const [budgeted,setBudgeted] = useState({});
+
+  const handlePrint = ()=>window.print();
+
+  return(
+    <div>
+      <PrintStyles/>
+      <TopNav onPrint={handlePrint}/>
+      <PropertyHeader/>
+      <div style={{background:"#FAF6F0",paddingTop:32}}>
+        <div className="section-pad" style={{maxWidth:1200,margin:"0 auto",padding:"0 24px 80px"}}>
+          <CostForecast scenario={scenario} setScenario={setScenario}/>
+          <StatusIndicator monthlySavings={monthlySavings}/>
+          <NextBestMove/>
+          <MonthlyBudgetPlanner monthlySavings={monthlySavings} setMonthlySavings={setMonthlySavings}/>
+          <SystemBreakdown budgeted={budgeted} setBudgeted={setBudgeted}/>
+          <ScenarioComparison/>
+          <PriorityQueue/>
+          <ContractorTracker/>
+        </div>
+      </div>
+      <Footer/>
+    </div>
+  );
+}
+
+const root=ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App/>);
+</script>
+</body>
+</html>

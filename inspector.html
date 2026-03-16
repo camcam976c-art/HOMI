@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HOMI — Inspector Mode</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="homi-shared.js"></script>
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:#FAF6F0;color:#1A1A1A;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:#E4DDD3;border-radius:4px;}
+@keyframes pulse {0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes notif{0%{transform:translateX(120%);opacity:0}10%{transform:translateX(0);opacity:1}85%{transform:translateX(0);opacity:1}100%{transform:translateX(120%);opacity:0}}
+.card{background:#fff;border:1px solid #E4DDD3;border-radius:18px;box-shadow:0 2px 14px rgba(0,0,0,.045);}
+.card-gold{background:#fff;border:1px solid rgba(201,150,58,.35);border-radius:18px;box-shadow:0 2px 16px rgba(201,150,58,.08);}
+.btn-primary{background:#1C4A2E;color:#fff;border:none;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:.2px;transition:all .2s;}
+.btn-primary:hover{background:#2D6A4F;transform:translateY(-1px);box-shadow:0 4px 14px rgba(28,74,46,.25);}
+.btn-outline{background:transparent;color:#1C4A2E;border:1.5px solid #1C4A2E;padding:8px 18px;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;}
+.btn-outline:hover{background:#D8F3DC;}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:3px 11px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.3px;}
+.nav-btn{display:flex;align-items:center;gap:9px;padding:10px 14px;border-radius:11px;border:none;background:transparent;color:#8A8A8A;font-weight:400;font-size:13px;cursor:pointer;font-family:inherit;text-align:left;transition:all .15s;width:100%;}
+.nav-btn:hover{background:#F0E9DC;color:#1A1A1A;}
+.nav-btn.active{background:#D8F3DC;color:#1C4A2E;font-weight:600;}
+.task-row{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:12px;cursor:pointer;transition:background .15s;}
+.task-row:hover{background:#FAF6F0;}
+.provider-card{background:#FAF6F0;border:1px solid #E4DDD3;border-radius:14px;padding:16px;transition:all .2s;cursor:pointer;}
+.provider-card:hover{border-color:#52B788;background:#fff;box-shadow:0 4px 16px rgba(28,74,46,.08);}
+.signal-card:hover{border-color:#52B788!important;transform:translateY(-2px);box-shadow:0 8px 24px rgba(28,74,46,.1)!important;}
+.tab-btn:hover{background:#D8F3DC!important;color:#1C4A2E!important;}
+select{background:#fff;color:#1A1A1A;border:1px solid #E4DDD3;border-radius:9px;padding:7px 12px;font-size:12px;font-family:inherit;cursor:pointer;outline:none;}
+select:hover{border-color:#52B788;}
+.hero-house{width:100%;height:200px;border-radius:18px;overflow:hidden;position:relative;background:linear-gradient(135deg,#2D5A3D 0%,#1C4A2E 40%,#3A7D55 70%,#52B788 100%);}
+.notif-toast{position:fixed;top:72px;right:20px;z-index:999;animation:notif 5s ease forwards;}
+/* ── Neighborhood Intelligence CSS ── */
+.ni-subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.ni-subtab{background:#fff;border:1.5px solid #E4DDD3;border-radius:20px;padding:7px 16px;font-size:13px;font-weight:500;color:#8A8A8A;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.ni-subtab:hover{border-color:#2D6A4F;color:#2D6A4F;}
+.ni-subtab.active{background:#1C4A2E;border-color:#1C4A2E;color:white;font-weight:600;}
+.section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A8A8A;margin-bottom:12px;}
+.school-flags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+.school-flag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:8px;background:#D8F3DC;color:#1C4A2E;}
+.school-flag.warn{background:#FFF8E8;color:#92540A;}
+.school-district-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:10px;background:#FAF6F0;border:1px solid #E4DDD3;margin-bottom:10px;}
+.permit-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:6px;border:1px solid #E4DDD3;margin-bottom:6px;font-size:13px;background:#fff;}
+.permit-icon{font-size:15px;flex-shrink:0;}
+.permit-text{flex:1;}
+.permit-date{font-size:11px;color:#8A8A8A;white-space:nowrap;}
+.arr-up::before{content:'↑ ';}
+.arr-down::before{content:'↓ ';}
+.arr-flat::before{content:'→ ';}
+.wscore-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:8px;}
+.wscore-tag-green{background:#D8F3DC;color:#1C4A2E;}
+.wscore-tag-amber{background:#FEF3C7;color:#D97706;}
+.wscore-tag-red{background:#FDECEA;color:#C0392B;}
+.card-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:#1C4A2E;margin-bottom:4px;display:flex;align-items:center;gap:10px;}
+.card-subtitle{font-size:13px;color:#8A8A8A;margin-bottom:22px;}
+
+/* ── Neighborhood Intelligence extended CSS ── */
+.crime-bar { height: 100%; border-radius: 3px; }
+.crime-bar-wrap { width: 120px; height: 6px; background: #F0EDE9; border-radius: 3px; overflow: hidden; }
+.crime-map-placeholder {
+    margin-top: 14px; padding: 20px;
+    background: #F8F9FA; border: 1.5px dashed #E4DDD3;
+    border-radius: 8px; text-align: center;
+    color: #8A8A8A; font-size: 13px;
+  }
+.crime-proximity-row {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;
+  }
+.crime-stat-card {
+    text-align: center; padding: 14px 10px;
+    border-radius: 8px; border: 1px solid #E4DDD3;
+  }
+.crime-stat-label { font-size: 11px; color: #8A8A8A; margin-top: 4px; }
+.crime-stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 700; line-height: 1;
+  }
+.crime-summary-row {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 18px;
+  }
+.crime-trend-label { font-size: 11px; font-weight: 600; min-width: 60px; text-align: right; }
+.crime-trend-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    border-radius: 8px; border: 1px solid #E4DDD3;
+    margin-bottom: 8px; background: #FFFFFF;
+  }
+.crime-type-icon { font-size: 18px; flex-shrink: 0; }
+.crime-type-label { font-size: 13px; font-weight: 500; flex: 1; }
+.district-badge {
+    background: #1C4A2E; color: white;
+    font-size: 11px; font-weight: 700;
+    padding: 3px 10px; border-radius: 10px;
+  }
+.district-name { font-size: 14px; font-weight: 600; color: #1C4A2E; }
+.district-rating { font-size: 13px; color: #8A8A8A; }
+.fade-in { animation: fadeIn 0.4s ease; }
+.low { color: #2D6A4F; }
+.market-gauge-labels {
+    display: flex; justify-content: space-between;
+    font-size: 10px; color: #8A8A8A; margin-top: 8px;
+  }
+.market-gauge-needle {
+    position: absolute; top: -4px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #1C4A2E;
+    border: 2.5px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    transform: translateX(-50%);
+    transition: left 0.8s ease;
+  }
+.market-gauge-track {
+    height: 10px; border-radius: 5px;
+    background: linear-gradient(90deg, #FDEAEA 0%, #FFF8E8 40%, #D8F3DC 100%);
+    position: relative; margin-bottom: 6px;
+  }
+.market-gauge-wrap { margin: 16px 0 8px; }
+.market-type-badge {
+    display: inline-block;
+    background: #D8F3DC; color: #1C4A2E;
+    font-size: 12px; font-weight: 700;
+    padding: 4px 12px; border-radius: 12px;
+    margin-top: 8px;
+  }
+.proximity-badge {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 500;
+    border: 1px solid #E4DDD3; background: #FFFFFF;
+  }
+.sample-disclaimer {
+    font-size: 11px;
+    color: #8A8A8A;
+    font-style: italic;
+    margin-top: 16px;
+    padding: 8px 12px;
+    background: #F8F8F6;
+    border-radius: 6px;
+    border-left: 3px solid #E4DDD3;
+  }
+.school-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid #E4DDD3;
+    margin-bottom: 10px;
+    background: #FFFFFF;
+    transition: box-shadow 0.2s;
+  }
+.school-info { flex: 1; }
+.school-meta { font-size: 12px; color: #8A8A8A; margin-top: 2px; }
+.school-name { font-size: 14px; font-weight: 600; color: #1A1A1A; }
+.school-rating-label { font-size: 10px; color: #8A8A8A; text-transform: uppercase; letter-spacing: 0.06em; }
+.school-rating-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.sparkline-wrap { display: flex; align-items: center; gap: 8px; }
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+.tag-good { background: #D8F3DC; color: #1C4A2E; }
+.trend-label { font-size: 13px; color: #1A1A1A; font-weight: 500; flex: 1; }
+.trend-row {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid #E4DDD3;
+    gap: 12px;
+  }
+.vitality-card {
+    text-align: center; padding: 14px 10px;
+    border-radius: 8px; border: 1px solid #E4DDD3;
+    background: #FFFFFF;
+  }
+.vitality-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 14px; }
+.vitality-grid { grid-template-columns: 1fr 1fr; }
+.vitality-label { font-size: 11px; color: #8A8A8A; margin-top: 3px; }
+.zoning-code {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px; font-weight: 700; color: #1C4A2E;
+    flex-shrink: 0;
+  }
+.zoning-desc { flex: 1; }
+.zoning-detail { font-size: 12px; color: #8A8A8A; margin-top: 3px; line-height: 1.5; }
+.zoning-name { font-size: 15px; font-weight: 600; color: #1A1A1A; }
+.zoning-primary {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 20px;
+    background: linear-gradient(90deg, #F0FAF2, #F6FDF8);
+    border: 1.5px solid #B7DFC0; border-radius: 8px;
+    margin-bottom: 16px;
+  }
+.zoning-row {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 14px;
+    border-radius: 8px; border: 1px solid #E4DDD3;
+    margin-bottom: 8px; background: #FFFFFF;
+  }
+.zoning-row-content { flex: 1; }
+.zoning-row-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.zoning-row-label { font-size: 13px; font-weight: 600; color: #1A1A1A; }
+.zoning-row-value { font-size: 12px; color: #8A8A8A; margin-top: 2px; }
+.fade-in{animation:fadeIn .3s ease;}
+.low{color:#2D6A4F;}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:10px;}
+.tag-good{background:#D8F3DC;color:#1C4A2E;}
+.sparkline-wrap{display:inline-block;}
+.sample-disclaimer{font-size:10px;color:#8A8A8A;font-style:italic;margin-top:8px;padding:6px 10px;background:#FAF6F0;border-radius:6px;}
+
+
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="homi-error" style="display:none;padding:40px;font-family:monospace;font-size:13px;color:#C0392B;background:#FEF2F2;border:1px solid #C0392B;margin:20px;border-radius:8px;white-space:pre-wrap;"></div>
+<script>
+window.onerror = function(msg,src,line,col,err) {
+  var el = document.getElementById('homi-error');
+  el.style.display = 'block';
+  el.textContent = 'HOMI Error: ' + msg + ' (line ' + line + ')\n' + (err&&err.stack?err.stack:'');
+  document.getElementById('root').style.display = 'none';
+};
+</script>
+<script type="text/babel">
+var {useState,useEffect,useRef} = React;
+function Icon({name,size=20,color=C.green}){
+  const p={
+    home:<path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" fill="none" stroke={color} strokeWidth="1.8" strokeLinejoin="round"/>,
+    hvac:<><rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke={color} strokeWidth="1.8"/><path d="M8 12h8M12 9v6" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></>,
+    roof:<><path d="M2 12L12 3l10 9" fill="none" stroke={color} strokeWidth="1.8" strokeLinejoin="round"/><path d="M5 9.5V20h14V9.5" fill="none" stroke={color} strokeWidth="1.8"/></>,
+    plumbing:<path d="M6 3v10a3 3 0 006 0V7a3 3 0 016 0v14" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round"/>,
+    electrical:<path d="M13 2L4 14h8l-1 8 9-12h-8l1-8z" fill="none" stroke={color} strokeWidth="1.8" strokeLinejoin="round"/>,
+    water:<path d="M12 2C12 2 5 10 5 15a7 7 0 0014 0C19 10 12 2 12 2z" fill="none" stroke={color} strokeWidth="1.8"/>,
+    exterior:<><rect x="3" y="8" width="18" height="13" rx="1" fill="none" stroke={color} strokeWidth="1.8"/><path d="M3 8l9-5 9 5" fill="none" stroke={color} strokeWidth="1.8" strokeLinejoin="round"/></>,
+    landscape:<><path d="M12 22V12" stroke={color} strokeWidth="1.8" strokeLinecap="round"/><path d="M12 12C12 12 7 9 7 5a5 5 0 0110 0c0 4-5 7-5 7z" fill="none" stroke={color} strokeWidth="1.8" strokeLinejoin="round"/><path d="M5 22h14" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></>,
+    check:<path d="M5 12l5 5L19 7" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>,
+    bell:<><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" fill="none" stroke={color} strokeWidth="1.8"/><path d="M13.73 21a2 2 0 01-3.46 0" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></>,
+    calendar:<><rect x="3" y="4" width="18" height="18" rx="2" fill="none" stroke={color} strokeWidth="1.8"/><path d="M3 9h18M8 2v4M16 2v4" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></>,
+    dollar:<><circle cx="12" cy="12" r="9" fill="none" stroke={color} strokeWidth="1.8"/><path d="M12 7v10M9.5 9.5A2.5 2 0 0112 8a2.5 2 0 010 5 2.5 2 0 000 5 2.5 2 0 002.5-1.5" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></>,
+    chevron:<path d="M9 6l6 6-6 6" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>,
+    list:<><path d="M8 6h13M8 12h13M8 18h13" stroke={color} strokeWidth="1.8" strokeLinecap="round"/><circle cx="3" cy="6" r="1" fill={color}/><circle cx="3" cy="12" r="1" fill={color}/><circle cx="3" cy="18" r="1" fill={color}/></>,
+    history:<><path d="M3 12a9 9 0 109-9H3" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round"/><path d="M3 7v5h5" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><path d="M12 8v4l3 2" stroke={color} strokeWidth="1.8" strokeLinecap="round"/></>,
+    sparkle:<path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z" fill={color} opacity=".9"/>,
+    wrench:<><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></>,
+    video:<><rect x="2" y="7" width="15" height="10" rx="2" fill="none" stroke={color} strokeWidth="1.8"/><path d="M17 11l5-3v8l-5-3" fill="none" stroke={color} strokeWidth="1.8" strokeLinejoin="round"/></>,
+    star:<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill={color} opacity=".85"/>,
+    map:<><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" fill="none" stroke={color} strokeWidth="1.8"/><circle cx="12" cy="10" r="3" fill="none" stroke={color} strokeWidth="1.8"/></>,
+    phone:<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.69A2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.72 6.72l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>,
+    close:<path d="M18 6L6 18M6 6l12 12" stroke={color} strokeWidth="2" strokeLinecap="round"/>,
+  };
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{flexShrink:0}}>{p[name]||null}</svg>;
+}
+
+// ── House SVG illustration ───────────────────────────────────────────────────
+function Toast({msg,onDone}){
+  useEffect(()=>{const t=setTimeout(onDone,5000);return()=>clearTimeout(t);},[]);
+  return (
+    <div className="notif-toast">
+      <div style={{background:C.white,border:`1px solid ${C.borderGreen}`,borderRadius:14,padding:"14px 18px",boxShadow:"0 8px 32px rgba(0,0,0,0.14)",maxWidth:320,display:"flex",gap:12,alignItems:"flex-start"}}>
+        <div style={{width:36,height:36,borderRadius:10,background:C.greenPale,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+          <Icon name="bell" size={18} color={C.green}/>
+        </div>
+        <div>
+          <div style={{fontSize:13,fontWeight:600,color:C.text}}>{msg.title}</div>
+          <div style={{fontSize:12,color:C.textMuted,marginTop:2,lineHeight:1.4}}>{msg.body}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── AI Panel ──────────────────────────────────────────────────────────────────
+function AIPanel({title,badge,defaultQuote,prompts,systemPrompt,grid2col}){
+  const [insight,setInsight]=useState("");
+  const [loading,setLoading]=useState(false);
+  const [active,setActive]=useState(null);
+  const ask=async(q,i)=>{
+    setActive(i);setLoading(true);setInsight("");
+    try{setInsight(await callClaude(systemPrompt,q));}
+    catch{setInsight("Connection error. Please try again.");}
+    setLoading(false);
+  };
+  return (
+    <div style={{background:C.green,borderRadius:18,padding:24,color:"#fff"}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+        <div style={{width:32,height:32,borderRadius:9,background:"rgba(255,255,255,0.12)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <Icon name="sparkle" size={16} color={C.goldLight}/>
+        </div>
+        <span style={{fontFamily:"'Playfair Display',serif",fontSize:16,fontWeight:700}}>{title}</span>
+        <span style={{marginLeft:"auto",fontSize:10,background:"rgba(255,255,255,0.12)",color:C.goldLight,border:"1px solid rgba(240,201,122,0.3)",padding:"2px 9px",borderRadius:10,letterSpacing:.4}}>{badge||"AI"}</span>
+      </div>
+      {!insight&&!loading&&<div style={{background:"rgba(255,255,255,0.08)",borderLeft:"3px solid #F0C97A",borderRadius:10,padding:14,marginBottom:14,fontSize:13,lineHeight:1.75,color:"rgba(255,255,255,0.92)",fontStyle:"italic"}}>{defaultQuote}</div>}
+      {loading&&<div style={{display:"flex",alignItems:"center",gap:10,padding:"14px 0",marginBottom:14}}>{[0,1,2].map(i=><div key={i} style={{width:7,height:7,borderRadius:"50%",background:"#F0C97A",animation:`pulse 1.2s ease-in-out ${i*.2}s infinite`}}/>)}<span style={{fontSize:12,opacity:.65}}>HOMI is thinking…</span></div>}
+      {insight&&!loading&&<div style={{background:"rgba(255,255,255,0.08)",borderLeft:"3px solid #F0C97A",borderRadius:10,padding:14,marginBottom:14,fontSize:13,lineHeight:1.8,color:"rgba(255,255,255,0.92)"}}>{insight}</div>}
+      <div style={{display:"grid",gridTemplateColumns:grid2col?"1fr 1fr":"1fr",gap:7}}>
+        {prompts.map((p,i)=>{
+          const label=typeof p==="string"?p:p.label;
+          const query=typeof p==="string"?p:p.query;
+          return <button key={i} onClick={()=>ask(query,i)} style={{background:active===i?"rgba(255,255,255,0.16)":"rgba(255,255,255,0.07)",border:`1px solid ${active===i?"rgba(240,201,122,0.5)":"rgba(255,255,255,0.12)"}`,borderRadius:9,padding:"9px 13px",color:active===i?"#F0C97A":"rgba(255,255,255,0.78)",fontSize:11,cursor:"pointer",textAlign:"left",fontFamily:"inherit",transition:"all .2s"}}
+            onMouseEnter={e=>{e.currentTarget.style.background="rgba(255,255,255,0.14)";e.currentTarget.style.color="#F0C97A";}}
+            onMouseLeave={e=>{if(active!==i){e.currentTarget.style.background="rgba(255,255,255,0.07)";e.currentTarget.style.color="rgba(255,255,255,0.78)";}}}
+          >→ {label}</button>;
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ── Data ──────────────────────────────────────────────────────────────────────
+
+var HOMI_PAGES = [
+  {id:'index',     label:'🏠 Home',        href:'index.html'},
+  {id:'buyer',     label:'🔍 Buyer',        href:'buyer.html'},
+  {id:'realtor',   label:'🏷 Realtor',      href:'realtor.html'},
+  {id:'inspector', label:'📋 Inspector',    href:'inspector.html'},
+  {id:'passport',  label:'📄 Passport',     href:'passport.html'},
+  {id:'retail',    label:'📊 Intelligence', href:'retail.html'},
+];
+
+function HomiNav({active}) {
+  return (
+    <nav style={{height:52,background:C.white,borderBottom:`1px solid ${C.border}`,
+      display:'flex',alignItems:'center',paddingLeft:20,paddingRight:20,
+      flexShrink:0,boxShadow:'0 1px 6px rgba(0,0,0,.05)',zIndex:100,gap:4}}>
+      <div style={{display:'flex',alignItems:'center',gap:8,marginRight:16,flexShrink:0}}>
+        <div style={{width:28,height:28,borderRadius:8,background:C.green,
+          display:'flex',alignItems:'center',justifyContent:'center',
+          fontFamily:"'Playfair Display',serif",color:'white',fontSize:13,fontWeight:700}}>H</div>
+        <span style={{fontFamily:"'Playfair Display',serif",fontSize:15,fontWeight:700,color:C.green}}>HOMI</span>
+      </div>
+      <div style={{display:'flex',gap:2,flex:1,overflowX:'auto'}}>
+        {HOMI_PAGES.map(p=>(
+          <a key={p.id} href={p.href}
+            style={{padding:'6px 12px',borderRadius:8,fontSize:12,fontWeight:active===p.id?700:400,
+              textDecoration:'none',whiteSpace:'nowrap',
+              background:active===p.id?C.greenPale:'transparent',
+              color:active===p.id?C.green:C.textMuted,transition:'all .15s'}}>
+            {p.label}
+          </a>
+        ))}
+      </div>
+      <div style={{fontSize:11,color:C.textMuted,flexShrink:0,display:'flex',alignItems:'center',gap:8}}>
+        <a href="index.html" style={{fontSize:11,background:C.greenPale,color:C.green,border:`1px solid rgba(28,74,46,0.2)`,borderRadius:6,padding:'4px 10px',textDecoration:'none',fontWeight:600}}>← Back to HOMI</a>
+        142 Maple Ridge Dr · Allentown PA
+      </div>
+    </nav>
+  );
+}
+
+var INSP_SECTIONS=[
+  {id:"exterior",  label:"Exterior",         icon:"exterior",   color:"#2D6A4F"},
+  {id:"roof",      label:"Roof",             icon:"roof",       color:"#6B3A2A"},
+  {id:"foundation",label:"Foundation",       icon:"home",       color:"#4A4A6A"},
+  {id:"hvac",      label:"HVAC System",      icon:"hvac",       color:"#1A5276"},
+  {id:"electrical",label:"Electrical",       icon:"electrical", color:"#7D6608"},
+  {id:"plumbing",  label:"Plumbing",         icon:"plumbing",   color:"#1A5276"},
+  {id:"interior",  label:"Interior",         icon:"home",       color:"#4A3728"},
+  {id:"windows",   label:"Windows & Doors",  icon:"exterior",   color:"#2E4057"},
+  {id:"water",     label:"Water Heater",     icon:"water",      color:"#1A5276"},
+  {id:"appliances",label:"Appliances",       icon:"home",       color:"#4A4A4A"},
+  {id:"safety",    label:"Safety",           icon:"check",      color:"#7B241C"},
+];
+
+var CONDITION_OPTS=[
+  {val:"good",      label:"Good",                   color:"#2D6A4F", bg:"#D8F3DC"},
+  {val:"maintain",  label:"Maintenance Recommended", color:"#D97706", bg:"#FEF3C7"},
+  {val:"monitor",   label:"Monitor",                 color:"#B45309", bg:"#FDE68A"},
+  {val:"replace",   label:"Replacement Likely",      color:"#C0392B", bg:"#FEE2E2"},
+  {val:"safety",    label:"Safety Concern",          color:"#7B241C", bg:"#FECACA"},
+];
+
+var SEVERITY_OPTS=[
+  {val:"info",   label:"Informational", color:"#2D6A4F", bg:"#D8F3DC"},
+  {val:"moderate",label:"Moderate",    color:"#D97706", bg:"#FEF3C7"},
+  {val:"major",  label:"Major",        color:"#C0392B", bg:"#FEE2E2"},
+];
+
+// Smart prompts for the "Missed Risk Detector"
+var RISK_RULES={
+  hvac:      {ageThreshold:15, message:"HVAC age suggests potential replacement window. Confirm or adjust condition."},
+  roof:      {ageThreshold:20, message:"Roof near or past typical lifespan. Consider upgrading to Replacement Likely."},
+  water:     {ageThreshold:10, message:"Water heater past average lifespan. Replacement risk is elevated."},
+  appliances:{ageThreshold:12, message:"Appliances may be approaching end of useful life. Review condition rating."},
+};
+
+function InspectorMode(){
+  const [phase,setPhase]=useState("start"); // start | inspect | outputs
+  const [address,setAddress]=useState("142 Maple Ridge Drive, Allentown PA");
+  const [inspType,setInspType]=useState("buyer");
+  const [activeSection,setActiveSection]=useState("roof");
+  const [sections,setSections]=useState(()=>{
+    const s={};
+    INSP_SECTIONS.forEach(sec=>{ s[sec.id]={condition:"",age:"",observations:"",severity:"info",photos:[],complete:false}; });
+    return s;
+  });
+  const [riskAlert,setRiskAlert]=useState(null);
+  const [dictating,setDictating]=useState(false);
+  const [outputTab,setOutputTab]=useState("dashboard");
+  const [generating,setGenerating]=useState(false);
+
+  const updateSection=(id,field,val)=>{
+    setSections(prev=>{
+      const next={...prev,[id]:{...prev[id],[field]:val}};
+      // Risk detector
+      const rule=RISK_RULES[id];
+      if(rule && field==="age" && parseInt(val)>=rule.ageThreshold && next[id].condition==="good"){
+        setRiskAlert({section:id,message:rule.message});
+      }
+      // Mark complete if condition + age filled
+      if(next[id].condition && next[id].age) next[id].complete=true;
+      return next;
+    });
+  };
+
+  const completedCount=Object.values(sections).filter(s=>s.complete).length;
+  const verifiedSystems=Object.values(sections).filter(s=>s.condition&&s.age).length;
+  const estimatedSystems=INSP_SECTIONS.length-verifiedSystems;
+  const pctDone=Math.round((completedCount/INSP_SECTIONS.length)*100);
+
+  const curSec=sections[activeSection];
+  const curDef=INSP_SECTIONS.find(s=>s.id===activeSection);
+
+  const sCondColor=(cond)=>(CONDITION_OPTS.find(o=>o.val===cond)||{color:C.textMuted}).color;
+  const sCondBg=(cond)=>(CONDITION_OPTS.find(o=>o.val===cond)||{bg:C.cream}).bg;
+
+  const mockVoice=()=>{
+    setDictating(true);
+    const phrases={
+      roof:"Roof appears original to construction. Shingles showing moderate granule loss. Recommend inspection within 3–5 years.",
+      hvac:"HVAC system approximately 7 years old. Unit functioning normally. Annual service recommended.",
+      water:"Water heater estimated 9 years old. No visible leaks. Tank showing early signs of corrosion. Replacement within 2–3 years.",
+      electrical:"Electrical panel appears updated. No double-tapping observed. GFCI protection present at required locations.",
+      plumbing:"Plumbing in satisfactory condition. Minor mineral deposits at faucet aerators. No active leaks detected.",
+      exterior:"Exterior siding in good condition. Minor caulking needed at window penetrations. Recommend repainting within 2–3 years.",
+      foundation:"Foundation walls appear solid. Minor efflorescence present on east wall. No active water intrusion at time of inspection.",
+    };
+    setTimeout(()=>{
+      const text=phrases[activeSection]||"System inspected. No major concerns at time of inspection.";
+      updateSection(activeSection,"observations",text);
+      setDictating(false);
+    },2200);
+  };
+
+  // ── START SCREEN ────────────────────────────────────────────────────────────
+  if(phase==="start") return(
+    <div style={{overflowY:"auto",height:"calc(100vh - 52px)",background:C.cream,display:"flex",alignItems:"center",justifyContent:"center",padding:40}}>
+      <div style={{maxWidth:560,width:"100%",animation:"fadeUp .4s ease"}}>
+        {/* Header */}
+        <div style={{textAlign:"center",marginBottom:32}}>
+          <div style={{width:64,height:64,background:C.green,borderRadius:18,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px",boxShadow:"0 4px 20px rgba(28,74,46,.25)"}}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </div>
+          <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:28,fontWeight:700,color:C.green,marginBottom:6}}>Inspector Mode</h1>
+          <p style={{fontSize:14,color:C.textMuted,lineHeight:1.6}}>Professional field capture software. Enter data fast — HOMI handles the intelligence.</p>
+        </div>
+
+        {/* Address */}
+        <div style={{background:C.white,borderRadius:16,padding:24,marginBottom:16,boxShadow:"0 2px 12px rgba(0,0,0,.06)"}}>
+          <div style={{fontSize:11,fontWeight:700,color:C.textMuted,letterSpacing:1,marginBottom:8}}>PROPERTY ADDRESS</div>
+          <input value={address} onChange={e=>setAddress(e.target.value)}
+            style={{width:"100%",background:C.cream,border:`1.5px solid ${C.border}`,borderRadius:10,padding:"11px 14px",fontSize:14,fontFamily:"inherit",color:C.text,outline:"none",boxSizing:"border-box"}}/>
+          <div style={{marginTop:10,padding:"8px 12px",background:C.greenPale,borderRadius:8,fontSize:11,color:C.greenMid,display:"flex",alignItems:"center",gap:6}}>
+            <span>✓</span><span>Existing HOMI record found · Home Health Score 72 · Last updated 6 months ago</span>
+          </div>
+        </div>
+
+        {/* Inspection type */}
+        <div style={{background:C.white,borderRadius:16,padding:24,marginBottom:24,boxShadow:"0 2px 12px rgba(0,0,0,.06)"}}>
+          <div style={{fontSize:11,fontWeight:700,color:C.textMuted,letterSpacing:1,marginBottom:12}}>INSPECTION TYPE</div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+            {[{val:"buyer",label:"🔍 Buyer Inspection"},{val:"prelisting",label:"🏷 Seller Pre-Listing"},{val:"maintenance",label:"🔧 Maintenance Check"},{val:"insurance",label:"🛡 Insurance Inspection"}].map(t=>(
+              <button key={t.val} onClick={()=>setInspType(t.val)} style={{padding:"12px 14px",borderRadius:10,border:`1.5px solid ${inspType===t.val?C.green:C.border}`,background:inspType===t.val?C.greenPale:C.white,cursor:"pointer",fontFamily:"inherit",fontSize:13,fontWeight:inspType===t.val?700:400,color:inspType===t.val?C.green:C.textMid,transition:"all .15s",textAlign:"left"}}>
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button onClick={()=>setPhase("inspect")} style={{width:"100%",background:C.green,border:"none",borderRadius:14,padding:"16px",fontSize:15,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white",boxShadow:"0 4px 16px rgba(28,74,46,.3)",transition:"all .2s"}}
+          onMouseEnter={e=>e.currentTarget.style.background=C.greenMid}
+          onMouseLeave={e=>e.currentTarget.style.background=C.green}>
+          Start Inspection →
+        </button>
+      </div>
+    </div>
+  );
+
+  // ── OUTPUTS SCREEN ──────────────────────────────────────────────────────────
+  if(phase==="outputs") return(
+    <div style={{overflowY:"auto",height:"calc(100vh - 52px)",background:C.cream,padding:"28px 32px"}}>
+      <div style={{maxWidth:1100,margin:"0 auto",display:"grid",gap:20}}>
+        {/* Header */}
+        <div style={{display:"flex",alignItems:"center",gap:14}}>
+          <button onClick={()=>setPhase("inspect")} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:9,padding:"7px 14px",fontSize:12,cursor:"pointer",fontFamily:"inherit",color:C.textMuted}}>← Back to Inspection</button>
+          <div>
+            <div style={{fontSize:11,color:C.textMuted,letterSpacing:1}}>INSPECTION COMPLETE · 3 OUTPUTS GENERATED</div>
+            <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:22,fontWeight:700,color:C.green}}>{address}</h1>
+          </div>
+          <div style={{marginLeft:"auto",display:"flex",gap:8}}>
+            <div style={{background:C.greenPale,border:`1px solid ${C.greenLight}33`,borderRadius:10,padding:"8px 16px",textAlign:"center"}}>
+              <div style={{fontSize:9,color:C.textMuted,letterSpacing:1}}>VERIFIED</div>
+              <div style={{fontSize:18,fontWeight:700,color:C.green,fontFamily:"'Playfair Display',serif"}}>{verifiedSystems}</div>
+              <div style={{fontSize:9,color:C.textMuted}}>systems</div>
+            </div>
+            <div style={{background:C.goldPale,border:`1px solid ${C.gold}33`,borderRadius:10,padding:"8px 16px",textAlign:"center"}}>
+              <div style={{fontSize:9,color:C.textMuted,letterSpacing:1}}>HEALTH</div>
+              <div style={{fontSize:18,fontWeight:700,color:C.gold,fontFamily:"'Playfair Display',serif"}}>72</div>
+              <div style={{fontSize:9,color:C.textMuted}}>score</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Output tabs */}
+        <div style={{display:"flex",gap:0,background:C.white,borderRadius:14,padding:6,boxShadow:"0 2px 12px rgba(0,0,0,.06)",width:"fit-content"}}>
+          {[{id:"dashboard",label:"🏠 Property Dashboard",desc:"Living intelligence record"},{id:"report",label:"📄 Inspection Report",desc:"Traditional PDF format"},{id:"brief",label:"💼 Buyer Brief",desc:"Negotiation summary"}].map(t=>(
+            <button key={t.id} onClick={()=>setOutputTab(t.id)} style={{padding:"10px 20px",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"inherit",background:outputTab===t.id?C.green:"transparent",color:outputTab===t.id?"white":C.textMuted,fontWeight:outputTab===t.id?700:400,fontSize:13,transition:"all .15s",display:"flex",flexDirection:"column",alignItems:"center",gap:2}}>
+              <span>{t.label}</span>
+              <span style={{fontSize:9,opacity:.7}}>{t.desc}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* ── OUTPUT 1: PROPERTY DASHBOARD ── */}
+        {outputTab==="dashboard"&&(
+          <div style={{display:"grid",gap:18,animation:"fadeUp .35s ease"}}>
+            <div style={{background:`linear-gradient(135deg,${C.green},${C.greenMid})`,borderRadius:18,padding:26,color:"white",display:"grid",gridTemplateColumns:"1fr 1fr 1fr 1fr",gap:16}}>
+              <div>
+                <div style={{fontSize:10,opacity:.65,letterSpacing:1,marginBottom:4}}>ADDRESS</div>
+                <div style={{fontSize:15,fontWeight:700,fontFamily:"'Playfair Display',serif"}}>{address.split(",")[0]}</div>
+                <div style={{fontSize:11,opacity:.7,marginTop:2}}>{address.split(",").slice(1).join(",").trim()}</div>
+              </div>
+              <div>
+                <div style={{fontSize:10,opacity:.65,letterSpacing:1,marginBottom:4}}>HOME HEALTH SCORE</div>
+                <div style={{fontSize:36,fontWeight:700,fontFamily:"'Playfair Display',serif",color:C.goldLight}}>72</div>
+                <div style={{fontSize:11,opacity:.7}}>Fair Condition</div>
+              </div>
+              <div>
+                <div style={{fontSize:10,opacity:.65,letterSpacing:1,marginBottom:4}}>INSPECTION TYPE</div>
+                <div style={{fontSize:14,fontWeight:700}}>{inspType==="buyer"?"Buyer Inspection":inspType==="prelisting"?"Pre-Listing":inspType==="maintenance"?"Maintenance Check":"Insurance"}</div>
+                <div style={{fontSize:11,opacity:.7,marginTop:2}}>Completed today</div>
+              </div>
+              <div>
+                <div style={{fontSize:10,opacity:.65,letterSpacing:1,marginBottom:4}}>5-YEAR COST EST.</div>
+                <div style={{fontSize:22,fontWeight:700,fontFamily:"'Playfair Display',serif",color:C.goldLight}}>$13,400</div>
+                <div style={{fontSize:11,opacity:.7}}>up to $24,000</div>
+              </div>
+            </div>
+
+            {/* System grid from captured data */}
+            <div className="card" style={{padding:24}}>
+              <h3 style={{fontFamily:"'Playfair Display',serif",fontSize:18,color:C.green,marginBottom:16}}>Verified System Intelligence</h3>
+              <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12}}>
+                {INSP_SECTIONS.filter(sec=>sections[sec.id].condition||sections[sec.id].age).map(sec=>{
+                  const d=sections[sec.id];
+                  const cond=CONDITION_OPTS.find(o=>o.val===d.condition)||CONDITION_OPTS[0];
+                  return(
+                    <div key={sec.id} style={{background:cond.bg,borderRadius:12,padding:14,border:`1px solid ${cond.color}22`}}>
+                      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+                        <Icon name={sec.icon} size={16} color={cond.color}/>
+                        <span style={{fontSize:12,fontWeight:700,color:cond.color}}>{sec.label}</span>
+                      </div>
+                      {d.age&&<div style={{fontSize:11,color:C.textMid,marginBottom:4}}>Age: ~{d.age} years</div>}
+                      <div style={{fontSize:11,fontWeight:600,color:cond.color}}>{cond.label}</div>
+                      {d.observations&&<div style={{fontSize:10,color:C.textMuted,marginTop:6,lineHeight:1.5,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden"}}>{d.observations}</div>}
+                    </div>
+                  );
+                })}
+                {INSP_SECTIONS.filter(sec=>!sections[sec.id].condition&&!sections[sec.id].age).map(sec=>(
+                  <div key={sec.id} style={{background:C.creamDark,borderRadius:12,padding:14,border:`1px dashed ${C.border}`,opacity:.6}}>
+                    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+                      <Icon name={sec.icon} size={16} color={C.textMuted}/>
+                      <span style={{fontSize:12,color:C.textMuted}}>{sec.label}</span>
+                    </div>
+                    <div style={{fontSize:10,color:C.textMuted}}>Not captured</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Confidence layer */}
+            <div style={{background:C.white,borderRadius:16,padding:22,border:`1px solid ${C.border}`,display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:16}}>
+              <div style={{textAlign:"center",padding:"14px",background:C.greenPale,borderRadius:12}}>
+                <div style={{fontFamily:"'Playfair Display',serif",fontSize:32,fontWeight:700,color:C.green}}>{verifiedSystems}</div>
+                <div style={{fontSize:12,fontWeight:700,color:C.green,marginTop:4}}>Verified Systems</div>
+                <div style={{fontSize:10,color:C.textMuted,marginTop:2}}>Confirmed by inspector today</div>
+              </div>
+              <div style={{textAlign:"center",padding:"14px",background:C.amberPale,borderRadius:12}}>
+                <div style={{fontFamily:"'Playfair Display',serif",fontSize:32,fontWeight:700,color:C.amber}}>{Math.max(0,INSP_SECTIONS.length-verifiedSystems-2)}</div>
+                <div style={{fontSize:12,fontWeight:700,color:C.amber,marginTop:4}}>Estimated Systems</div>
+                <div style={{fontSize:10,color:C.textMuted,marginTop:2}}>Inferred from property data</div>
+              </div>
+              <div style={{textAlign:"center",padding:"14px",background:C.redPale,borderRadius:12}}>
+                <div style={{fontFamily:"'Playfair Display',serif",fontSize:32,fontWeight:700,color:C.red}}>2</div>
+                <div style={{fontSize:12,fontWeight:700,color:C.red,marginTop:4}}>Missing Data</div>
+                <div style={{fontSize:10,color:C.textMuted,marginTop:2}}>No data captured yet</div>
+              </div>
+            </div>
+
+            {/* Send to buyer */}
+            <div style={{background:`linear-gradient(135deg,${C.gold},${C.goldLight})`,borderRadius:16,padding:22,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <div>
+                <div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700,color:C.green}}>Send to buyer as living dashboard</div>
+                <div style={{fontSize:13,color:C.green,opacity:.8,marginTop:3}}>Buyer gets the HOMI record instead of a static PDF — a 10x better deliverable.</div>
+              </div>
+              <button style={{background:C.green,border:"none",borderRadius:11,padding:"12px 24px",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white",flexShrink:0}}>
+                Send HOMI Record →
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ── OUTPUT 2: TRADITIONAL REPORT ── */}
+        {outputTab==="report"&&(
+          <div style={{display:"grid",gap:16,animation:"fadeUp .35s ease"}}>
+            <div style={{background:C.white,borderRadius:16,padding:28,border:`1px solid ${C.border}`}}>
+              {/* Report header */}
+              <div style={{borderBottom:`2px solid ${C.green}`,paddingBottom:18,marginBottom:20,display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+                <div>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:22,fontWeight:700,color:C.green}}>HOME INSPECTION REPORT</div>
+                  <div style={{fontSize:13,color:C.textMid,marginTop:4}}>{address}</div>
+                  <div style={{fontSize:11,color:C.textMuted,marginTop:2}}>Inspection Date: {new Date().toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"})} · Inspector: David Chen, ASHI Certified</div>
+                </div>
+                <div style={{textAlign:"right"}}>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:28,fontWeight:700,color:C.green}}>HOMI</div>
+                  <div style={{fontSize:9,color:C.textMuted,letterSpacing:1}}>POWERED BY</div>
+                </div>
+              </div>
+              <div style={{padding:"10px 14px",background:C.amberPale,borderRadius:10,border:`1px solid ${C.amber}33`,fontSize:11,color:C.amber,marginBottom:20}}>
+                ⚠ This report is not a warranty. Systems inspected reflect conditions at time of inspection only. Recommend consultation with licensed contractors for all major findings.
+              </div>
+              {/* System findings */}
+              {INSP_SECTIONS.filter(sec=>sections[sec.id].condition||sections[sec.id].observations).map((sec,i)=>{
+                const d=sections[sec.id];
+                const sev=SEVERITY_OPTS.find(o=>o.val===d.severity)||SEVERITY_OPTS[0];
+                const cond=CONDITION_OPTS.find(o=>o.val===d.condition)||CONDITION_OPTS[0];
+                return(
+                  <div key={sec.id} style={{borderBottom:i<INSP_SECTIONS.length-1?`1px solid ${C.border}`:"none",paddingBottom:16,marginBottom:16}}>
+                    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}>
+                      <Icon name={sec.icon} size={16} color={cond.color}/>
+                      <span style={{fontSize:14,fontWeight:700,color:C.text}}>{sec.label}</span>
+                      <span style={{fontSize:10,fontWeight:700,background:cond.bg,color:cond.color,padding:"2px 10px",borderRadius:8,marginLeft:"auto"}}>{cond.label||"Not Assessed"}</span>
+                      <span style={{fontSize:10,fontWeight:700,background:sev.bg,color:sev.color,padding:"2px 10px",borderRadius:8}}>{sev.label}</span>
+                    </div>
+                    {d.age&&<div style={{fontSize:12,color:C.textMid,marginBottom:4}}>Estimated Age: {d.age} years</div>}
+                    {d.observations?<div style={{fontSize:12,color:C.textMid,lineHeight:1.65,background:C.cream,borderRadius:8,padding:"8px 12px"}}>{d.observations}</div>:<div style={{fontSize:12,color:C.textMuted,fontStyle:"italic"}}>No observations recorded.</div>}
+                  </div>
+                );
+              })}
+              {/* Footer */}
+              <div style={{marginTop:20,padding:"14px",background:C.greenPale,borderRadius:10,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                <div style={{fontSize:11,color:C.greenMid}}>Report generated by HOMI Inspector Platform · {new Date().toLocaleDateString()}</div>
+                <button style={{background:C.green,border:"none",borderRadius:9,padding:"8px 20px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white"}}>Download PDF →</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── OUTPUT 3: BUYER BRIEF ── */}
+        {outputTab==="brief"&&(
+          <div style={{display:"grid",gap:16,animation:"fadeUp .35s ease"}}>
+            <div style={{background:C.white,borderRadius:16,padding:28,border:`1px solid ${C.border}`,maxWidth:680}}>
+              <div style={{textAlign:"center",marginBottom:24,paddingBottom:20,borderBottom:`1px solid ${C.border}`}}>
+                <div style={{fontFamily:"'Playfair Display',serif",fontSize:22,fontWeight:700,color:C.green}}>Buyer Negotiation Brief</div>
+                <div style={{fontSize:13,color:C.textMuted,marginTop:4}}>{address}</div>
+                <div style={{marginTop:12,display:"inline-block",background:C.greenPale,borderRadius:10,padding:"8px 20px"}}>
+                  <span style={{fontSize:13,fontWeight:700,color:C.green}}>Home Health Score: </span>
+                  <span style={{fontFamily:"'Playfair Display',serif",fontSize:22,fontWeight:700,color:C.green}}>72</span><span style={{fontSize:13,color:C.textMuted}}>/100</span>
+                </div>
+              </div>
+
+              {/* Major items */}
+              {[{label:"Major Items — Act Before Closing",items:[
+                {icon:"water",text:"Water heater nearing end of life (9/12 yr) — request $900–$1,200 credit",color:C.red},
+                {icon:"roof",text:"Roof moderate wear at 12 yrs — inspection credits or $800–$1,500 adjustment",color:C.amber},
+              ],bg:C.redPale,border:C.red},
+              {label:"Maintenance Recommendations",items:[
+                {icon:"hvac",text:"HVAC professional evaluation within 12 months",color:C.greenMid},
+                {icon:"exterior",text:"Exterior caulking and gutter cleaning before first winter",color:C.greenMid},
+                {icon:"plumbing",text:"Minor plumbing faucet maintenance — DIY or $50–$150",color:C.greenMid},
+              ],bg:C.amberPale,border:C.amber}].map(grp=>(
+                <div key={grp.label} style={{background:grp.bg,borderRadius:12,padding:18,marginBottom:14,border:`1px solid ${grp.border}22`}}>
+                  <div style={{fontSize:11,fontWeight:700,color:C.textMuted,letterSpacing:1,marginBottom:10}}>{grp.label.toUpperCase()}</div>
+                  {grp.items.map((item,i)=>(
+                    <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
+                      <Icon name={item.icon} size={14} color={item.color}/>
+                      <span style={{fontSize:12,color:C.textMid,lineHeight:1.5}}>{item.text}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+
+              {/* Cost exposure */}
+              <div style={{background:C.green,borderRadius:12,padding:18,color:"white",marginBottom:14}}>
+                <div style={{fontSize:11,opacity:.7,letterSpacing:1,marginBottom:8}}>ESTIMATED FUTURE REPAIR EXPOSURE</div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10}}>
+                  {[{l:"Next 12 months",v:"$900–$1,800"},{l:"3-year window",v:"$4,850–$9,800"},{l:"5-year total",v:"$13,400–$24,000"}].map(r=>(
+                    <div key={r.l} style={{textAlign:"center"}}>
+                      <div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700,color:C.goldLight}}>{r.v}</div>
+                      <div style={{fontSize:10,opacity:.7,marginTop:2}}>{r.l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{display:"flex",gap:8}}>
+                <button style={{flex:1,background:C.green,border:"none",borderRadius:10,padding:"11px",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white"}}>Share with Buyer →</button>
+                <button style={{flex:1,background:C.white,border:`1px solid ${C.border}`,borderRadius:10,padding:"11px",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit",color:C.textMid}}>Download PDF</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  // ── MAIN INSPECTION SCREEN ──────────────────────────────────────────────────
+  return(
+    <div style={{display:"flex",height:"calc(100vh - 52px)",overflow:"hidden"}}>
+
+      {/* LEFT NAV — section list */}
+      <div style={{width:220,background:C.green,display:"flex",flexDirection:"column",overflow:"hidden",flexShrink:0}}>
+        {/* Progress header */}
+        <div style={{padding:"18px 16px 14px",borderBottom:"1px solid rgba(255,255,255,.12)"}}>
+          <div style={{fontSize:10,color:"rgba(255,255,255,.5)",letterSpacing:1,marginBottom:6}}>INSPECTION PROGRESS</div>
+          <div style={{fontFamily:"'Playfair Display',serif",fontSize:22,fontWeight:700,color:"white"}}>{completedCount} / {INSP_SECTIONS.length}</div>
+          <div style={{marginTop:8,height:5,background:"rgba(255,255,255,.15)",borderRadius:3,overflow:"hidden"}}>
+            <div style={{width:`${pctDone}%`,height:"100%",background:C.goldLight,borderRadius:3,transition:"width .4s ease"}}/>
+          </div>
+          <div style={{fontSize:10,color:"rgba(255,255,255,.5)",marginTop:4}}>{pctDone}% complete</div>
+        </div>
+
+        {/* Section list */}
+        <div style={{flex:1,overflowY:"auto",padding:"8px 0"}}>
+          {INSP_SECTIONS.map(sec=>{
+            const d=sections[sec.id];
+            const isActive=activeSection===sec.id;
+            const isDone=d.complete;
+            const condColor=d.condition?sCondColor(d.condition):"rgba(255,255,255,.4)";
+            return(
+              <button key={sec.id} onClick={()=>setActiveSection(sec.id)} style={{width:"100%",padding:"10px 16px",display:"flex",alignItems:"center",gap:10,background:isActive?"rgba(255,255,255,.15)":"transparent",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left",transition:"background .15s",borderLeft:isActive?"3px solid "+C.goldLight:"3px solid transparent"}}>
+                <div style={{width:24,height:24,borderRadius:7,background:isDone?condColor:"rgba(255,255,255,.12)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                  {isDone?<span style={{fontSize:10,color:"white",fontWeight:700}}>✓</span>:<Icon name={sec.icon} size={12} color="rgba(255,255,255,.6)"/>}
+                </div>
+                <span style={{fontSize:12,color:isActive?"white":"rgba(255,255,255,.75)",fontWeight:isActive?700:400}}>{sec.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Generate outputs button */}
+        <div style={{padding:14,borderTop:"1px solid rgba(255,255,255,.12)"}}>
+          <button onClick={()=>{setGenerating(true);setTimeout(()=>{setGenerating(false);setPhase("outputs");},1800);}} style={{width:"100%",background:C.gold,border:"none",borderRadius:11,padding:"12px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white",lineHeight:1.3}}>
+            {generating?"Generating…":"⚡ Generate All Outputs"}
+          </button>
+          <div style={{fontSize:9,color:"rgba(255,255,255,.4)",marginTop:6,textAlign:"center"}}>Dashboard · Report · Buyer Brief</div>
+        </div>
+      </div>
+
+      {/* MAIN CAPTURE AREA */}
+      <div style={{flex:1,overflowY:"auto",background:C.cream,padding:"24px 28px"}}>
+
+        {/* Risk alert banner */}
+        {riskAlert&&riskAlert.section===activeSection&&(
+          <div style={{background:C.amberPale,border:`1.5px solid ${C.amber}`,borderRadius:12,padding:"12px 16px",marginBottom:16,display:"flex",gap:12,alignItems:"flex-start",animation:"fadeUp .25s ease"}}>
+            <div style={{fontSize:20,flexShrink:0}}>🔍</div>
+            <div style={{flex:1}}>
+              <div style={{fontSize:12,fontWeight:700,color:C.amber,marginBottom:2}}>HOMI Missed Risk Detector</div>
+              <div style={{fontSize:12,color:C.textMid}}>{riskAlert.message}</div>
+            </div>
+            <button onClick={()=>setRiskAlert(null)} style={{background:"none",border:"none",cursor:"pointer",fontSize:16,color:C.textMuted,flexShrink:0}}>✕</button>
+          </div>
+        )}
+
+        {/* Section header */}
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
+          <div style={{display:"flex",alignItems:"center",gap:12}}>
+            <div style={{width:40,height:40,background:C.green,borderRadius:11,display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <Icon name={curDef.icon} size={20} color="white"/>
+            </div>
+            <div>
+              <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:700,color:C.green,margin:0}}>{curDef.label}</h2>
+              <div style={{fontSize:11,color:C.textMuted,marginTop:2}}>
+                {curSec.complete?"✓ Captured":"Fill in what you observe"}
+              </div>
+            </div>
+          </div>
+          {/* Navigate sections */}
+          <div style={{display:"flex",gap:8}}>
+            {INSP_SECTIONS.findIndex(s=>s.id===activeSection)>0&&(
+              <button onClick={()=>setActiveSection(INSP_SECTIONS[INSP_SECTIONS.findIndex(s=>s.id===activeSection)-1].id)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:9,padding:"7px 14px",fontSize:12,cursor:"pointer",fontFamily:"inherit",color:C.textMid}}>← Prev</button>
+            )}
+            {INSP_SECTIONS.findIndex(s=>s.id===activeSection)<INSP_SECTIONS.length-1&&(
+              <button onClick={()=>setActiveSection(INSP_SECTIONS[INSP_SECTIONS.findIndex(s=>s.id===activeSection)+1].id)} style={{background:C.green,border:"none",borderRadius:9,padding:"7px 16px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white"}}>Next →</button>
+            )}
+          </div>
+        </div>
+
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+
+          {/* Condition */}
+          <div className="card" style={{padding:20}}>
+            <div style={{fontSize:11,fontWeight:700,color:C.textMuted,letterSpacing:1,marginBottom:12}}>CONDITION</div>
+            <div style={{display:"grid",gap:8}}>
+              {CONDITION_OPTS.map(opt=>(
+                <button key={opt.val} onClick={()=>updateSection(activeSection,"condition",opt.val)} style={{padding:"10px 14px",borderRadius:10,border:`1.5px solid ${curSec.condition===opt.val?opt.color:C.border}`,background:curSec.condition===opt.val?opt.bg:C.white,cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:curSec.condition===opt.val?700:400,color:curSec.condition===opt.val?opt.color:C.textMid,transition:"all .15s",textAlign:"left",display:"flex",alignItems:"center",gap:8}}>
+                  <div style={{width:8,height:8,borderRadius:"50%",background:curSec.condition===opt.val?opt.color:C.creamDark,flexShrink:0}}/>
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Age + Severity */}
+          <div style={{display:"flex",flexDirection:"column",gap:16}}>
+            <div className="card" style={{padding:20}}>
+              <div style={{fontSize:11,fontWeight:700,color:C.textMuted,letterSpacing:1,marginBottom:12}}>ESTIMATED AGE (years)</div>
+              <input type="number" min="0" max="100" value={curSec.age} onChange={e=>updateSection(activeSection,"age",e.target.value)} placeholder="e.g. 12"
+                style={{width:"100%",background:C.cream,border:`1.5px solid ${C.border}`,borderRadius:10,padding:"11px 14px",fontSize:18,fontFamily:"inherit",fontWeight:700,color:C.green,outline:"none",boxSizing:"border-box"}}/>
+              {curSec.age&&(()=>{
+                const rule=RISK_RULES[activeSection];
+                if(rule&&parseInt(curSec.age)>=rule.ageThreshold) return <div style={{marginTop:8,fontSize:11,color:C.amber,fontWeight:600}}>⚠ At or past typical replacement threshold</div>;
+                return <div style={{marginTop:8,fontSize:11,color:C.greenMid}}>✓ Within normal service range</div>;
+              })()}
+            </div>
+
+            <div className="card" style={{padding:20}}>
+              <div style={{fontSize:11,fontWeight:700,color:C.textMuted,letterSpacing:1,marginBottom:12}}>SEVERITY</div>
+              <div style={{display:"flex",gap:8}}>
+                {SEVERITY_OPTS.map(opt=>(
+                  <button key={opt.val} onClick={()=>updateSection(activeSection,"severity",opt.val)} style={{flex:1,padding:"9px 6px",borderRadius:9,border:`1.5px solid ${curSec.severity===opt.val?opt.color:C.border}`,background:curSec.severity===opt.val?opt.bg:C.white,cursor:"pointer",fontFamily:"inherit",fontSize:11,fontWeight:curSec.severity===opt.val?700:400,color:curSec.severity===opt.val?opt.color:C.textMid,transition:"all .15s"}}>
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Observations + voice */}
+        <div className="card" style={{padding:20,marginTop:16}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+            <div style={{fontSize:11,fontWeight:700,color:C.textMuted,letterSpacing:1}}>OBSERVATIONS</div>
+            <button onClick={mockVoice} disabled={dictating} style={{display:"flex",alignItems:"center",gap:6,background:dictating?C.redPale:C.greenPale,border:`1px solid ${dictating?C.red:C.greenLight}33`,borderRadius:8,padding:"6px 14px",fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:dictating?C.red:C.greenMid,transition:"all .2s"}}>
+              <span style={{fontSize:15}}>{dictating?"🔴":"🎤"}</span>
+              {dictating?"Listening…":"Voice Dictation"}
+            </button>
+          </div>
+          <textarea value={curSec.observations} onChange={e=>updateSection(activeSection,"observations",e.target.value)}
+            placeholder={`Describe what you observe for ${curDef.label.toLowerCase()}. Tap the microphone to dictate.`}
+            style={{width:"100%",minHeight:100,background:C.cream,border:`1.5px solid ${curSec.observations?C.greenLight:C.border}`,borderRadius:10,padding:"12px 14px",fontSize:13,fontFamily:"inherit",color:C.text,outline:"none",resize:"vertical",lineHeight:1.6,boxSizing:"border-box",transition:"border-color .2s"}}/>
+          {dictating&&(
+            <div style={{marginTop:8,display:"flex",alignItems:"center",gap:8,fontSize:12,color:C.red}}>
+              {[0,1,2,3].map(i=><div key={i} style={{width:3,background:C.red,borderRadius:2,animation:`pulse 0.8s ease ${i*.15}s infinite`,height:8+Math.random()*12}}/>)}
+              <span style={{marginLeft:4}}>Recording… speak naturally</span>
+            </div>
+          )}
+        </div>
+
+        {/* Photo capture */}
+        <div className="card" style={{padding:20,marginTop:16}}>
+          <div style={{fontSize:11,fontWeight:700,color:C.textMuted,letterSpacing:1,marginBottom:12}}>PHOTOS</div>
+          <div style={{display:"flex",gap:10}}>
+            <button style={{width:80,height:80,borderRadius:12,border:`2px dashed ${C.border}`,background:C.cream,cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4,color:C.textMuted,fontSize:10}}>
+              <span style={{fontSize:22}}>📷</span>Capture
+            </button>
+            {/* Mock photos for roof */}
+            {activeSection==="roof"&&[["🏠","Roof overview"],["🔍","Flashing detail"],["⚠","Wear area"]].map(([em,lbl])=>(
+              <div key={lbl} style={{width:80,height:80,borderRadius:12,background:C.greenPale,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4,position:"relative"}}>
+                <span style={{fontSize:24}}>{em}</span>
+                <div style={{position:"absolute",bottom:0,left:0,right:0,background:"rgba(0,0,0,.4)",borderRadius:"0 0 12px 12px",padding:"2px 4px",fontSize:9,color:"white",textAlign:"center"}}>{lbl}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{marginTop:10,fontSize:11,color:C.textMuted}}>Photos auto-tagged to {curDef.label} · Added to property record and inspection report</div>
+        </div>
+
+        {/* Mark complete */}
+        <div style={{marginTop:16,display:"flex",justifyContent:"flex-end"}}>
+          <button onClick={()=>{updateSection(activeSection,"complete",true);const idx=INSP_SECTIONS.findIndex(s=>s.id===activeSection);if(idx<INSP_SECTIONS.length-1)setActiveSection(INSP_SECTIONS[idx+1].id);}} style={{background:C.green,border:"none",borderRadius:11,padding:"12px 28px",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white",display:"flex",alignItems:"center",gap:8}}>
+            ✓ Save & Next Section →
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// HOMI PROPERTY PASSPORT v2 — Shareable Print-Ready Document
+// ════════════════════════════════════════════════════════════════════════════════
+
+function App() {
+  return (
+    <div style={{height:'100vh',display:'flex',flexDirection:'column',overflow:'hidden'}}>
+      <HomiNav active="inspector"/>
+      <div style={{flex:1,overflow:'hidden'}}>
+        <InspectorMode/>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

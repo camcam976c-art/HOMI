@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HOMI — Exterior Systems & Landscaping</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green: #1C4A2E;
+  --green-mid: #2D6A4F;
+  --green-light: #52B788;
+  --green-pale: #D8F3DC;
+  --cream: #FAF6F0;
+  --cream-dark: #F0E9DC;
+  --gold: #C9963A;
+  --gold-light: #E8B84B;
+  --gold-pale: #FDF3E0;
+  --amber: #D97706;
+  --amber-pale: #FEF3C7;
+  --amber-border: rgba(217,119,6,0.3);
+  --blue: #2563A8;
+  --blue-pale: #EBF2FB;
+  --red: #C0392B;
+  --red-pale: #FDECEA;
+  --white: #FFFFFF;
+  --text: #1A1A1A;
+  --text-muted: #8A8A8A;
+  --border: #E4DDD3;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --shadow: 0 2px 12px rgba(28,74,46,0.07);
+  --shadow-md: 0 6px 28px rgba(28,74,46,0.13);
+}
+html, body { height: 100%; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+#root { min-height: 100vh; }
+.app-wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px 60px; }
+
+/* ─── Topbar ─── */
+.topbar { background: var(--green); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(28,74,46,0.22); }
+.topbar-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); letter-spacing: 2px; }
+.topbar-logo span { color: var(--gold-light); }
+.topbar-address { font-size: 12.5px; color: rgba(255,255,255,0.65); }
+.topbar-score { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 24px; padding: 5px 16px; }
+.topbar-score-label { font-size: 10.5px; color: rgba(255,255,255,0.6); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
+.topbar-score-value { font-size: 19px; font-weight: 700; color: var(--gold-light); font-family: 'Playfair Display', serif; }
+
+/* ─── Prop Header ─── */
+.prop-header { background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%); padding: 24px 32px 28px; border-radius: 0 0 var(--radius) var(--radius); margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; color: var(--white); }
+.prop-header-record { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.45); margin-bottom: 6px; }
+.prop-header h1 { font-size: 26px; font-weight: 700; color: var(--white); margin-bottom: 5px; }
+.prop-header-sub { font-size: 13px; color: rgba(255,255,255,0.65); }
+.prop-meta { display: flex; gap: 22px; }
+.prop-meta-item { text-align: right; }
+.prop-meta-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.5); margin-bottom: 2px; }
+.prop-meta-value { font-size: 14px; font-weight: 600; color: var(--white); }
+
+/* ─── Urgent Banner ─── */
+.urgent-banner { background: #7C2D12; border: 1.5px solid #9A3412; border-radius: 14px; padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 12px; box-shadow: 0 4px 16px rgba(124,45,18,0.18); animation: fadeDown 0.35s ease; }
+@keyframes fadeDown { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+.urgent-banner-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.urgent-banner-body { flex: 1; }
+.urgent-banner-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #FCA5A5; margin-bottom: 3px; }
+.urgent-banner-text { font-size: 13.5px; color: #FEE2E2; font-weight: 500; line-height: 1.45; }
+.urgent-banner-text strong { color: #FFFFFF; }
+.urgent-banner-cost { display: inline-block; margin-top: 6px; font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.12); color: #FEE2E2; padding: 3px 10px; border-radius: 6px; }
+
+/* ─── Tab Switcher ─── */
+.tab-switcher { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--cream-dark); border: 1px solid var(--border); border-radius: 14px; padding: 5px; margin-bottom: 26px; }
+.tab-btn { padding: 13px 18px; border-radius: 10px; border: none; background: transparent; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-muted); transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 9px; text-align: left; }
+.tab-btn.active { background: var(--white); color: var(--green); font-weight: 700; box-shadow: var(--shadow-md); border: 1.5px solid var(--green-pale); }
+.tab-btn-icon { font-size: 17px; flex-shrink: 0; }
+.tab-btn-sub { font-size: 11px; color: var(--text-muted); font-weight: 400; display: block; margin-top: 1px; }
+.tab-btn.active .tab-btn-sub { color: var(--green-mid); }
+
+/* ─── Cards ─── */
+.card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.card.urgent-card { border-color: rgba(217,119,6,0.4); border-left: 3px solid var(--amber); }
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.card-title { font-size: 17px; font-weight: 700; color: var(--green); display: flex; align-items: center; gap: 8px; }
+
+/* ─── Score Feed Footer ─── */
+.score-feed { display: flex; align-items: center; gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+.score-feed-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); }
+.score-feed-pill { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.score-feed-pill-green { background: var(--green-pale); color: var(--green); border: 1px solid rgba(82,183,136,0.3); }
+.score-feed-pill-gold { background: var(--gold-pale); color: var(--gold); border: 1px solid rgba(201,150,58,0.25); }
+.score-feed-dot { width: 5px; height: 5px; border-radius: 50%; }
+.score-feed-pill-green .score-feed-dot { background: var(--green-light); }
+.score-feed-pill-gold .score-feed-dot { background: var(--gold); }
+
+/* ─── Section label ─── */
+.section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 12px; }
+
+/* ─── Pills ─── */
+.pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 20px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.1px; white-space: nowrap; }
+.pill-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.pill-good { background: var(--green-pale); color: var(--green); }
+.pill-good .pill-dot { background: var(--green-light); }
+.pill-attention { background: var(--amber-pale); color: var(--amber); border: 1px solid var(--amber-border); }
+.pill-attention .pill-dot { background: var(--amber); animation: pulse-dot 1.8s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+.pill-moderate { background: var(--gold-pale); color: var(--gold); }
+.pill-moderate .pill-dot { background: var(--gold); }
+.pill-low { background: var(--blue-pale); color: var(--blue); }
+.pill-low .pill-dot { background: var(--blue); }
+.pill-fair { background: #FFF7ED; color: #C2410C; border: 1px solid rgba(194,65,12,0.2); }
+.pill-fair .pill-dot { background: #F97316; }
+.pill-high { background: var(--red-pale); color: var(--red); border: 1px solid rgba(192,57,43,0.25); }
+.pill-high .pill-dot { background: var(--red); animation: pulse-dot 1.4s ease-in-out infinite; }
+
+/* ─── Risk Strip ─── */
+.risk-strip { display: grid; grid-template-columns: repeat(6,1fr); gap: 8px; margin-bottom: 20px; }
+.risk-item { border-radius: var(--radius-sm); padding: 14px 10px; text-align: center; border: 1.5px solid transparent; transition: transform 0.15s ease; }
+.risk-item:hover { transform: translateY(-2px); }
+.risk-item-default { background: var(--green); }
+.risk-item-alert { background: #431407; border-color: #7C2D12; }
+.risk-item-warn { background: #451A03; border-color: #78350F; }
+.risk-item-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.9px; font-weight: 700; margin-bottom: 8px; }
+.risk-item-default .risk-item-label { color: rgba(255,255,255,0.6); }
+.risk-item-alert .risk-item-label { color: #FCA5A5; }
+.risk-item-warn .risk-item-label { color: #FDE68A; }
+.risk-item-status { display: flex; justify-content: center; margin-bottom: 6px; }
+.risk-item-detail { font-size: 9.5px; line-height: 1.3; }
+.risk-item-default .risk-item-detail { color: rgba(255,255,255,0.55); }
+.risk-item-alert .risk-item-detail { color: #FECACA; }
+.risk-item-warn .risk-item-detail { color: #FEF08A; }
+.rpill { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 10.5px; font-weight: 700; }
+.rpill-good { background: rgba(82,183,136,0.25); color: #86EFAC; }
+.rpill-good .rpill-dot { background: #4ADE80; }
+.rpill-attention { background: rgba(239,68,68,0.25); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.4); }
+.rpill-attention .rpill-dot { background: #F87171; animation: pulse-dot 1.4s ease-in-out infinite; }
+.rpill-moderate { background: rgba(234,179,8,0.2); color: #FDE68A; }
+.rpill-moderate .rpill-dot { background: #FACC15; }
+.rpill-low { background: rgba(96,165,250,0.2); color: #BAE6FD; }
+.rpill-low .rpill-dot { background: #60A5FA; }
+.rpill-fair { background: rgba(249,115,22,0.2); color: #FDBA74; }
+.rpill-fair .rpill-dot { background: #F97316; }
+.rpill-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+/* ─── Data rows ─── */
+.data-row { display: flex; align-items: flex-start; justify-content: space-between; padding: 13px 0; border-bottom: 1px solid var(--border); gap: 14px; }
+.data-row:last-child { border-bottom: none; padding-bottom: 0; }
+.data-row-left { flex: 1; }
+.data-row-label { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.data-row-note { font-size: 12.5px; color: var(--text-muted); line-height: 1.45; }
+.data-row-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+
+/* ─── Callouts ─── */
+.callout { border-radius: 10px; padding: 13px 16px; margin-top: 16px; display: flex; gap: 11px; align-items: flex-start; }
+.callout-urgent { background: #FFF7ED; border: 1px solid rgba(217,119,6,0.3); border-left: 3px solid var(--amber); }
+.callout-info { background: var(--green-pale); border: 1px solid rgba(82,183,136,0.3); border-left: 3px solid var(--green-light); }
+.callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.callout-text { font-size: 12.5px; color: var(--text); line-height: 1.5; }
+.callout-text strong { color: var(--amber); }
+.callout-info .callout-text strong { color: var(--green); }
+.cost-inline { display: inline-block; font-weight: 700; background: var(--amber-pale); color: var(--amber); padding: 1px 8px; border-radius: 5px; font-size: 12px; margin-left: 3px; }
+
+/* ─── Hardscape ─── */
+.hardscape-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.hardscape-item { background: var(--cream); border: 1px solid var(--border); border-radius: 12px; padding: 15px 16px; }
+.hardscape-item.needs-attention { border-color: rgba(217,119,6,0.4); background: #FFFBF5; }
+.hardscape-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.hardscape-meta { font-size: 11.5px; color: var(--text-muted); margin-bottom: 8px; }
+.hardscape-note { font-size: 12.5px; color: var(--text); line-height: 1.4; margin-top: 6px; }
+.hardscape-cost { margin-top: 8px; }
+.cost-tag { font-size: 12.5px; font-weight: 700; padding: 3px 10px; border-radius: 6px; display: inline-block; }
+.cost-tag-amber { background: var(--amber-pale); color: var(--amber); border: 1px solid var(--amber-border); }
+.cost-tag-green { background: var(--green-pale); color: var(--green-mid); }
+
+/* ─── Tree proximity ─── */
+.tree-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.tree-card { background: var(--cream); border: 1.5px solid var(--border); border-radius: 14px; padding: 16px; cursor: pointer; transition: all 0.18s ease; user-select: none; }
+.tree-card:hover { border-color: var(--green-light); box-shadow: var(--shadow-md); }
+.tree-card.expanded { border-color: var(--green); background: var(--white); }
+.tree-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.tree-card-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.tree-dist-num { font-size: 26px; font-weight: 700; color: var(--green); font-family: 'Playfair Display', serif; line-height: 1; }
+.tree-dist-unit { font-size: 11px; color: var(--text-muted); text-align: right; }
+.tree-expand-hint { font-size: 11px; color: var(--green-mid); font-weight: 500; margin-top: 8px; }
+.tree-detail { font-size: 12.5px; color: var(--text); line-height: 1.5; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+
+/* ─── Building Envelope ─── */
+.env-inner-tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+.env-tab { padding: 7px 15px; border-radius: 20px; font-family: 'DM Sans',sans-serif; font-size: 12.5px; font-weight: 500; cursor: pointer; transition: all 0.18s; }
+.env-tab-inactive { border: 1.5px solid var(--border); background: var(--white); color: var(--text-muted); }
+.env-tab-active { border: none; background: var(--green); color: var(--white); font-weight: 700; }
+.envelope-rows { border-top: 1px solid var(--border); margin-top: 10px; }
+.envelope-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+.envelope-row:last-child { border-bottom: none; padding-bottom: 0; }
+.envelope-row-key { color: var(--text-muted); font-weight: 500; }
+.envelope-row-val { color: var(--text); font-weight: 600; text-align: right; }
+.envelope-row-val.amber { color: var(--amber); }
+.envelope-row-val.green { color: var(--green-mid); }
+
+/* ─── Weather Card ─── */
+.weather-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 12px; }
+.weather-metric { background: var(--cream); border: 1px solid var(--border); border-radius: 12px; padding: 14px 10px; text-align: center; }
+.weather-metric-icon { font-size: 22px; margin-bottom: 6px; }
+.weather-metric-value { font-size: 20px; font-weight: 700; color: var(--green); font-family: 'Playfair Display', serif; margin-bottom: 2px; line-height: 1; }
+.weather-metric-label { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+.weather-metric-detail { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+.weather-secondary { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 10px; }
+.wsec { background: var(--blue-pale); border-radius: 10px; padding: 11px 10px; text-align: center; }
+.wsec-label { font-size: 9.5px; color: var(--blue); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 4px; }
+.wsec-value { font-size: 12.5px; font-weight: 600; color: var(--text); }
+.weather-footer { margin-top: 14px; padding: 13px 15px; background: var(--green-pale); border-radius: 10px; font-size: 12.5px; color: var(--green-mid); line-height: 1.6; }
+.weather-score-adjustments { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.wscore-tag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+.wscore-tag-amber { background: var(--amber-pale); color: var(--amber); }
+.wscore-tag-blue { background: var(--blue-pale); color: var(--blue); }
+
+/* ─── AI Advisor Panel ─── */
+.ai-panel { background: linear-gradient(135deg, var(--green) 0%, #1a5c38 100%); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; color: var(--white); }
+.ai-panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.ai-panel-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--white); display: flex; align-items: center; gap: 10px; }
+.ai-panel-badge { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
+.ai-response-box { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 16px; min-height: 80px; font-size: 13.5px; color: rgba(255,255,255,0.92); line-height: 1.65; margin-bottom: 14px; }
+.ai-response-box.loading { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.5); font-size: 13px; }
+.ai-typing-dots { display: flex; gap: 4px; }
+.ai-typing-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.4); animation: typing-bounce 1.2s ease-in-out infinite; }
+.ai-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.ai-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing-bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+.ai-quick-prompts { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+.ai-quick-btn { padding: 7px 13px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+.ai-quick-btn:hover { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.4); }
+.ai-quick-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.ai-input-row { display: flex; gap: 8px; }
+.ai-input { flex: 1; padding: 10px 14px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; }
+.ai-input::placeholder { color: rgba(255,255,255,0.4); }
+.ai-input:focus { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.14); }
+.ai-send-btn { padding: 10px 18px; border-radius: 24px; border: none; background: var(--gold); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.18s; flex-shrink: 0; }
+.ai-send-btn:hover { background: var(--gold-light); }
+.ai-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ─── Tab 2 Alert banners ─── */
+.alert-banner { border-radius: 12px; padding: 13px 16px; margin-bottom: 10px; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; animation: fadeDown 0.3s ease; }
+.alert-banner.advisory { background: var(--amber-pale); border: 1px solid var(--amber-border); }
+.alert-banner.info { background: var(--blue-pale); border: 1px solid rgba(37,99,168,0.2); }
+.alert-left { display: flex; gap: 10px; align-items: flex-start; }
+.alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+.alert-text { font-size: 13px; color: var(--text); line-height: 1.45; }
+.alert-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 2px; }
+.alert-banner.advisory .alert-badge { color: var(--amber); }
+.alert-banner.info .alert-badge { color: var(--blue); }
+.alert-dismiss { background: none; border: none; cursor: pointer; font-size: 15px; color: var(--text-muted); padding: 0; }
+.alert-dismiss:hover { color: var(--text); }
+
+/* ─── Tree Inventory ─── */
+.tree-inv-header { display: grid; grid-template-columns: 1.2fr 0.7fr 0.7fr 0.9fr 1.5fr; gap: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--border); margin-bottom: 2px; }
+.tree-inv-col-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+.tree-inv-row { display: grid; grid-template-columns: 1.2fr 0.7fr 0.7fr 0.9fr 1.5fr; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.tree-inv-row:last-child { border-bottom: none; }
+.tree-inv-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.tree-inv-sub { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+.tree-inv-note { font-size: 12px; color: var(--text); line-height: 1.4; }
+.action-tag { font-size: 10.5px; font-weight: 700; background: var(--amber-pale); color: var(--amber); padding: 2px 7px; border-radius: 6px; display: inline-block; margin-top: 4px; border: 1px solid var(--amber-border); }
+
+/* ─── Diagnostics ─── */
+.diag-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.diag-card { background: var(--cream); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+.diag-card.coming-soon { background: transparent; border: 1.5px dashed var(--border); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; min-height: 160px; }
+.diag-plant { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.diag-issue { font-size: 12px; color: var(--text-muted); }
+.diag-treatment { font-size: 12px; color: var(--text); line-height: 1.5; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.diag-diy { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: var(--green); background: var(--green-pale); padding: 2px 8px; border-radius: 6px; margin-top: 7px; }
+.coming-soon-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-top: 8px; }
+.coming-soon-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+/* ─── Calendar ─── */
+.month-pills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
+.month-pill { padding: 7px 16px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--white); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.18s; }
+.month-pill:hover { border-color: var(--green-light); color: var(--green); }
+.month-pill.active { background: var(--green); border-color: var(--green); color: var(--white); font-weight: 600; }
+.cal-tasks { display: flex; flex-direction: column; gap: 8px; }
+.cal-task { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; background: var(--cream); border-radius: 10px; border: 1px solid var(--border); animation: fadeUp 0.22s ease; }
+.cal-task.priority { background: #FFFBF5; border-color: rgba(217,119,6,0.3); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.cal-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; background: var(--green-light); }
+.cal-dot.urgent { background: var(--amber); }
+.cal-task-text { font-size: 13.5px; color: var(--text); line-height: 1.4; }
+.priority-tag { font-size: 10px; font-weight: 700; background: var(--amber); color: var(--white); padding: 2px 7px; border-radius: 4px; margin-right: 7px; letter-spacing: 0.5px; }
+
+/* ─── Service Cards ─── */
+.service-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.service-card { border-radius: var(--radius); padding: 22px 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; cursor: pointer; transition: all 0.2s; }
+.service-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.sc-arborist { background: var(--green); }
+.sc-landscaper { background: var(--gold-pale); border: 1px solid rgba(201,150,58,0.25); }
+.sc-lawn { background: var(--blue-pale); border: 1px solid rgba(37,99,168,0.18); }
+.svc-icon { font-size: 28px; }
+.svc-title { font-size: 16px; font-weight: 700; }
+.sc-arborist .svc-title { color: var(--white); }
+.sc-landscaper .svc-title { color: var(--gold); }
+.sc-lawn .svc-title { color: var(--blue); }
+.svc-sub { font-size: 12.5px; line-height: 1.45; }
+.sc-arborist .svc-sub { color: rgba(255,255,255,0.72); }
+.sc-landscaper .svc-sub,.sc-lawn .svc-sub { color: var(--text-muted); }
+.svc-cta { margin-top: 4px; font-size: 12px; font-weight: 600; padding: 7px 15px; border-radius: 20px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.sc-arborist .svc-cta { background: rgba(255,255,255,0.14); color: var(--white); }
+.sc-landscaper .svc-cta { background: var(--gold); color: var(--white); }
+.sc-lawn .svc-cta { background: var(--blue); color: var(--white); }
+
+@media (max-width: 768px) {
+  .risk-strip { grid-template-columns: repeat(3,1fr); }
+  .tree-grid,.hardscape-grid,.diag-grid,.service-grid { grid-template-columns: 1fr; }
+  .weather-grid,.weather-secondary { grid-template-columns: repeat(2,1fr); }
+  .tree-inv-header { display: none; }
+  .tree-inv-row { grid-template-columns: 1fr auto; }
+  .prop-meta { display: none; }
+  .ai-quick-prompts { flex-direction: column; }
+  .env-inner-tabs { overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ══════ DATA ══════ */
+const riskItems = [
+  { label: "Drainage",       status: "attention", detail: "Downspouts too close to foundation", alert: true },
+  { label: "Roof Envelope",  status: "fair",      detail: "21 yrs — approaching end of life",   warn: true },
+  { label: "Tree Root Risk", status: "low",        detail: "Closest tree at 18 ft" },
+  { label: "Flood Exposure", status: "low",        detail: "FEMA Zone X" },
+  { label: "Hail / Storm",   status: "moderate",   detail: "Zone 5A affects roof lifespan" },
+  { label: "Foundation",     status: "good",       detail: "Grade adequate, no cracks observed" },
+];
+
+const drainageItems = [
+  { name: "Gutters",       status: "fair",      note: "Partial blockage near NE corner — clean before summer" },
+  { name: "Downspouts",    status: "attention", note: "Two discharge within 18\" of foundation — extend to 4 ft minimum (urgent)" },
+  { name: "Yard Grading",  status: "good",      note: "Slopes away on 3 sides; east side flat — monitor" },
+  { name: "Water Pooling", status: "good",      note: "No standing water observed" },
+];
+
+const hardscapeItems = [
+  { name: "Deck",           installed: 2004, status: "attention", note: "Surface boards weathering — seal this season", cost: "$150–$300", urgent: true },
+  { name: "Patio",          installed: 2008, status: "good",      note: "Minor crack at SE edge — fill with caulk",     cost: "$20–$50" },
+  { name: "Walkways",       installed: 2004, status: "good",      note: "No heave or trip hazards",                     cost: null },
+  { name: "Retaining Wall", installed: 2004, status: "good",      note: "Stable, no movement",                          cost: null },
+];
+
+const treeRisks = [
+  { name: "Silver Maple",  dist: 18, risk: "moderate", detail: "Root zone approaching foundation. Monitor annually. Root barrier may be warranted in 2–3 years if growth continues toward structure." },
+  { name: "Norway Spruce", dist: 35, risk: "low",      detail: "Adequate clearance from structure. No structural risk. Routine monitoring recommended." },
+  { name: "Red Oak",       dist: 42, risk: "low",      detail: "No structural risk. Native species with deep root system. Minimal maintenance requirements." },
+];
+
+const envelopeData = {
+  roof: {
+    name: "Roof", sub: "Asphalt Shingle — Installed 2004", status: "fair",
+    items: [
+      { key: "Age",                 val: "21 years",                         tone: "amber" },
+      { key: "Material",            val: "Architectural shingle" },
+      { key: "Est. remaining life", val: "4–9 years",                        tone: "amber" },
+      { key: "Last inspection",     val: "Not on record",                    tone: "amber" },
+      { key: "Hail vulnerability",  val: "Moderate — Zone 5A" },
+      { key: "Recommended action",  val: "Schedule inspection this season",  tone: "amber" },
+    ],
+    callout: { type: "urgent", text: "At 21 years with moderate hail exposure, a roof inspection is overdue. Budget for replacement within the next 3–7 years.", cost: "$9,000–$18,000" },
+  },
+  siding: {
+    name: "Siding & Cladding", sub: "Vinyl Siding — Installed 2004", status: "good",
+    items: [
+      { key: "Age",                  val: "21 years" },
+      { key: "Material",             val: "Vinyl — double 4\" lap" },
+      { key: "Condition",            val: "Good — no warping or gaps" },
+      { key: "Paint/seal cycle",     val: "N/A — vinyl" },
+      { key: "Trim condition",       val: "Fair — inspect caulk at corners", tone: "amber" },
+      { key: "Est. remaining life",  val: "15–25 years",                     tone: "green" },
+    ],
+    callout: { type: "info", text: "Re-caulk trim penetrations, corners, and window surrounds this season. Caulk failure allows moisture intrusion behind vinyl panels.", cost: "$40–$120 DIY" },
+  },
+  foundation: {
+    name: "Foundation", sub: "Poured Concrete — 2004", status: "good",
+    items: [
+      { key: "Type",              val: "Poured concrete" },
+      { key: "Visible cracks",    val: "None observed" },
+      { key: "Efflorescence",     val: "None observed" },
+      { key: "Waterproofing",     val: "Status unknown — not on record", tone: "amber" },
+      { key: "East-side grading", val: "Flat — monitor for pooling",     tone: "amber" },
+      { key: "Drainage risk",     val: "Moderate — downspout proximity" },
+    ],
+    callout: { type: "urgent", text: "Downspout proximity to the east side is the highest-ROI action on this property. Extending discharge to 4 ft reduces foundation water risk significantly.", cost: "$40–$120 DIY" },
+  },
+  windows: {
+    name: "Doors & Windows", sub: "Mixed — Original 2004 / Updated 2016", status: "moderate",
+    items: [
+      { key: "Window age",         val: "21 years — original" },
+      { key: "IGU seal failures",  val: "1 noted — front bedroom",          tone: "amber" },
+      { key: "Weatherstripping",   val: "Fair — garage & patio door",       tone: "amber" },
+      { key: "Front door caulking",val: "Needs refresh",                    tone: "amber" },
+      { key: "Storm door",         val: "Good condition" },
+      { key: "Est. action needed", val: "Caulk + weatherstrip refresh",     tone: "amber" },
+    ],
+    callout: { type: "urgent", text: "Fogged IGU in front bedroom indicates seal failure. Weatherstripping on garage and patio door should be replaced before next winter.", cost: "$80–$200 DIY / $300–$600 window" },
+  },
+};
+
+const calendarData = {
+  March: [
+    { text: "Apply pre-emergent herbicide before soil reaches 55°F", urgent: false },
+    { text: "Prune Silver Maple — Feb–Mar window, don't delay", urgent: true },
+    { text: "Aerate lawn if compacted areas observed", urgent: false },
+    { text: "Sow cool-season grass seed in bare patches", urgent: false },
+  ],
+  April: [
+    { text: "Mulch tree rings 2–3\" deep (keep 3\" clear of trunk)", urgent: false },
+    { text: "First mow at 3.5\" blade height — don't cut lower", urgent: false },
+    { text: "Check and activate irrigation system", urgent: false },
+    { text: "Plant cool-season annuals in containers", urgent: false },
+  ],
+  May: [
+    { text: "Apply slow-release lawn fertilizer", urgent: false },
+    { text: "Treat arborvitae scale insects with horticultural oil before new growth", urgent: true },
+    { text: "Trim hedges and foundation plantings", urgent: false },
+    { text: "Inspect deck surface — seal if not done", urgent: true },
+  ],
+  June: [
+    { text: "Water lawn deeply 1× per week (1 inch minimum)", urgent: false },
+    { text: "Deadhead spent perennials to encourage reblooming", urgent: false },
+    { text: "Check downspout extensions after heavy rain events", urgent: false },
+    { text: "Weed control — apply post-emergent as needed", urgent: false },
+  ],
+  September: [
+    { text: "Overseed bare and thin patches with tall fescue blend", urgent: false },
+    { text: "Apply fall lawn fertilizer (high-potassium blend)", urgent: false },
+    { text: "Cut back overgrown perennials", urgent: false },
+    { text: "Clean gutters — first pass before leaf drop", urgent: true },
+  ],
+  October: [
+    { text: "Plant spring-flowering bulbs (tulips, daffodils)", urgent: false },
+    { text: "Final mow at 3\" height before dormancy", urgent: false },
+    { text: "Winterize and drain irrigation system before first freeze", urgent: true },
+    { text: "Rake and compost fallen leaves", urgent: false },
+  ],
+  November: [
+    { text: "Prune Red Oak and Norway Spruce (dormant season)", urgent: false },
+    { text: "Wrap or stake young/tender trees for winter protection", urgent: false },
+    { text: "Final gutter cleaning after all leaves have fallen", urgent: true },
+    { text: "Inspect and re-caulk windows, doors, and foundation penetrations", urgent: false },
+  ],
+};
+
+const treeInventory = [
+  { name: "Silver Maple",    age: "~20 yr", location: "Front left",   status: "healthy",   pruneWindow: "Feb–Mar",       note: "Crown thinning due 2026. Schedule arborist.", attention: true },
+  { name: "Norway Spruce",   age: "~15 yr", location: "Back right",   status: "healthy",   pruneWindow: "Late winter",    note: "No action needed currently." },
+  { name: "Red Oak",         age: "~25 yr", location: "Back left",    status: "healthy",   pruneWindow: "Nov–Mar",        note: "Native, low maintenance." },
+  { name: "Arborvitae (×3)", age: "~10 yr", location: "Side fence",   status: "attention", pruneWindow: "After treatment",note: "Scale insects detected — treat before pruning.", attention: true },
+];
+
+const diagItems = [
+  { icon: "🌲", plant: "Arborvitae ×3",     issue: "Scale insects — moderate severity", status: "attention", treatment: "Apply horticultural oil spray before new growth in early spring. Coat all branches. Repeat in 10–14 days if needed.", diy: true },
+  { icon: "🌱", plant: "Lawn — South Zone", issue: "Thin coverage — low severity",       status: "fair",      treatment: "Overseed in September with tall fescue blend for Zone 5A. Rake and top-dress with compost before seeding.", diy: true },
+];
+
+const weatherAlerts = [
+  { id: 1, type: "advisory", icon: "🌡️", badge: "Frost Advisory", text: "Frost warning tonight — protect tender annuals and container plants." },
+  { id: 2, type: "info",     icon: "🌧️", badge: "Rain Alert",     text: "Heavy rain expected Thursday — verify downspout extensions are clear." },
+];
+
+const AI_QUICK_PROMPTS = [
+  "What's wrong with my arborvitae?",
+  "When should I aerate my lawn?",
+  "How do I protect my Silver Maple?",
+];
+
+const AUTO_PROMPT = "It's March in Lehigh Valley PA Zone 5A. What are the 3 most important things I should do in my yard this week? Be specific and practical. Keep it to 3 numbered items.";
+
+/* ══════ HELPERS ══════ */
+function pillClass(s) {
+  const m = { good:"good", healthy:"good", attention:"attention", moderate:"moderate", low:"low", fair:"fair", high:"high" };
+  return "pill pill-" + (m[s] || "good");
+}
+function pillLabel(s) {
+  const m = { good:"Good", healthy:"Healthy", attention:"Attention", moderate:"Moderate", low:"Low", fair:"Fair", high:"High" };
+  return m[s] || (s.charAt(0).toUpperCase() + s.slice(1));
+}
+function rpillClass(s) {
+  const m = { good:"good", healthy:"good", attention:"attention", moderate:"moderate", low:"low", fair:"fair", high:"attention" };
+  return "rpill rpill-" + (m[s] || "good");
+}
+
+/* ══════ SCORE FEED FOOTER ══════ */
+function ScoreFeed({ type }) {
+  if (type === "score") return (
+    <div className="score-feed">
+      <span className="score-feed-label">Feeds Home Health Score</span>
+      <span className="score-feed-pill score-feed-pill-green">
+        <span className="score-feed-dot"></span> Active Input
+      </span>
+    </div>
+  );
+  return (
+    <div className="score-feed">
+      <span className="score-feed-label">Feeds Homeowner Engagement</span>
+      <span className="score-feed-pill score-feed-pill-gold">
+        <span className="score-feed-dot"></span> Active Input
+      </span>
+    </div>
+  );
+}
+
+/* ══════ COMPONENTS ══════ */
+
+function TopBar() {
+  return (
+    <div className="topbar">
+      <div className="topbar-logo">HOM<span>I</span></div>
+      <div className="topbar-address">142 Maple Ridge Drive, Allentown PA 18104</div>
+      <div className="topbar-score">
+        <span className="topbar-score-label">Home Health</span>
+        <span className="topbar-score-value">74</span>
+      </div>
+    </div>
+  );
+}
+
+function PropHeader() {
+  return (
+    <div className="prop-header">
+      <div>
+        <div className="prop-header-record">Exterior Intelligence Record</div>
+        <h1>142 Maple Ridge Drive</h1>
+        <div className="prop-header-sub">Allentown PA 18104 &nbsp;·&nbsp; Built 2004 &nbsp;·&nbsp; 2,847 sq ft &nbsp;·&nbsp; Zone 5A</div>
+      </div>
+      <div className="prop-meta">
+        <div className="prop-meta-item">
+          <div className="prop-meta-label">Climate Zone</div>
+          <div className="prop-meta-value">5A</div>
+        </div>
+        <div className="prop-meta-item">
+          <div className="prop-meta-label">Wind Zone</div>
+          <div className="prop-meta-value">II</div>
+        </div>
+        <div className="prop-meta-item">
+          <div className="prop-meta-label">Snow Load</div>
+          <div className="prop-meta-value">25 psf</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── TAB 1 COMPONENTS ─── */
+
+function UrgentBanner() {
+  const [dismissed, setDismissed] = useState(false);
+  if (dismissed) return null;
+  return (
+    <div className="urgent-banner">
+      <span className="urgent-banner-icon">🚨</span>
+      <div className="urgent-banner-body">
+        <div className="urgent-banner-label">Action Required — Foundation Risk</div>
+        <div className="urgent-banner-text">
+          <strong>Two downspouts discharge within 18" of the foundation.</strong> This is the highest-priority action on this property. Extend discharge before the next heavy rain.
+        </div>
+        <span className="urgent-banner-cost">Est. $40–$120 DIY with flex extensions</span>
+      </div>
+      <button onClick={() => setDismissed(true)} style={{background:"none",border:"none",cursor:"pointer",color:"rgba(254,226,226,0.5)",fontSize:"16px",flexShrink:0,padding:0}}>✕</button>
+    </div>
+  );
+}
+
+function RiskStrip() {
+  return (
+    <div className="risk-strip">
+      {riskItems.map(item => {
+        const cls = item.alert ? "risk-item risk-item-alert" : item.warn ? "risk-item risk-item-warn" : "risk-item risk-item-default";
+        return (
+          <div className={cls} key={item.label}>
+            <div className="risk-item-label">{item.label}</div>
+            <div className="risk-item-status">
+              <span className={rpillClass(item.status)}><span className="rpill-dot"></span>{pillLabel(item.status)}</span>
+            </div>
+            <div className="risk-item-detail">{item.detail}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function DrainageCard() {
+  return (
+    <div className="card urgent-card">
+      <div className="card-header">
+        <div className="card-title">💧 Drainage & Water Risk</div>
+      </div>
+      {drainageItems.map(item => (
+        <div className="data-row" key={item.name}>
+          <div className="data-row-left">
+            <div className="data-row-label">{item.name}</div>
+            <div className="data-row-note">{item.note}</div>
+          </div>
+          <div className="data-row-right">
+            <span className={pillClass(item.status)}><span className="pill-dot"></span>{pillLabel(item.status)}</span>
+          </div>
+        </div>
+      ))}
+      <div className="callout callout-urgent">
+        <span className="callout-icon">⚠️</span>
+        <div className="callout-text">
+          <strong>Extend downspouts minimum 4 ft from foundation.</strong> Discharge within 18" raises foundation water intrusion risk, especially with clay-loam soil.
+          <span className="cost-inline">$40–$120 DIY</span>
+        </div>
+      </div>
+      <ScoreFeed type="score" />
+    </div>
+  );
+}
+
+function BuildingEnvelopeCard() {
+  const [active, setActive] = useState("roof");
+  const d = envelopeData[active];
+  const tabs = [
+    { key:"roof",       label:"🏠 Roof" },
+    { key:"siding",     label:"🪟 Siding" },
+    { key:"foundation", label:"🏗 Foundation" },
+    { key:"windows",    label:"🚪 Windows & Doors" },
+  ];
+  return (
+    <div className="card">
+      <div className="card-header">
+        <div className="card-title">🏡 Building Envelope</div>
+      </div>
+      <div className="env-inner-tabs">
+        {tabs.map(t => (
+          <button key={t.key} onClick={() => setActive(t.key)}
+            className={"env-tab " + (active===t.key ? "env-tab-active" : "env-tab-inactive")}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"18px",alignItems:"start"}}>
+        <div>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"10px"}}>
+            <div>
+              <div style={{fontSize:"17px",fontWeight:700,color:"var(--text)",marginBottom:"3px"}}>{d.name}</div>
+              <div style={{fontSize:"12px",color:"var(--text-muted)"}}>{d.sub}</div>
+            </div>
+            <span className={pillClass(d.status)}><span className="pill-dot"></span>{pillLabel(d.status)}</span>
+          </div>
+          <div className="envelope-rows">
+            {d.items.map(row => (
+              <div className="envelope-row" key={row.key}>
+                <span className="envelope-row-key">{row.key}</span>
+                <span className={"envelope-row-val" + (row.tone ? " "+row.tone : "")}>{row.val}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{
+          background: d.callout.type==="urgent" ? "#FFFBF5" : "var(--green-pale)",
+          border: "1px solid " + (d.callout.type==="urgent" ? "rgba(217,119,6,0.3)" : "rgba(82,183,136,0.3)"),
+          borderLeft: "3px solid " + (d.callout.type==="urgent" ? "var(--amber)" : "var(--green-light)"),
+          borderRadius:"12px", padding:"16px",
+        }}>
+          <div style={{fontSize:"10px",fontWeight:700,textTransform:"uppercase",letterSpacing:"1px",color:d.callout.type==="urgent"?"var(--amber)":"var(--green)",marginBottom:"8px"}}>
+            {d.callout.type==="urgent" ? "⚠ Recommended Action" : "✓ Maintenance Note"}
+          </div>
+          <div style={{fontSize:"12.5px",color:"var(--text)",lineHeight:"1.55"}}>{d.callout.text}</div>
+          <div style={{marginTop:"10px",display:"inline-block",fontSize:"12.5px",fontWeight:700,
+            background:d.callout.type==="urgent"?"var(--amber-pale)":"rgba(255,255,255,0.7)",
+            color:d.callout.type==="urgent"?"var(--amber)":"var(--green)",
+            padding:"4px 10px",borderRadius:"6px",
+            border:"1px solid "+(d.callout.type==="urgent"?"var(--amber-border)":"rgba(82,183,136,0.3)")}}>
+            Est. {d.callout.cost}
+          </div>
+        </div>
+      </div>
+      <ScoreFeed type="score" />
+    </div>
+  );
+}
+
+function HardscapeCard() {
+  return (
+    <div className="card">
+      <div className="card-header">
+        <div className="card-title">🧱 Hardscape Structures</div>
+      </div>
+      <div className="hardscape-grid">
+        {hardscapeItems.map(item => (
+          <div className={"hardscape-item" + (item.urgent ? " needs-attention" : "")} key={item.name}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"4px"}}>
+              <div className="hardscape-name">{item.name}</div>
+              <span className={pillClass(item.status)}><span className="pill-dot"></span>{pillLabel(item.status)}</span>
+            </div>
+            <div className="hardscape-meta">Installed {item.installed} &nbsp;·&nbsp; {2025-item.installed} years old</div>
+            <div className="hardscape-note">{item.note}</div>
+            {item.cost && (
+              <div className="hardscape-cost">
+                <span className={"cost-tag " + (item.urgent ? "cost-tag-amber" : "cost-tag-green")}>
+                  Est. repair: {item.cost}
+                </span>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <ScoreFeed type="score" />
+    </div>
+  );
+}
+
+function TreeRiskCard() {
+  const [expanded, setExpanded] = useState(null);
+  return (
+    <div className="card">
+      <div className="card-header">
+        <div className="card-title">🌳 Tree Proximity Risk</div>
+        <span style={{fontSize:"11.5px",color:"var(--text-muted)",background:"var(--cream)",padding:"4px 10px",borderRadius:"8px",border:"1px solid var(--border)"}}>Tap to expand</span>
+      </div>
+      <div className="tree-grid">
+        {treeRisks.map(tree => (
+          <div key={tree.name}
+            className={"tree-card" + (expanded===tree.name ? " expanded" : "")}
+            onClick={() => setExpanded(expanded===tree.name ? null : tree.name)}>
+            <div className="tree-card-top">
+              <div>
+                <div className="tree-card-name">{tree.name}</div>
+                <span className={pillClass(tree.risk)}><span className="pill-dot"></span>{pillLabel(tree.risk)} Risk</span>
+              </div>
+              <div style={{textAlign:"right"}}>
+                <div className="tree-dist-num">{tree.dist}<span style={{fontSize:"13px",fontFamily:"'DM Sans'",fontWeight:500}}> ft</span></div>
+                <div className="tree-dist-unit">from structure</div>
+              </div>
+            </div>
+            {expanded !== tree.name
+              ? <div className="tree-expand-hint">▸ View risk detail</div>
+              : <div className="tree-detail">{tree.detail}</div>
+            }
+          </div>
+        ))}
+      </div>
+      <ScoreFeed type="score" />
+    </div>
+  );
+}
+
+function WeatherCard() {
+  return (
+    <div className="card">
+      <div className="card-header">
+        <div className="card-title">🌦 Weather Impact Profile</div>
+        <span style={{fontSize:"11.5px",background:"var(--green-pale)",color:"var(--green)",padding:"4px 11px",borderRadius:"8px",fontWeight:600}}>IECC Zone 5A</span>
+      </div>
+
+      <div className="section-label" style={{marginBottom:"10px"}}>Primary Climate Metrics</div>
+      <div className="weather-grid">
+        <div className="weather-metric">
+          <div className="weather-metric-icon">🧊</div>
+          <div className="weather-metric-value">80</div>
+          <div className="weather-metric-label">Freeze Cycles / yr</div>
+          <div className="weather-metric-detail">Affects roof & plumbing</div>
+        </div>
+        <div className="weather-metric">
+          <div className="weather-metric-icon">⛈️</div>
+          <div className="weather-metric-value" style={{fontSize:"15px"}}>Moderate</div>
+          <div className="weather-metric-label">Hail Frequency</div>
+          <div className="weather-metric-detail">−3 pts on roof score</div>
+        </div>
+        <div className="weather-metric">
+          <div className="weather-metric-icon">🌊</div>
+          <div className="weather-metric-value" style={{fontSize:"15px",color:"var(--blue)"}}>Low</div>
+          <div className="weather-metric-label">Flood Risk</div>
+          <div className="weather-metric-detail">FEMA Zone X — outside 500-yr floodplain</div>
+        </div>
+        <div className="weather-metric">
+          <div className="weather-metric-icon">💨</div>
+          <div className="weather-metric-value" style={{fontSize:"15px"}}>Moderate</div>
+          <div className="weather-metric-label">Storm Exposure</div>
+          <div className="weather-metric-detail">Wind Zone II — 115 mph design</div>
+        </div>
+      </div>
+
+      <div className="section-label" style={{marginTop:"16px",marginBottom:"10px"}}>Secondary Factors</div>
+      <div className="weather-secondary">
+        <div className="wsec">
+          <div className="wsec-label">Snow Load</div>
+          <div className="wsec-value">25 psf ground</div>
+          <div style={{fontSize:"10.5px",color:"var(--blue)",marginTop:"2px"}}>20 psf roof</div>
+        </div>
+        <div className="wsec">
+          <div className="wsec-label">Lightning</div>
+          <div className="wsec-value">Moderate density</div>
+        </div>
+        <div className="wsec">
+          <div className="wsec-label">Soil Type</div>
+          <div className="wsec-value">Clay-loam</div>
+          <div style={{fontSize:"10.5px",color:"var(--blue)",marginTop:"2px"}}>Moderate drainage</div>
+        </div>
+        <div className="wsec">
+          <div className="wsec-label">Wetland</div>
+          <div className="wsec-value" style={{color:"var(--green-mid)"}}>None designated</div>
+        </div>
+      </div>
+
+      <div className="weather-footer">
+        <div style={{fontWeight:700,marginBottom:"8px"}}>🏠 Zone 5A Score Adjustments Applied</div>
+        <div style={{marginBottom:"10px",lineHeight:1.6}}>
+          80 freeze/thaw cycles per year accelerate deterioration of decks, walkways, siding, and roofing. The roof at 21 years is within the Zone 5A replacement window (20–25 yrs). Moderate hail frequency is factored into projected lifespan for both roofing and cladding.
+        </div>
+        <div className="weather-score-adjustments">
+          <span className="wscore-tag wscore-tag-amber">Roof −3 pts</span>
+          <span className="wscore-tag wscore-tag-amber">HVAC −2 pts</span>
+          <span className="wscore-tag wscore-tag-amber">Exterior −2 pts</span>
+          <span className="wscore-tag wscore-tag-blue">Plumbing −1 pt</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── TAB 2 COMPONENTS ─── */
+
+function AIAdvisorPanel() {
+  const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState("");
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const inputRef = useRef(null);
+
+  async function callAI(prompt) {
+    setLoading(true);
+    setResponse("");
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          system: "You are HOMI's AI property advisor. This property is at 142 Maple Ridge Drive, Allentown PA 18104. It was built in 2004, is 2,847 sq ft, in IECC Climate Zone 5A (Lehigh Valley PA). The yard has: a Silver Maple 18ft from the house (crown thinning due 2026), a Norway Spruce 35ft away, a Red Oak 42ft away, and 3 Arborvitae with scale insects along the side fence. The lawn has thin coverage in the south zone. There are gutters with partial blockage at the NE corner, and two downspouts discharging within 18\" of the foundation. Keep responses concise, practical, and specific to this property.",
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+      const data = await res.json();
+      const text = data.content && data.content[0] && data.content[0].text;
+      setResponse(text || "Sorry, I couldn't get a response. Please try again.");
+    } catch(e) {
+      setResponse("Unable to connect to the AI advisor right now. Please try again in a moment.");
+    }
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    if (!hasLoaded) {
+      setHasLoaded(true);
+      callAI(AUTO_PROMPT);
+    }
+  }, []);
+
+  function handleSend() {
+    if (!input.trim() || loading) return;
+    callAI(input.trim());
+    setInput("");
+  }
+
+  function handleKey(e) {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
+  }
+
+  return (
+    <div className="ai-panel">
+      <div className="ai-panel-header">
+        <div className="ai-panel-title">
+          <span>✦</span> HOMI AI Advisor
+        </div>
+        <span className="ai-panel-badge">Powered by Claude</span>
+      </div>
+
+      <div className="ai-response-box">
+        {loading ? (
+          <div className="loading">
+            <div className="ai-typing-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <span style={{fontSize:"12px"}}>Thinking about your property…</span>
+          </div>
+        ) : response ? (
+          <span style={{whiteSpace:"pre-wrap"}}>{response}</span>
+        ) : (
+          <span style={{color:"rgba(255,255,255,0.35)",fontStyle:"italic"}}>Ask anything about your yard, trees, or landscaping…</span>
+        )}
+      </div>
+
+      <div className="section-label" style={{color:"rgba(255,255,255,0.45)",marginBottom:"8px"}}>Quick questions</div>
+      <div className="ai-quick-prompts">
+        {AI_QUICK_PROMPTS.map(q => (
+          <button key={q} className="ai-quick-btn" disabled={loading} onClick={() => callAI(q)}>{q}</button>
+        ))}
+      </div>
+
+      <div className="ai-input-row">
+        <input
+          ref={inputRef}
+          className="ai-input"
+          placeholder="Ask about your yard, trees, or lawn care…"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={handleKey}
+          disabled={loading}
+        />
+        <button className="ai-send-btn" onClick={handleSend} disabled={loading || !input.trim()}>
+          {loading ? "…" : "Ask →"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function AlertsSection({ alertItems }) {
+  const [dismissed, setDismissed] = useState([]);
+  const visible = alertItems.filter(a => !dismissed.includes(a.id));
+  if (!visible.length) return null;
+  return (
+    <div style={{marginBottom:"20px"}}>
+      <div className="section-label">⚡ Active Weather Alerts</div>
+      {visible.map(a => (
+        <div key={a.id} className={"alert-banner " + a.type}>
+          <div className="alert-left">
+            <span className="alert-icon">{a.icon}</span>
+            <div className="alert-text"><span className="alert-badge">{a.badge}</span>{a.text}</div>
+          </div>
+          <button className="alert-dismiss" onClick={() => setDismissed(d => [...d, a.id])}>✕</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function TreeInventoryCard() {
+  return (
+    <div className="card">
+      <div className="card-header">
+        <div className="card-title">🌲 Tree Inventory</div>
+        <span style={{fontSize:"11px",color:"var(--text-muted)"}}>4 trees on property</span>
+      </div>
+      <div className="tree-inv-header">
+        <div className="tree-inv-col-label">Species</div>
+        <div className="tree-inv-col-label">Age / Location</div>
+        <div className="tree-inv-col-label">Status</div>
+        <div className="tree-inv-col-label">Prune Window</div>
+        <div className="tree-inv-col-label">Care Notes</div>
+      </div>
+      {treeInventory.map(t => (
+        <div className="tree-inv-row" key={t.name}>
+          <div><div className="tree-inv-name">{t.name}</div></div>
+          <div><div className="tree-inv-sub">{t.age}</div><div className="tree-inv-sub">{t.location}</div></div>
+          <div><span className={pillClass(t.status)}><span className="pill-dot"></span>{pillLabel(t.status)}</span></div>
+          <div className="tree-inv-note" style={{color:"var(--text-muted)",fontSize:"12px"}}>{t.pruneWindow}</div>
+          <div className="tree-inv-note">
+            {t.note}
+            {t.attention && <div><span className="action-tag">⚠ Requires action</span></div>}
+          </div>
+        </div>
+      ))}
+      <ScoreFeed type="engagement" />
+    </div>
+  );
+}
+
+function PlantDiagCard() {
+  return (
+    <div className="card">
+      <div className="card-header">
+        <div className="card-title">🔬 Plant Health Diagnostics</div>
+      </div>
+      <div className="diag-grid">
+        {diagItems.map(d => (
+          <div className="diag-card" key={d.plant}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"6px"}}>
+              <div>
+                <div style={{fontSize:"22px",marginBottom:"5px"}}>{d.icon}</div>
+                <div className="diag-plant">{d.plant}</div>
+              </div>
+              <span className={pillClass(d.status)}><span className="pill-dot"></span>{pillLabel(d.status)}</span>
+            </div>
+            <div className="diag-issue">Issue: {d.issue}</div>
+            <div className="diag-treatment">{d.treatment}</div>
+            {d.diy && <div className="diag-diy">✓ DIY Friendly</div>}
+          </div>
+        ))}
+        <div className="diag-card coming-soon">
+          <div style={{fontSize:"32px"}}>📷</div>
+          <div className="coming-soon-label">AI Plant ID</div>
+          <div className="coming-soon-sub">Coming soon — upload a photo to identify plant issues instantly</div>
+        </div>
+      </div>
+      <ScoreFeed type="engagement" />
+    </div>
+  );
+}
+
+function CalendarCard() {
+  const months = Object.keys(calendarData);
+  const [selected, setSelected] = useState("March");
+  const tasks = calendarData[selected] || [];
+  return (
+    <div className="card">
+      <div className="card-header">
+        <div className="card-title">📅 Seasonal Maintenance Calendar</div>
+        <span style={{fontSize:"11.5px",background:"var(--green-pale)",color:"var(--green)",padding:"4px 11px",borderRadius:"8px",fontWeight:600}}>Zone 5A — Lehigh Valley PA</span>
+      </div>
+      <div className="month-pills">
+        {months.map(m => (
+          <button key={m} className={"month-pill"+(selected===m?" active":"")} onClick={() => setSelected(m)}>{m}</button>
+        ))}
+      </div>
+      <div className="cal-tasks">
+        {tasks.map((task, i) => (
+          <div key={i} className={"cal-task"+(task.urgent?" priority":"")}>
+            <div className={"cal-dot"+(task.urgent?" urgent":"")}></div>
+            <div className="cal-task-text">
+              {task.urgent && <span className="priority-tag">PRIORITY</span>}
+              {task.text}
+            </div>
+          </div>
+        ))}
+      </div>
+      <ScoreFeed type="engagement" />
+    </div>
+  );
+}
+
+function ServiceLayer() {
+  return (
+    <div>
+      <div className="section-label" style={{marginBottom:"14px"}}>🤝 Find a Service Provider</div>
+      <div className="service-grid">
+        <div className="service-card sc-arborist">
+          <div className="svc-icon">🌳</div>
+          <div className="svc-title">Find an Arborist</div>
+          <div className="svc-sub">Silver Maple crown thinning due 2026. Get a certified arborist assessment now.</div>
+          <button className="svc-cta">Browse HOMI Network →</button>
+        </div>
+        <div className="service-card sc-landscaper">
+          <div className="svc-icon">🏡</div>
+          <div className="svc-title">Find a Landscaper</div>
+          <div className="svc-sub">Seasonal mulching, grading corrections, and spring clean-up services.</div>
+          <button className="svc-cta">Browse HOMI Network →</button>
+        </div>
+        <div className="service-card sc-lawn">
+          <div className="svc-icon">🌿</div>
+          <div className="svc-title">Lawn Care Pros</div>
+          <div className="svc-sub">Overseeding, fertilizer programs, and arborvitae treatment specialists.</div>
+          <button className="svc-cta">Browse HOMI Network →</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════ APP ══════ */
+function App() {
+  const [tab, setTab] = useState("exterior");
+  return (
+    <div>
+      <TopBar />
+      <div className="app-wrap">
+        <PropHeader />
+        <div className="tab-switcher">
+          <button className={"tab-btn"+(tab==="exterior"?" active":"")} onClick={() => setTab("exterior")}>
+            <span className="tab-btn-icon">🏗</span>
+            <div>Exterior Systems<span className="tab-btn-sub">Structural + Risk</span></div>
+          </button>
+          <button className={"tab-btn"+(tab==="landscaping"?" active":"")} onClick={() => setTab("landscaping")}>
+            <span className="tab-btn-icon">🌿</span>
+            <div>Landscaping & Grounds<span className="tab-btn-sub">Care + Engagement</span></div>
+          </button>
+        </div>
+
+        {tab === "exterior" && (
+          <div>
+            <UrgentBanner />
+            <div className="section-label">Exterior Risk Summary</div>
+            <RiskStrip />
+            <DrainageCard />
+            <BuildingEnvelopeCard />
+            <HardscapeCard />
+            <TreeRiskCard />
+            <WeatherCard />
+          </div>
+        )}
+
+        {tab === "landscaping" && (
+          <div>
+            <AlertsSection alertItems={weatherAlerts} />
+            <AIAdvisorPanel />
+            <TreeInventoryCard />
+            <PlantDiagCard />
+            <CalendarCard />
+            <div className="card">
+              <ServiceLayer />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

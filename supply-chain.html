@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HOMI — Supply Chain Intelligence | Lehigh Valley PA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+/* ── TOKENS ── */
+:root{
+  --g:#1C4A2E;--gm:#2D6A4F;--gl:#52B788;--gp:#D8F3DC;
+  --cr:#FAF6F0;--cd:#F0E9DC;
+  --go:#C9963A;--gl2:#E8B84B;--gop:#FDF3E0;
+  --am:#D97706;--ap:#FEF3C7;
+  --bl:#2563A8;--bp:#EBF2FB;
+  --rd:#C0392B;--rp:#FDECEA;
+  --tl:#0D9488;--tp:#CCFBF1;
+  --pu:#7B3FA0;--pp:#F3E8FF;
+  --tx:#1A1A1A;--tm:#8A8A8A;--br:#E4DDD3;--wh:#FFFFFF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--tx);font-size:14px;line-height:1.5;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--cd);}
+::-webkit-scrollbar-thumb{background:var(--gm);border-radius:3px;}
+
+/* ── NAV ── */
+.nav{background:var(--g);height:54px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300;box-shadow:0 2px 20px rgba(0,0,0,0.28);}
+.nl{display:flex;align-items:center;gap:12px;}
+.logo{width:30px;height:30px;background:var(--go);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:white;}
+.bn{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:white;line-height:1;}
+.bs{font-size:9px;font-weight:600;color:var(--gl);letter-spacing:2px;text-transform:uppercase;}
+.nd{width:1px;height:22px;background:rgba(255,255,255,0.15);}
+.nbg{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);border-radius:4px;padding:3px 10px;font-size:11px;font-weight:500;color:rgba(255,255,255,0.8);}
+.pd{width:6px;height:6px;border-radius:50%;background:var(--gl2);animation:pulse-dot 2s infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+.nr{display:flex;align-items:center;gap:8px;}
+.nb{background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);color:white;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:5px 12px;border-radius:4px;cursor:pointer;transition:all 0.15s;}
+.nb:hover{background:rgba(255,255,255,0.18);}
+.nb-go{background:var(--go);border-color:var(--go);}
+.nb-go:hover{background:var(--gl2);}
+
+/* ── SIGNAL TICKER ── */
+.ticker{background:#0A1F12;border-bottom:1px solid rgba(255,255,255,0.07);padding:0 28px;height:36px;display:flex;align-items:center;overflow:hidden;}
+.ticker-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gl);margin-right:18px;white-space:nowrap;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.1);padding-right:18px;}
+.ticker-items{display:flex;gap:0;flex:1;overflow:hidden;}
+.ti{display:flex;align-items:center;gap:8px;padding:0 14px;border-right:1px solid rgba(255,255,255,0.07);white-space:nowrap;flex-shrink:0;}
+.ti-cat{font-size:11px;color:rgba(255,255,255,0.5);}
+.ti-val{font-size:11px;font-weight:700;color:var(--gl2);}
+.ti-chg{font-size:10px;font-weight:600;padding:1px 5px;border-radius:2px;background:rgba(82,183,136,0.2);color:var(--gl);}
+
+/* ── SECTION WRAPPER ── */
+.section{padding:28px 28px;}
+.section-alt{background:var(--wh);}
+.section-lbl{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--tm);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.section-lbl::before{content:'';display:block;width:16px;height:1px;background:var(--br);}
+.section-lbl::after{content:'';display:block;flex:1;height:1px;background:var(--br);}
+.section-heading{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--g);margin-bottom:4px;}
+.section-sub{font-size:13px;color:var(--tm);margin-bottom:20px;}
+.section-divider{height:1px;background:var(--br);margin:0;}
+
+/* ── CARD ── */
+.card{background:white;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.05),0 0 0 1px var(--br);overflow:hidden;}
+.pad{padding:18px 20px;}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.st{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.3px;color:var(--g);display:flex;align-items:center;gap:7px;}
+.st::before{content:'';display:block;width:3px;height:13px;background:var(--go);border-radius:2px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+
+/* ── MARKET OVERVIEW METRICS STRIP ── */
+.metrics-hero{background:linear-gradient(155deg,#071810 0%,#0F2D1C 40%,#183828 70%,#1A3D52 100%);padding:28px 28px 0;position:relative;overflow:hidden;}
+.metrics-hero::after{content:'';position:absolute;top:-60px;right:-60px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(82,183,136,0.06) 0%,transparent 70%);pointer-events:none;}
+.mh-eye{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gl);margin-bottom:8px;}
+.mh-head{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:white;line-height:1.2;margin-bottom:8px;max-width:560px;}
+.mh-head em{font-style:italic;color:var(--gl2);}
+.mh-sub{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.65;max-width:520px;margin-bottom:22px;}
+.metrics-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,0.08);margin:0 -28px;}
+.mk{padding:18px 20px;border-right:1px solid rgba(255,255,255,0.07);}
+.mk:last-child{border-right:none;}
+.mk-l{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,255,255,0.38);margin-bottom:5px;}
+.mk-v{font-size:36px;font-weight:700;color:white;line-height:1;font-family:'Playfair Display',serif;}
+.mk-v.gold{color:var(--gl2);}
+.mk-s{font-size:11px;color:rgba(255,255,255,0.38);margin-top:3px;}
+.mk-bar{height:2px;background:var(--gl);margin-top:10px;border-radius:1px;}
+
+/* ── PROACTIVE ALERT ── */
+.palert{background:white;border-bottom:2px solid var(--br);padding:14px 28px;display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:center;}
+.pa-ic{width:36px;height:36px;background:var(--gp);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pa-lbl{font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--gm);margin-bottom:3px;}
+.pa-msg{font-size:13px;color:var(--tx);line-height:1.55;}
+.pa-acts{display:flex;gap:7px;flex-shrink:0;}
+.pab{border:1px solid var(--br);background:var(--cr);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:6px 13px;border-radius:4px;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.pab:hover{background:var(--g);color:white;border-color:var(--g);}
+.pab.pri{background:var(--g);color:white;border-color:var(--g);}
+.pab.pri:hover{background:var(--gm);}
+
+/* ── CATEGORY DEMAND CARDS ── */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.cat-card{border:1px solid var(--br);border-radius:8px;padding:14px;cursor:pointer;transition:all 0.18s;position:relative;overflow:hidden;background:white;}
+.cat-card:hover{box-shadow:0 4px 14px rgba(0,0,0,0.09);transform:translateY(-1px);}
+.cat-card.active{box-shadow:0 0 0 2px var(--gp);border-color:var(--gm);}
+.cc-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--tm);margin-bottom:5px;}
+.cc-units{font-size:26px;font-weight:700;color:var(--tx);line-height:1;font-family:'Playfair Display',serif;}
+.cc-units-lbl{font-size:10px;color:var(--tm);margin-bottom:6px;}
+.cc-spend{font-size:14px;font-weight:700;color:var(--g);}
+.cc-row{display:flex;align-items:center;justify-content:space-between;margin-top:7px;}
+.cc-yoy{font-size:11px;font-weight:700;}
+.ub{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:0.4px;}
+.ub-h{background:var(--rp);color:var(--rd);}
+.ub-m{background:var(--ap);color:var(--am);}
+.ub-l{background:var(--gp);color:var(--gm);}
+.cc-peak{font-size:10px;color:var(--tm);margin-top:4px;}
+.cc-bar{height:3px;background:var(--cd);border-radius:2px;margin-top:8px;overflow:hidden;}
+.cc-bar-fill{height:100%;border-radius:2px;}
+
+/* ── MAP ── */
+.map-layout{display:grid;grid-template-columns:1fr 290px;gap:0;border-radius:8px;overflow:hidden;border:1px solid var(--br);}
+.map-z{background:#EDE8E1;position:relative;}
+.zip-pnl{background:white;border-left:1px solid var(--br);display:flex;flex-direction:column;overflow:hidden;max-height:340px;}
+.zp-hdr{padding:11px 14px;border-bottom:1px solid var(--br);background:var(--cr);flex-shrink:0;}
+.zp-htitle{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--g);}
+.zp-hsub{font-size:10px;color:var(--tm);margin-top:1px;}
+.zp-list{overflow-y:auto;flex:1;}
+.zp-row{padding:10px 14px;border-bottom:1px solid var(--cd);cursor:pointer;transition:background 0.12s;}
+.zp-row:hover{background:var(--cr);}
+.zp-row.sel{background:var(--gp);border-left:3px solid var(--gm);}
+.zpr-top{display:flex;justify-content:space-between;align-items:baseline;}
+.zpr-zip{font-size:13px;font-weight:700;color:var(--tx);}
+.zpr-score{font-size:14px;font-weight:700;}
+.zpr-name{font-size:10px;color:var(--tm);margin-bottom:3px;}
+.zpr-homes{font-size:11px;font-weight:500;color:var(--g);}
+.map-leg{position:absolute;bottom:10px;right:10px;background:rgba(255,255,255,0.97);border:1px solid var(--br);border-radius:6px;padding:8px 11px;}
+.zip-detail{padding:12px 14px;flex:1;overflow-y:auto;}
+.zd-top{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px;}
+.zd-kv{background:var(--cr);border-radius:5px;padding:8px 10px;}
+.zd-k{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.7px;color:var(--tm);margin-bottom:2px;}
+.zd-v{font-size:16px;font-weight:700;color:var(--g);}
+.sar-header{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;}
+.sar-sys{font-weight:600;color:var(--tx);}
+
+/* ── SUPPLY CHAIN TABLE ── */
+.sc-table{width:100%;border-collapse:collapse;}
+.sc-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--tm);padding:8px 12px;text-align:left;border-bottom:1px solid var(--br);background:var(--cr);white-space:nowrap;}
+.sc-table th.sort{cursor:pointer;user-select:none;}
+.sc-table th.sort:hover{color:var(--g);}
+.sc-table td{padding:10px 12px;border-bottom:1px solid var(--cd);font-size:13px;vertical-align:middle;}
+.sc-table tr:last-child td{border-bottom:none;}
+.sc-table tr:hover td{background:var(--cr);}
+.action-pill{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:4px;text-transform:uppercase;letter-spacing:0.5px;}
+.ap-now{background:var(--rp);color:var(--rd);}
+.ap-q2{background:var(--ap);color:var(--am);}
+.ap-q3{background:var(--bp);color:var(--bl);}
+.ap-plan{background:var(--gp);color:var(--gm);}
+.delta-up{color:var(--rd);font-weight:700;}
+.delta-ok{color:var(--am);font-weight:700;}
+.delta-low{color:var(--gl);font-weight:700;}
+.gap-warn{background:var(--rp);border:1px solid #F5C6C2;border-radius:7px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;font-size:12px;}
+
+/* ── DEMAND TIMELINE ── */
+.tl-wrap{overflow-x:auto;}
+.tl-inner{min-width:680px;}
+.tl-cell{height:26px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;}
+.tc-pk{background:var(--rd);color:white;}
+.tc-hi{background:var(--am);color:white;}
+.tc-md{background:var(--ap);color:var(--am);}
+.tc-lo{background:var(--gp);color:var(--gm);}
+.tc-no{background:var(--cd);}
+
+/* ── PROMO / SIGNALS ── */
+.sf-item{display:grid;grid-template-columns:32px 1fr auto auto;gap:10px;align-items:center;padding:10px 12px;background:var(--cr);border-radius:6px;border:1px solid var(--br);margin-bottom:7px;}
+.sf-icon{font-size:18px;text-align:center;}
+.sf-cat{font-size:12px;font-weight:600;color:var(--tx);}
+.sf-reason{font-size:11px;color:var(--tm);}
+.sf-chg{font-size:16px;font-weight:700;}
+.sf-chg.up{color:var(--rd);}
+.sf-chg.warn{color:var(--am);}
+.sf-timing{font-size:10px;font-weight:600;padding:3px 8px;border-radius:3px;text-align:center;white-space:nowrap;}
+.sf-timing.now{background:var(--rp);color:var(--rd);}
+.sf-timing.q2{background:var(--ap);color:var(--am);}
+.sf-timing.q3{background:var(--bp);color:var(--bl);}
+.promo-item{border:1px solid var(--br);border-radius:7px;padding:12px 14px;margin-bottom:8px;border-left-width:3px;}
+.promo-timing-now{border-left-color:var(--rd);}
+.promo-timing-soon{border-left-color:var(--am);}
+.promo-timing-plan{border-left-color:var(--bl);}
+.promo-urgency-now{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--rd);}
+.promo-urgency-soon{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--am);}
+.promo-urgency-plan{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:var(--bl);}
+
+/* ── PARTNER INTELLIGENCE TABS ── */
+.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--br);margin-bottom:20px;overflow-x:auto;}
+.tab-btn{background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;padding:10px 18px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--tm);cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.tab-btn.active{color:var(--g);border-bottom-color:var(--g);}
+.tab-btn:hover{color:var(--tx);}
+.partner-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
+.pkv{background:var(--cr);border-radius:7px;padding:14px;}
+.pkv-l{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--tm);margin-bottom:4px;}
+.pkv-v{font-size:22px;font-weight:700;color:var(--g);font-family:'Playfair Display',serif;}
+.pkv-s{font-size:11px;color:var(--tm);margin-top:2px;}
+.partner-table{width:100%;border-collapse:collapse;font-size:12px;}
+.partner-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--tm);padding:7px 12px;text-align:left;border-bottom:1px solid var(--br);background:var(--cr);}
+.partner-table td{padding:9px 12px;border-bottom:1px solid var(--cd);vertical-align:middle;}
+.partner-table tr:last-child td{border-bottom:none;}
+.partner-table tr:hover td{background:var(--cr);}
+.partner-note{background:var(--gp);border:1px solid var(--gl);border-radius:6px;padding:12px 14px;font-size:12px;color:var(--g);line-height:1.6;margin-top:12px;}
+.partner-warn{background:var(--rp);border:1px solid #F5C6C2;border-radius:6px;padding:12px 14px;font-size:12px;color:var(--rd);line-height:1.6;margin-top:12px;}
+
+/* ── AI PANEL ── */
+.aip{background:white;border-radius:8px;border:1px solid var(--br);overflow:hidden;}
+.aip-hdr{background:var(--g);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+.aip-t{color:white;font-size:14px;font-weight:700;font-family:'Playfair Display',serif;}
+.aip-s{color:rgba(255,255,255,0.45);font-size:10px;margin-top:1px;}
+.aip-ctx{background:var(--gp);border-bottom:1px solid var(--gl);padding:8px 20px;font-size:11px;color:var(--g);font-weight:500;}
+.chips{padding:11px 20px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--br);}
+.chip{background:var(--cr);border:1px solid var(--br);color:var(--tx);font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;cursor:pointer;transition:all 0.15s;}
+.chip:hover{background:var(--g);color:white;border-color:var(--g);}
+.ai-in-row{padding:12px 20px;display:flex;gap:9px;}
+.ai-in{flex:1;border:1px solid var(--br);border-radius:6px;padding:9px 13px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color 0.15s;}
+.ai-in:focus{border-color:var(--gm);}
+.ai-go{background:var(--g);color:white;border:none;border-radius:6px;padding:9px 18px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background 0.15s;}
+.ai-go:hover{background:var(--gm);}
+.ai-go:disabled{background:var(--tm);cursor:not-allowed;}
+.ai-resp{margin:0 20px 18px;background:var(--cr);border:1px solid var(--br);border-radius:6px;padding:14px;font-size:13px;line-height:1.7;}
+.ai-resp-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.3px;color:var(--gm);margin-bottom:6px;}
+
+/* ── API PITCH ── */
+.api-tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+.api-tier{border:1px solid var(--br);border-radius:8px;padding:20px;}
+.api-tier.featured{border-color:var(--gm);background:var(--gp);}
+.api-tier-name{font-size:13px;font-weight:700;color:var(--g);margin-bottom:3px;}
+.api-tier-price{font-size:28px;font-weight:700;color:var(--tx);font-family:'Playfair Display',serif;margin-bottom:4px;}
+.api-tier-period{font-size:11px;color:var(--tm);margin-bottom:12px;}
+.api-tier-features{font-size:12px;color:var(--tm);line-height:1.9;margin-bottom:14px;}
+.api-tier-features li{list-style:none;padding-left:14px;position:relative;}
+.api-tier-features li::before{content:'✓';position:absolute;left:0;color:var(--gl);font-weight:700;}
+.code-block{background:#0D1117;border-radius:7px;padding:16px;font-family:'Courier New',monospace;font-size:11px;color:#c9d1d9;overflow-x:auto;line-height:1.65;margin-bottom:16px;}
+.ck{color:#79c0ff;}.cs{color:#a5d6ff;}.cn{color:#f0883e;}
+
+/* ── SALES CONNECT ── */
+.connect-panel{border:2px dashed var(--br);border-radius:8px;padding:24px;text-align:center;background:white;}
+.cp-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;opacity:0.35;}
+.cpp{background:var(--cr);border-radius:6px;padding:12px;}
+.cpp-l{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--tm);margin-bottom:3px;}
+.cpp-v{font-size:18px;font-weight:700;color:var(--g);}
+.cpp-s{font-size:10px;color:var(--tm);}
+
+/* ── UTILS ── */
+.dots::after{content:'...';animation:dt 1.2s infinite steps(4,end);}
+@keyframes dt{0%{content:'.'}33%{content:'..'}66%{content:'...'}100%{content:'.'}}
+.cta-btn{background:var(--g);color:white;border:none;border-radius:6px;padding:11px 24px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background 0.15s;}
+.cta-btn:hover{background:var(--gm);}
+.cta-btn-gold{background:var(--go);}
+.cta-btn-gold:hover{background:var(--gl2);}
+
+/* ── PRINT STYLES ── */
+@media print{
+  .nav,.ticker,.nb,.pab,.nb-go,.ai-in-row,.chips,.tab-bar,.nr{display:none!important;}
+  .metrics-hero{background:#1C4A2E!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .section{padding:16px 0!important;}
+  .card{box-shadow:none!important;border:1px solid #E4DDD3!important;}
+  body{background:white!important;font-size:12px!important;}
+  .cat-grid{grid-template-columns:repeat(4,1fr)!important;}
+  .map-layout{grid-template-columns:1fr!important;}
+  .zip-pnl{display:none!important;}
+  .aip-hdr,.aip-ctx,.chips,.ai-in-row,.ai-resp{display:none!important;}
+  h1,h2{page-break-after:avoid;}
+  .section-alt{background:white!important;}
+  @page{margin:1.5cm;size:A4;}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect} = React;
+
+// ── DATA ─────────────────────────────────────────────────────────────────────
+
+const TOTAL_HOMES = 2184;
+const TOTAL_MKT   = '$34.7M';
+const AVG_HEALTH  = 71;
+
+const CATEGORIES = [
+  {id:'hvac',       icon:'❄️', name:'HVAC Systems',        units:'412',  unitsRaw:412,  spend:'$3.7M',  spendRaw:3700000,  yoy:27, urgency:'high', peak:'Apr–Jun', color:'#C0392B', barPct:88, orderAction:'Order Now',  qtr:'Q2 2026'},
+  {id:'roof',       icon:'🏠', name:'Roofing & Materials', units:'198',  unitsRaw:198,  spend:'$4.5M',  spendRaw:4500000,  yoy:14, urgency:'high', peak:'Mar–May', color:'#D97706', barPct:72, orderAction:'Order Now',  qtr:'Q2 2026'},
+  {id:'water',      icon:'🚿', name:'Water Heaters',       units:'566',  unitsRaw:566,  spend:'$1.1M',  spendRaw:1100000,  yoy:19, urgency:'high', peak:'Jan–Mar', color:'#2563A8', barPct:78, orderAction:'Build Stock', qtr:'Q2 2026'},
+  {id:'electrical', icon:'⚡', name:'Electrical & Panels', units:'123',  unitsRaw:123,  spend:'$650K',  spendRaw:650000,   yoy:8,  urgency:'med',  peak:'Jun–Aug', color:'#7B3FA0', barPct:48, orderAction:'Plan Q3',    qtr:'Q3 2026'},
+  {id:'exterior',   icon:'🪟', name:'Exterior Systems',    units:'290',  unitsRaw:290,  spend:'$2.3M',  spendRaw:2300000,  yoy:22, urgency:'med',  peak:'Apr–Jun', color:'#0D9488', barPct:55, orderAction:'Plan Q3',    qtr:'Q2-Q3'},
+  {id:'landscape',  icon:'🌿', name:'Landscaping & Lawn',  units:'344',  unitsRaw:344,  spend:'$820K',  spendRaw:820000,   yoy:31, urgency:'high', peak:'Mar–May', color:'#52B788', barPct:95, orderAction:'Order Now',  qtr:'Now'},
+];
+
+const ZIP_ZONES = [
+  {zip:'18104',name:'W. Allentown',    homes:680, healthScore:61,aging:{hvac:40,roof:34,water:47,electrical:22,exterior:28,landscape:55}},
+  {zip:'18052',name:'Whitehall Twp',   homes:510, healthScore:58,aging:{hvac:50,roof:40,water:52,electrical:27,exterior:35,landscape:48}},
+  {zip:'18015',name:'Bethlehem',       homes:450, healthScore:64,aging:{hvac:32,roof:28,water:41,electrical:18,exterior:26,landscape:42}},
+  {zip:'18042',name:'Easton',          homes:400, healthScore:55,aging:{hvac:55,roof:45,water:58,electrical:32,exterior:42,landscape:40}},
+  {zip:'18049',name:'Emmaus',          homes:324, healthScore:68,aging:{hvac:24,roof:22,water:35,electrical:14,exterior:20,landscape:38}},
+  {zip:'18064',name:'Nazareth',        homes:266, healthScore:62,aging:{hvac:38,roof:32,water:44,electrical:20,exterior:28,landscape:45}},
+];
+
+const SYSTEM_COLORS={hvac:'#C0392B',roof:'#D97706',water:'#2563A8',electrical:'#7B3FA0',exterior:'#0D9488',landscape:'#52B788'};
+const SYSTEM_ICONS={hvac:'❄️',roof:'🏠',water:'🚿',electrical:'⚡',exterior:'🪟',landscape:'🌿'};
+
+const TL_DATA={
+  'HVAC':       [0,0,1,3,3,2,2,1,0,0,0,0,0,1,2,3,3,2,1,0,0,0,0,0],
+  'Roofing':    [0,0,3,3,2,1,0,0,0,0,0,0,1,2,3,2,1,0,0,0,0,0,0,1],
+  'Water Htr':  [3,2,1,0,0,0,0,0,0,1,2,3,2,1,0,0,0,0,0,0,1,2,3,2],
+  'Electrical': [0,0,0,0,1,2,3,3,2,1,0,0,0,0,0,1,2,3,3,2,1,0,0,0],
+  'Exterior':   [0,0,1,2,3,2,1,0,0,0,0,0,0,1,2,3,2,1,0,0,0,0,0,0],
+  'Landscaping':[0,0,3,3,2,1,0,0,0,0,1,2,2,3,3,2,1,0,0,0,0,0,1,2],
+};
+
+const SC_RECS=[
+  {cat:'HVAC Filters & Parts',   units:412,  demand:'+27%',vs:'+4%', gap:23,action:'now', spend:'$3.7M', qtr:'Q2 2026'},
+  {cat:'Lawn & Pre-Emergent',    units:344,  demand:'+31%',vs:'+6%', gap:25,action:'now', spend:'$820K', qtr:'Now'},
+  {cat:'Water Heater Units',     units:566,  demand:'+19%',vs:'+5%', gap:14,action:'q2',  spend:'$1.1M', qtr:'Q2 2026'},
+  {cat:'Roofing Materials',      units:198,  demand:'+14%',vs:'+3%', gap:11,action:'q2',  spend:'$4.5M', qtr:'Q2-Q3'},
+  {cat:'Exterior Systems',       units:290,  demand:'+22%',vs:'+3%', gap:19,action:'q3',  spend:'$2.3M', qtr:'Q3 2026'},
+  {cat:'Electrical Supplies',    units:123,  demand:'+8%', vs:'+2%', gap:6, action:'q3',  spend:'$650K', qtr:'Q3 2026'},
+];
+
+const PROMOS=[
+  {urgency:'now', cat:'HVAC Filters & Maintenance',    zips:'18104, 18052',       hh:412, win:'Mar 15 – Jun 30', reason:'412 systems in 10–15yr window. Highest concentration W. Allentown.'},
+  {urgency:'now', cat:'Lawn & Pre-Emergent Treatments',zips:'18049, 18064, 18104',hh:344, win:'Now – May 31',    reason:'+31% spring surge. Central Valley / Nazareth cluster at peak.'},
+  {urgency:'soon',cat:'Water Heater Replacement Kits', zips:'18042, 18015, 18052',hh:290, win:'Apr 1 – Jul 15',  reason:'566 heaters 10–14yr. Bethlehem/Easton corridor highest density.'},
+  {urgency:'soon',cat:'Roofing Materials & Sealants',  zips:'18042, 18015',       hh:198, win:'May – Sep',       reason:'Storm events active. 40% of Bethlehem roofs 25yr+. Peak Jun–Aug.'},
+  {urgency:'plan',cat:'Exterior & Siding Supplies',    zips:'18064, 18049',       hh:160, win:'Apr – Jun',       reason:'290 homes Nazareth/Emmaus. 15–25yr siding lifecycle building.'},
+  {urgency:'plan',cat:'Electrical Panels & Supplies',  zips:'18104, 18052',       hh:123, win:'Jul – Sep',       reason:'W. Allentown 25yr+ panel aging profile. Demand rises Jun–Aug.'},
+];
+
+const SIGNALS=[
+  {icon:'❄️',cat:'HVAC Filter Demand',    reason:'412 systems entering 10–15yr lifecycle across market',   chg:'+27%',cls:'up',  timing:'now',timingLbl:'Order Now'},
+  {icon:'🌿',cat:'Lawn & Pre-Emergent',   reason:'Spring surge active — demand at seasonal peak, +31% YoY', chg:'+31%',cls:'up',  timing:'now',timingLbl:'Order Now'},
+  {icon:'🚿',cat:'Water Heater Units',    reason:'566 heaters in failure window across 3 ZIP zones',        chg:'+19%',cls:'up',  timing:'q2', timingLbl:'Stock by Q2'},
+  {icon:'🏠',cat:'Roofing Materials',     reason:'Storm events Q1 2026 + 198 aging roofs entering window',  chg:'+18%',cls:'warn',timing:'q2', timingLbl:'Build Q2'},
+  {icon:'🪟',cat:'Exterior Supplies',     reason:'290 homes 15–25yr systems, demand building into spring',   chg:'+22%',cls:'warn',timing:'q3', timingLbl:'Plan Q3'},
+  {icon:'⚡',cat:'Electrical Supplies',   reason:'123 panels 25yr+ flagged. Demand rises Jun–Aug.',         chg:'+8%', cls:'warn',timing:'q3', timingLbl:'Plan Q3'},
+];
+
+const AI_CTX=`You are HOMI Supply Chain Intelligence AI for Lehigh Valley PA (Allentown, Bethlehem, Easton metro). You help Home Depot and large retailers forecast product demand, optimize inventory, and plan promotions. Spring 2026.
+
+Market: 2,184 homes tracked. $34.7M total market opportunity. Avg home health score 71/100.
+Categories:
+- HVAC: 412 homes in replacement window, $3.7M demand, +27% YoY, peak Q2 2026
+- Roofing: 198 homes, $4.5M, +14% YoY (storm events), peak Mar–May
+- Water Heaters: 566 homes, $1.1M, +19% YoY, peak Q1–Q2
+- Electrical: 123 homes, $650K, +8% YoY, peak Jun–Aug
+- Exterior: 290 homes, $2.3M, +22% YoY, peak Q2–Q3
+- Landscaping: 344 units, $820K, +31% YoY, spring peak NOW
+
+ZIP focus: 18104/18052 (W. Allentown, health 58–61, highest density), 18042 (Easton, score 55, most at-risk), 18015 (Bethlehem, score 64).
+Industry avg inventory adjustment: +3–6% YoY. HOMI verified demand: +8–31% YoY.
+Forecast accuracy: 93% avg over 4 quarters.
+
+Answer as a senior retail supply chain analyst. Be specific: dollar amounts, ZIP codes, unit counts, quarter timing. 3-5 sentences.`;
+
+async function callClaude(prompt){
+  const r=await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,
+      messages:[{role:"user",content:AI_CTX+"\n\nQuery: "+prompt}]})
+  });
+  const d=await r.json();return d.content[0].text;
+}
+
+// ── SUB-COMPONENTS ────────────────────────────────────────────────────────────
+
+function SectionLabel({label}){
+  return <div className="section-lbl">{label}</div>;
+}
+
+function UrgencyBadge({level}){
+  return <span className={`ub ub-${level==='high'?'h':level==='med'?'m':'l'}`}>{level==='high'?'High':level==='med'?'Med':'Low'}</span>;
+}
+
+function MarketMap({selZip,onSel}){
+  const positions=[
+    {zip:'18104',x:148,y:175,r:38},{zip:'18052',x:218,y:148,r:32},
+    {zip:'18015',x:312,y:148,r:28},{zip:'18042',x:378,y:132,r:24},
+    {zip:'18049',x:200,y:248,r:22},{zip:'18064',x:362,y:98,r:20},
+  ];
+  const col=s=>s>=66?'#52B788':s>=60?'#D97706':'#C0392B';
+  return(
+    <div className="map-z" style={{position:'relative'}}>
+      <svg viewBox="0 0 480 305" style={{width:'100%',display:'block'}}>
+        <rect width="480" height="305" fill="#EDE8E1"/>
+        <line x1="75" y1="182" x2="435" y2="182" stroke="white" strokeWidth="3" opacity="0.45"/>
+        <line x1="218" y1="62" x2="218" y2="290" stroke="white" strokeWidth="2" opacity="0.38"/>
+        <line x1="110" y1="128" x2="405" y2="252" stroke="white" strokeWidth="1.5" opacity="0.28"/>
+        <line x1="312" y1="72" x2="312" y2="268" stroke="white" strokeWidth="1.5" opacity="0.28"/>
+        <text x="162" y="276" fontSize="9" fill="#8A7A6A" fontWeight="600" fontFamily="DM Sans,sans-serif">Allentown</text>
+        <text x="292" y="120" fontSize="9" fill="#8A7A6A" fontWeight="600" fontFamily="DM Sans,sans-serif">Bethlehem</text>
+        <text x="362" y="75" fontSize="9" fill="#8A7A6A" fontWeight="500" fontFamily="DM Sans,sans-serif">Easton</text>
+        <text x="86" y="106" fontSize="9" fill="#8A7A6A" fontWeight="500" fontFamily="DM Sans,sans-serif">Macungie</text>
+        <text x="340" y="87" fontSize="9" fill="#8A7A6A" fontWeight="500" fontFamily="DM Sans,sans-serif">Nazareth</text>
+        <text x="164" y="244" fontSize="9" fill="#8A7A6A" fontWeight="500" fontFamily="DM Sans,sans-serif">Emmaus</text>
+        {positions.map(p=>{
+          const z=ZIP_ZONES.find(z=>z.zip===p.zip);if(!z)return null;
+          const c=col(z.healthScore);const isSel=selZip===p.zip;
+          return(
+            <g key={p.zip} style={{cursor:'pointer'}} onClick={()=>onSel(isSel?null:p.zip)}>
+              <circle cx={p.x} cy={p.y} r={p.r+12} fill={c} opacity="0.09"/>
+              <circle cx={p.x} cy={p.y} r={p.r} fill={c} opacity={isSel?0.96:0.72} stroke={isSel?'white':'transparent'} strokeWidth={isSel?2.5:0}/>
+              <text x={p.x} y={p.y-2} textAnchor="middle" fontSize="13" fontWeight="700" fill="white" fontFamily="DM Sans,sans-serif">{z.healthScore}</text>
+              <text x={p.x} y={p.y+10} textAnchor="middle" fontSize="8" fill="rgba(255,255,255,0.8)" fontFamily="DM Sans,sans-serif">/100</text>
+              <text x={p.x} y={p.y+21} textAnchor="middle" fontSize="8" fill="rgba(255,255,255,0.65)" fontFamily="DM Sans,sans-serif">{p.zip}</text>
+            </g>
+          );
+        })}
+        <text x="8" y="300" fontSize="8" fill="#AAA" fontFamily="DM Sans,sans-serif" fontStyle="italic">HOMI Home Health Scores · Lehigh Valley PA · Spring 2026 · {TOTAL_HOMES.toLocaleString()} homes</text>
+      </svg>
+      <div className="map-leg">
+        <div style={{fontSize:9,fontWeight:700,color:'var(--tm)',marginBottom:5,textTransform:'uppercase',letterSpacing:'0.8px'}}>Health Score</div>
+        {[{c:'#52B788',l:'66+ Healthy'},{c:'#D97706',l:'60–65 Aging'},{c:'#C0392B',l:'<60 At Risk'}].map(l=>(
+          <div key={l.l} style={{display:'flex',alignItems:'center',gap:5,marginBottom:3}}>
+            <div style={{width:9,height:9,borderRadius:'50%',background:l.c,flexShrink:0}}/>
+            <span style={{fontSize:10}}>{l.l}</span>
+          </div>
+        ))}
+        <div style={{marginTop:5,paddingTop:5,borderTop:'1px solid var(--br)',fontSize:9,color:'var(--tm)'}}>Click zone for detail</div>
+      </div>
+    </div>
+  );
+}
+
+// ── PARTNER INTELLIGENCE ──────────────────────────────────────────────────────
+
+function PartnerRetail(){
+  const orderNow=CATEGORIES.filter(c=>c.orderAction==='Order Now');
+  const planQ3=CATEGORIES.filter(c=>c.orderAction==='Plan Q3');
+  return(
+    <div>
+      <div className="partner-kpis">
+        {[
+          {l:'Top Stock Priority',v:'HVAC Filters',s:'+27% demand, 412 homes in window'},
+          {l:'Spring Promo Now',v:'Lawn & Pre-emergent',s:'+31% YoY — peak window open'},
+          {l:'Promo-Ready Homes',v:'1,322',s:'Flagged for system replacement'},
+          {l:'Total Market Opp.',v:TOTAL_MKT,s:'24-month addressable spend'},
+        ].map(k=><div key={k.l} className="pkv"><div className="pkv-l">{k.l}</div><div className="pkv-v">{k.v}</div><div className="pkv-s">{k.s}</div></div>)}
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:14}}>
+        <div>
+          <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',color:'var(--rd)',marginBottom:8}}>⚡ Order Now ({orderNow.length} categories)</div>
+          {orderNow.map(c=>(
+            <div key={c.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 12px',background:'var(--rp)',borderRadius:6,marginBottom:5,border:'1px solid #F5C6C2'}}>
+              <span style={{fontSize:12,fontWeight:600}}>{c.icon} {c.name}</span>
+              <span style={{fontSize:12,fontWeight:700,color:'var(--rd)'}}>{c.units} homes · {c.spend}</span>
+            </div>
+          ))}
+        </div>
+        <div>
+          <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',color:'var(--bl)',marginBottom:8}}>◷ Plan for Q3 ({planQ3.length} categories)</div>
+          {planQ3.map(c=>(
+            <div key={c.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 12px',background:'var(--bp)',borderRadius:6,marginBottom:5,border:'1px solid #BDD5F0'}}>
+              <span style={{fontSize:12,fontWeight:600}}>{c.icon} {c.name}</span>
+              <span style={{fontSize:12,fontWeight:700,color:'var(--bl)'}}>{c.units} homes · {c.spend}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="partner-note">📦 <strong>Seasonal Inventory Recommendation:</strong> Increase HVAC filter stock +27% by Apr 1 (3 weeks away). Pre-emergent lawn treatments are at peak demand NOW — any unsold inventory after May 31 represents a missed window. Water heater kits should be at full Q2 stock levels by April 15.</div>
+    </div>
+  );
+}
+
+function PartnerInsurance(){
+  const highRisk=ZIP_ZONES.filter(z=>z.healthScore<60);
+  const totalAtRisk=ZIP_ZONES.reduce((s,z)=>s+Math.round(z.homes*(100-z.healthScore)/100*0.3),0);
+  return(
+    <div>
+      <div className="partner-kpis">
+        {[
+          {l:'High-Risk Properties',v:totalAtRisk.toLocaleString(),s:'Homes with 2+ aging systems'},
+          {l:'HVAC Risk Exposure',v:'$3.7M',s:'412 units past lifecycle threshold'},
+          {l:'Roofing Risk',v:'$4.5M',s:'198 homes, avg age 22 yrs'},
+          {l:'Electrical Flags',v:'123',s:'Panels aged 25+ years'},
+        ].map(k=><div key={k.l} className="pkv"><div className="pkv-l">{k.l}</div><div className="pkv-v">{k.v}</div><div className="pkv-s">{k.s}</div></div>)}
+      </div>
+      <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.8px',color:'var(--tm)',marginBottom:8}}>System Age Distribution — Risk Profile</div>
+      <table className="partner-table">
+        <thead><tr><th>System</th><th>Homes Flagged</th><th>Avg Age</th><th>% Past Lifespan</th><th>Risk Level</th><th>Underwriting Flag</th></tr></thead>
+        <tbody>
+          {[
+            ['HVAC Systems','412','13 yrs','87%','High','⚠️ Recommend disclosure'],
+            ['Roofing','198','22 yrs','88%','High','⚠️ Recommend disclosure'],
+            ['Water Heaters','566','11 yrs','92%','Critical','🚨 Flag at renewal'],
+            ['Electrical Panels','123','26 yrs','87%','High','⚠️ Recommend inspection'],
+            ['Exterior Systems','290','18 yrs','72%','Medium','Monitor at renewal'],
+          ].map((r,i)=>(
+            <tr key={i}><td style={{fontWeight:600}}>{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td><td style={{fontWeight:700,color:parseFloat(r[3])>85?'var(--rd)':'var(--am)'}}>{r[3]}</td><td><UrgencyBadge level={r[4]==='High'||r[4]==='Critical'?'high':'med'}/></td><td style={{fontSize:11}}>{r[5]}</td></tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="partner-warn">⚠️ <strong>Underwriting Alert:</strong> 123 homes with electrical panels aged 25+ years in ZIP 18104/18052 represent unmonitored fire and code-compliance risk. Recommend condition disclosure requirements at next renewal cycle.</div>
+    </div>
+  );
+}
+
+function PartnerContractor(){
+  return(
+    <div>
+      <div className="partner-kpis">
+        {[
+          {l:'HVAC Lead Volume',v:'412',s:'Homes in replacement window'},
+          {l:'Roofing Leads',v:'198',s:'Active project opportunities'},
+          {l:'Plumbing / Water Htr',v:'566',s:'Water heater replacements'},
+          {l:'Optimal Window',v:'Apr – Jun',s:'Peak scheduling opportunity'},
+        ].map(k=><div key={k.l} className="pkv"><div className="pkv-l">{k.l}</div><div className="pkv-v">{k.v}</div><div className="pkv-s">{k.s}</div></div>)}
+      </div>
+      <table className="partner-table">
+        <thead><tr><th>Trade</th><th>Lead Volume (Q2)</th><th>Geo Concentration</th><th>Avg Job Value</th><th>Est. Revenue</th><th>Peak Window</th></tr></thead>
+        <tbody>
+          {[
+            ['HVAC','412 homes','18104, 18052 (W. Allentown)','$8,980','$3.7M','Apr – Jun'],
+            ['Roofing','198 homes','18015, 18042 (Bethlehem/Easton)','$22,727','$4.5M','Mar – May'],
+            ['Plumbing / Water Htr','566 homes','18104, 18052, 18042','$1,943','$1.1M','Jan – Mar'],
+            ['Electrical','123 homes','18104, 18052 (W. Allentown)','$5,285','$650K','Jun – Aug'],
+            ['Exterior / Siding','290 homes','18064, 18049 (Nazareth/Emmaus)','$7,931','$2.3M','Apr – Jun'],
+          ].map((r,i)=>(
+            <tr key={i}><td style={{fontWeight:600}}>{r[0]}</td><td>{r[1]}</td><td style={{color:'var(--tm)',fontSize:11}}>{r[2]}</td><td style={{fontWeight:700,color:'var(--g)'}}>{r[3]}</td><td style={{fontWeight:700}}>{r[4]}</td><td>{r[5]}</td></tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="partner-note">🔧 <strong>Scheduling Note:</strong> HVAC and exterior demand peaks simultaneously in Apr–Jun across W. Allentown ZIP codes — recommend recruiting additional installers in the 18104/18052 corridor before March 31 to avoid scheduling bottlenecks during peak season.</div>
+    </div>
+  );
+}
+
+function PartnerLender(){
+  const multiSystem=ZIP_ZONES.filter(z=>z.healthScore<62).reduce((s,z)=>s+Math.round(z.homes*0.28),0);
+  return(
+    <div>
+      <div className="partner-kpis">
+        {[
+          {l:'High-Risk Loans',v:multiSystem.toLocaleString(),s:'Properties w/ 2+ urgent systems'},
+          {l:'Portfolio at Risk',v:'$42M',s:'Estimated collateral exposure'},
+          {l:'Condition Score <65',v:'610',s:'Below acceptable threshold'},
+          {l:'Pre-Approval Flags',v:'22%',s:'Of new originations flagged'},
+        ].map(k=><div key={k.l} className="pkv"><div className="pkv-l">{k.l}</div><div className="pkv-v">{k.v}</div><div className="pkv-s">{k.s}</div></div>)}
+      </div>
+      <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.8px',color:'var(--tm)',marginBottom:8}}>Condition Score Distribution</div>
+      {[
+        {band:'Score <55 — At Risk',pct:18,homes:393,c:'var(--rd)'},
+        {band:'Score 55–64 — Aging',pct:34,homes:743,c:'var(--am)'},
+        {band:'Score 65–74 — Fair', pct:32,homes:699,c:'var(--gl2)'},
+        {band:'Score 75+ — Healthy',pct:16,homes:349,c:'var(--gl)'},
+      ].map(r=>(
+        <div key={r.band} style={{display:'grid',gridTemplateColumns:'180px 1fr 80px',gap:10,alignItems:'center',marginBottom:8}}>
+          <span style={{fontSize:11,fontWeight:500}}>{r.band}</span>
+          <div style={{height:10,background:'var(--cd)',borderRadius:4,overflow:'hidden'}}><div style={{width:r.pct+'%',height:'100%',background:r.c,borderRadius:4}}/></div>
+          <span style={{fontSize:11,fontWeight:600,textAlign:'right',color:r.c}}>{r.homes} homes</span>
+        </div>
+      ))}
+      <div className="partner-warn">⚠️ <strong>Pre-Approval Risk Note:</strong> Properties in ZIP 18042 (Easton, health score 55) have the highest concentration of multi-system aging risk in the market. Recommend conditioning pre-approval on home inspection for any property with health score below 60 until system upgrades are verified.</div>
+    </div>
+  );
+}
+
+function PartnerHOA(){
+  const totalCapex=CATEGORIES.reduce((s,c)=>s+c.spendRaw,0);
+  return(
+    <div>
+      <div className="partner-kpis">
+        {[
+          {l:'Portfolio Units',v:TOTAL_HOMES.toLocaleString(),s:'Homes tracked in market'},
+          {l:'24-Mo CapEx Estimate',v:TOTAL_MKT,s:'Upcoming capital expenditures'},
+          {l:'Systems Due <12mo',v:'840',s:'Immediate attention required'},
+          {l:'Avg Health Score',v:AVG_HEALTH+'/100',s:'Across tracked portfolio'},
+        ].map(k=><div key={k.l} className="pkv"><div className="pkv-l">{k.l}</div><div className="pkv-v">{k.v}</div><div className="pkv-s">{k.s}</div></div>)}
+      </div>
+      <table className="partner-table">
+        <thead><tr><th>System</th><th>Units Due</th><th>24-Mo Budget Est.</th><th>Priority</th><th>Recommended Window</th></tr></thead>
+        <tbody>
+          {[
+            ['HVAC Replacement','412 units','$3.7M','high','Q2 2026'],
+            ['Water Heater','566 units','$1.1M','high','Q1–Q2 2026'],
+            ['Roofing','198 units','$4.5M','high','Q2–Q3 2026'],
+            ['Exterior Systems','290 units','$2.3M','med','Q3 2026'],
+            ['Electrical Panels','123 units','$650K','med','Q3 2026'],
+            ['Landscaping','344 units','$820K','high','Spring 2026'],
+          ].map((r,i)=>(
+            <tr key={i}><td style={{fontWeight:500}}>{r[0]}</td><td>{r[1]}</td><td style={{fontWeight:700,color:'var(--g)'}}>{r[2]}</td><td><UrgencyBadge level={r[3]}/></td><td style={{color:'var(--tm)'}}>{r[4]}</td></tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="partner-note">🏘 <strong>Reserve Fund Recommendation:</strong> Based on the 24-month capital expenditure forecast of {TOTAL_MKT}, HOAs in the Lehigh Valley market should increase reserve fund contributions by an estimated 18–24% to cover accelerating HVAC, roofing, and water heater replacement cycles driven by aging infrastructure cohorts entering the replacement window simultaneously.</div>
+    </div>
+  );
+}
+
+// ── MAIN APP ──────────────────────────────────────────────────────────────────
+
+function App(){
+  const [proMsg,setProMsg]   = useState('');
+  const [proLoad,setProLoad] = useState(true);
+  const [selZip,setSelZip]   = useState(null);
+  const [selCat,setSelCat]   = useState(null);
+  const [aiQ,setAiQ]         = useState('');
+  const [aiR,setAiR]         = useState('');
+  const [aiLoad,setAiLoad]   = useState(false);
+  const [scSort,setScSort]   = useState('gap');
+  const [partnerTab,setTab]  = useState('retail');
+
+  useEffect(()=>{
+    callClaude("Generate one urgent, specific supply chain insight for the Lehigh Valley PA market right now. Lead with a dollar amount or unit count, name the specific product category and ZIP codes, and say exactly what action to take this week. 2-3 sentences, no fluff.")
+      .then(t=>{setProMsg(t);setProLoad(false);})
+      .catch(()=>{setProMsg("ZIP codes 18104 and 18052 have 412 HVAC systems entering the 10–15 year service window — representing $3.7M in addressable demand. Industry average inventory adjustment is +4%; HOMI-verified demand is running +27%. Place HVAC filter and parts orders this week to ensure stock before April 1 peak.");setProLoad(false);});
+  },[]);
+
+  const handleAI=async(q)=>{
+    const query=q||aiQ;if(!query.trim())return;
+    setAiLoad(true);setAiR('');
+    try{setAiR(await callClaude(query));}catch(e){setAiR("Unable to process. Please retry.");}
+    setAiLoad(false);
+  };
+
+  const selZipData=ZIP_ZONES.find(z=>z.zip===selZip);
+  const tcC=v=>v===3?'tc-pk':v===2?'tc-hi':v===1?'tc-md':v===0?'tc-no':'tc-lo';
+  const tcL=v=>v===3?'Pk':v===2?'Hi':v===1?'Md':'';
+
+  const sortedSC=[...SC_RECS].sort((a,b)=>{
+    if(scSort==='gap') return b.gap-a.gap;
+    if(scSort==='spend') return b.units-a.units;
+    if(scSort==='urgency') return (b.action==='now'?3:b.action==='q2'?2:b.action==='q3'?1:0)-(a.action==='now'?3:a.action==='q2'?2:a.action==='q3'?1:0);
+    return 0;
+  });
+
+  const PARTNER_TABS=[
+    {id:'retail',label:'🛒 Retail'},
+    {id:'insurance',label:'🛡 Insurance'},
+    {id:'contractor',label:'🔧 Contractor'},
+    {id:'lender',label:'🏦 Lender'},
+    {id:'hoa',label:'🏘 HOA / PM'},
+  ];
+
+  const AI_CHIPS=[
+    'What should I order this week for spring demand?',
+    'Which ZIPs need roofing materials most urgently?',
+    'What is our biggest inventory gap vs actual demand?',
+    'How should we time the HVAC promotion this spring?',
+    'What does the landscaping demand curve look like through June?',
+    'Where is the highest dollar opportunity per home?',
+  ];
+
+  return(
+    <div style={{minHeight:'100vh',background:'var(--cr)'}}>
+
+      {/* ═══════════════════════════════════════════════════════════
+          NAVIGATION
+      ═══════════════════════════════════════════════════════════ */}
+      <nav className="nav">
+        <div className="nl">
+          <div className="logo">H</div>
+          <div><div className="bn">HOMI</div><div className="bs">Supply Chain Intelligence</div></div>
+          <div className="nd"/>
+          <div className="nbg"><div className="pd"/>Lehigh Valley PA · {TOTAL_HOMES.toLocaleString()} Homes Tracked</div>
+          <div className="nbg" style={{background:'rgba(201,150,58,0.12)',borderColor:'rgba(201,150,58,0.28)'}}>🌿 Spring 2026 — Peak Demand Season</div>
+        </div>
+        <div className="nr">
+          <button className="nb" onClick={()=>window.print()}>⬇ Download Report</button>
+          <button className="nb nb-go">Connect Sales Data</button>
+        </div>
+      </nav>
+
+      {/* ═══════════════════════════════════════════════════════════
+          SIGNAL TICKER
+      ═══════════════════════════════════════════════════════════ */}
+      <div className="ticker">
+        <div className="ticker-label">Live Signals</div>
+        <div className="ticker-items">
+          {CATEGORIES.map(c=>(
+            <div key={c.id} className="ti">
+              <span style={{fontSize:13}}>{c.icon}</span>
+              <span className="ti-cat">{c.name}</span>
+              <span className="ti-val">{c.units} homes</span>
+              <span className="ti-chg">+{c.yoy}% YoY</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          SECTION 1 — MARKET OVERVIEW
+      ═══════════════════════════════════════════════════════════ */}
+      <div className="metrics-hero" id="s-overview">
+        <div className="mh-eye">Market Overview · Lehigh Valley PA</div>
+        <div className="mh-head"><em>{TOTAL_HOMES.toLocaleString()} homes.</em> Every system aging. Every purchase need forecasted.</div>
+        <div className="mh-sub">HOMI aggregates verified home system lifecycle data — roof age, HVAC lifecycle, water heater vintage, electrical, landscaping — and converts it into a forward demand signal for your supply chain. Not historical sales. Actual infrastructure aging.</div>
+        <div className="metrics-strip">
+          {[
+            {l:'Homes Tracked',     v:'2,184',  s:'Lehigh Valley PA metro',           bar:100},
+            {l:'Total Market Value',v:'$34.7M', s:'24-month addressable spend',        bar:80, gold:true},
+            {l:'Active Demand Signals',v:'6',   s:'Categories in replacement window',  bar:75},
+            {l:'Avg Home Health Score',v:'71',  s:'out of 100 · Portfolio condition',  bar:71},
+          ].map(m=>(
+            <div key={m.l} className="mk">
+              <div className="mk-l">{m.l}</div>
+              <div className={`mk-v ${m.gold?'gold':''}`}>{m.v}</div>
+              <div className="mk-s">{m.s}</div>
+              <div className="mk-bar" style={{width:m.bar+'%',background:m.gold?'var(--gl2)':'var(--gl)'}}/>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          AI PROACTIVE ALERT (top of content — push not pull)
+      ═══════════════════════════════════════════════════════════ */}
+      <div className="palert">
+        <div className="pa-ic">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="var(--gm)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <div className="pa-lbl">HOMI Intelligence Alert · March 14, 2026</div>
+          {proLoad
+            ?<div style={{fontSize:13,color:'var(--tm)',fontStyle:'italic'}}>Analyzing demand data<span className="dots"/></div>
+            :<div className="pa-msg">{proMsg}</div>}
+        </div>
+        <div className="pa-acts">
+          <button className="pab pri" onClick={()=>{setAiQ('What should I order this week for the Lehigh Valley market?');document.getElementById('s-ai')?.scrollIntoView({behavior:'smooth'});}}>Ask HOMI →</button>
+          <button className="pab" onClick={()=>document.getElementById('s-sc')?.scrollIntoView({behavior:'smooth'})}>Supply Plan</button>
+        </div>
+      </div>
+
+      <div style={{display:'flex',flexDirection:'column',gap:0}}>
+
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 2 — AI INTELLIGENCE PANEL
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="section section-alt" id="s-ai">
+          <SectionLabel label="AI Intelligence Panel"/>
+          <div className="section-heading" style={{marginBottom:16}}>HOMI Supply Chain AI</div>
+          <div className="aip">
+            <div className="aip-hdr">
+              <div>
+                <div className="aip-t">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{marginRight:5,verticalAlign:'middle'}}>
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="var(--gl)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  HOMI Supply Chain Intelligence AI
+                </div>
+                <div className="aip-s">Ask about demand, inventory, timing, geography — full market data in context</div>
+              </div>
+              <div style={{fontSize:10,color:'rgba(255,255,255,0.38)',textAlign:'right'}}>2,184 homes · 6 categories<br/>93% avg forecast accuracy</div>
+            </div>
+            <div className="aip-ctx">📍 Context: Lehigh Valley PA · 2,184 homes · Spring 2026 · $34.7M addressable demand across 6 categories · 6 ZIP zones</div>
+            <div className="chips">
+              {AI_CHIPS.map(c=>(
+                <button key={c} className="chip" onClick={()=>{setAiQ(c);handleAI(c);}}>{c}</button>
+              ))}
+            </div>
+            <div className="ai-in-row">
+              <input className="ai-in" placeholder="Ask about inventory quantities, ZIP-level demand, promotion timing, category forecasts..."
+                value={aiQ} onChange={e=>setAiQ(e.target.value)} onKeyDown={e=>e.key==='Enter'&&handleAI()}/>
+              <button className="ai-go" onClick={()=>handleAI()} disabled={aiLoad}>{aiLoad?'Analyzing…':'Ask HOMI'}</button>
+            </div>
+            {(aiR||aiLoad)&&(
+              <div className="ai-resp">
+                <div className="ai-resp-lbl">Supply Chain Intelligence Response</div>
+                {aiLoad?<span style={{color:'var(--tm)',fontStyle:'italic'}}>Analyzing demand data<span className="dots"/></span>:aiR}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="section-divider"/>
+
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 3 — DEMAND HEATMAP / MARKET MAP
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="section" id="s-map">
+          <SectionLabel label="Demand Heatmap · Geographic View"/>
+          <div className="section-heading">Home Health Score Map</div>
+          <div className="section-sub">Bubble color = aggregate health score · Lower score = more urgent purchases needed · Click any zone for system detail</div>
+          <div className="map-layout">
+            <MarketMap selZip={selZip} onSel={setSelZip}/>
+            <div className="zip-pnl">
+              <div className="zp-hdr">
+                <div className="zp-htitle">{selZip?`ZIP ${selZip} — System Aging`:'ZIP Zone Overview'}</div>
+                <div className="zp-hsub">{selZip?ZIP_ZONES.find(z=>z.zip===selZip)?.name:'Select a zone for system breakdown'}</div>
+              </div>
+              {selZip&&selZipData?(
+                <div className="zip-detail">
+                  <div className="zd-top">
+                    {[{k:'Homes',v:selZipData.homes.toLocaleString()},{k:'Health Score',v:selZipData.healthScore+'/100'}].map(s=>(
+                      <div key={s.k} className="zd-kv"><div className="zd-k">{s.k}</div><div className="zd-v">{s.v}</div></div>
+                    ))}
+                  </div>
+                  <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.8px',color:'var(--tm)',marginBottom:7}}>% Homes w/ Aging Systems</div>
+                  {Object.entries(selZipData.aging).map(([sys,pct])=>(
+                    <div key={sys} style={{marginBottom:8}}>
+                      <div className="sar-header">
+                        <span className="sar-sys">{SYSTEM_ICONS[sys]} {CATEGORIES.find(c=>c.id===sys)?.name||sys}</span>
+                        <span style={{fontWeight:700,color:pct>40?'var(--rd)':pct>25?'var(--am)':'var(--gl)'}}>{pct}%</span>
+                      </div>
+                      <div style={{height:7,background:'var(--cd)',borderRadius:3,overflow:'hidden'}}>
+                        <div style={{width:pct+'%',height:'100%',background:SYSTEM_COLORS[sys],borderRadius:3}}/>
+                      </div>
+                    </div>
+                  ))}
+                  <button onClick={()=>setSelZip(null)} style={{marginTop:8,width:'100%',background:'var(--cr)',border:'1px solid var(--br)',borderRadius:5,padding:'6px 0',fontSize:11,fontWeight:600,color:'var(--g)',cursor:'pointer'}}>← All Zones</button>
+                </div>
+              ):(
+                <div className="zp-list">
+                  {ZIP_ZONES.map(z=>{
+                    const col=z.healthScore>=66?'#52B788':z.healthScore>=60?'#D97706':'#C0392B';
+                    const top=Object.entries(z.aging).sort((a,b)=>b[1]-a[1]).slice(0,3);
+                    return(
+                      <div key={z.zip} className={`zp-row ${selZip===z.zip?'sel':''}`} onClick={()=>setSelZip(z.zip)}>
+                        <div className="zpr-top"><span className="zpr-zip">{z.zip}</span><span className="zpr-score" style={{color:col}}>{z.healthScore}/100</span></div>
+                        <div className="zpr-name">{z.name}</div>
+                        <div className="zpr-homes">{z.homes.toLocaleString()} homes</div>
+                        <div style={{display:'flex',gap:4,marginTop:4,flexWrap:'wrap'}}>
+                          {top.map(([sys,pct])=>(
+                            <span key={sys} style={{fontSize:9,fontWeight:600,background:SYSTEM_COLORS[sys]+'22',color:SYSTEM_COLORS[sys],borderRadius:2,padding:'1px 5px'}}>{SYSTEM_ICONS[sys]} {pct}%</span>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="section-divider"/>
+
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 4 — CATEGORY DEMAND FORECAST
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="section section-alt" id="s-categories">
+          <SectionLabel label="Category Demand Forecast"/>
+          <div className="section-heading">All 6 Systems — Replacement Window Overview</div>
+          <div className="section-sub">Click any category to highlight it in the map and supply plan below</div>
+          <div className="cat-grid">
+            {CATEGORIES.map(c=>(
+              <div key={c.id} className={`cat-card ${selCat===c.id?'active':''}`}
+                style={{borderBottom:`3px solid ${c.color}`}}
+                onClick={()=>setSelCat(selCat===c.id?null:c.id)}>
+                <div className="cc-cat">{c.icon} {c.name}</div>
+                <div className="cc-units">{c.units}</div>
+                <div className="cc-units-lbl">homes in replacement window</div>
+                <div className="cc-spend">{c.spend} est. demand</div>
+                <div className="cc-row">
+                  <span className="cc-yoy" style={{color:c.color}}>↑{c.yoy}% YoY</span>
+                  <UrgencyBadge level={c.urgency}/>
+                </div>
+                <div className="cc-peak">📅 Peak: {c.peak}</div>
+                <div className="cc-bar"><div className="cc-bar-fill" style={{width:c.barPct+'%',background:c.color}}/></div>
+              </div>
+            ))}
+          </div>
+
+          {/* 24-Month Demand Calendar */}
+          <div style={{marginTop:24}}>
+            <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',color:'var(--tm)',marginBottom:10}}>24-Month Demand Calendar</div>
+            <div className="tl-wrap">
+              <div className="tl-inner">
+                <div style={{display:'grid',gridTemplateColumns:'90px repeat(24,1fr)',gap:2,marginBottom:4}}>
+                  <div/>
+                  {[...'JFMAMJJASOND'].map((m,i)=><div key={i} style={{fontSize:8,fontWeight:600,textAlign:'center',color:i<3?'var(--rd)':'var(--tm)',paddingBottom:2}}>{m}<span style={{fontSize:7}}>'26</span></div>)}
+                  {[...'JFMAMJJASOND'].map((m,i)=><div key={i+12} style={{fontSize:8,fontWeight:600,textAlign:'center',color:'var(--tm)',paddingBottom:2,borderLeft:i===0?'1px solid var(--br)':undefined}}>{m}<span style={{fontSize:7}}>'27</span></div>)}
+                </div>
+                {Object.entries(TL_DATA).map(([sys,vals])=>(
+                  <div key={sys} style={{display:'grid',gridTemplateColumns:'90px repeat(24,1fr)',gap:2,marginBottom:2}}>
+                    <div style={{fontSize:10,fontWeight:500,color:'var(--tx)',display:'flex',alignItems:'center',paddingRight:6}}>{sys}</div>
+                    {vals.map((v,i)=>(
+                      <div key={i} className={`tl-cell ${tcC(v)}`} style={{borderLeft:i===12?'1px solid var(--br)':undefined}}>{tcL(v)}</div>
+                    ))}
+                  </div>
+                ))}
+                <div style={{display:'flex',gap:10,marginTop:8,borderTop:'1px solid var(--br)',paddingTop:8}}>
+                  {[{c:'tc-pk',l:'Peak'},{c:'tc-hi',l:'High'},{c:'tc-md',l:'Building'},{c:'tc-lo',l:'Low'}].map(l=>(
+                    <div key={l.l} style={{display:'flex',alignItems:'center',gap:4,fontSize:10}}>
+                      <div className={`tl-cell ${l.c}`} style={{width:20,height:13,borderRadius:2}}/>
+                      <span style={{color:'var(--tm)'}}>{l.l}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="section-divider"/>
+
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 5 — SUPPLY CHAIN RECOMMENDATIONS
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="section" id="s-sc">
+          <SectionLabel label="Supply Chain Recommendations"/>
+          <div className="section-heading">What to Order — and When</div>
+          <div className="section-sub" style={{marginBottom:10}}>HOMI-verified demand vs industry average inventory adjustment. The gap is your competitive advantage.</div>
+
+          <div className="gap-warn">
+            <span style={{fontSize:16}}>⚠️</span>
+            <span><strong style={{color:'var(--rd)'}}>Industry inventory gap detected:</strong> <span style={{color:'var(--tx)'}}>Retailers adjusting stock +3–6% YoY. HOMI-verified demand running +8–31% YoY. Every category is systematically understocked.</span></span>
+          </div>
+
+          <div style={{display:'flex',gap:6,marginBottom:12,alignItems:'center'}}>
+            <span style={{fontSize:10,color:'var(--tm)',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.8px'}}>Sort:</span>
+            {[{k:'gap',l:'By Gap'},{k:'urgency',l:'By Urgency'},{k:'spend',l:'By Volume'}].map(s=>(
+              <button key={s.k} onClick={()=>setScSort(s.k)} style={{background:scSort===s.k?'var(--g)':'var(--cr)',border:'1px solid var(--br)',borderRadius:4,padding:'3px 10px',fontSize:10,fontWeight:600,color:scSort===s.k?'white':'var(--tm)',cursor:'pointer',fontFamily:'DM Sans,sans-serif'}}>
+                {s.l}
+              </button>
+            ))}
+          </div>
+
+          <table className="sc-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Homes in Window</th>
+                <th>Est. Demand</th>
+                <th>HOMI Signal</th>
+                <th>Industry Avg</th>
+                <th className="sort" onClick={()=>setScSort('gap')}>Gap {scSort==='gap'?'↓':''}</th>
+                <th>Action</th>
+                <th>Peak</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedSC.map((r,i)=>(
+                <tr key={i}>
+                  <td style={{fontWeight:600}}>{r.cat}</td>
+                  <td>{r.units.toLocaleString()}</td>
+                  <td style={{fontWeight:700,color:'var(--g)'}}>{r.spend}</td>
+                  <td style={{fontWeight:700,color:'var(--rd)'}}>{r.demand}</td>
+                  <td style={{color:'var(--tm)'}}>{r.vs}</td>
+                  <td><span className={r.gap>15?'delta-up':r.gap>8?'delta-ok':'delta-low'}>+{r.gap}pt</span></td>
+                  <td><span className={`action-pill ap-${r.action}`}>{r.action==='now'?'Order Now':r.action==='q2'?'Q2 Build':r.action==='q3'?'Q3 Plan':'Plan Ahead'}</span></td>
+                  <td style={{color:'var(--tm)',fontSize:11}}>{r.qtr}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="section-divider"/>
+
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 6 — SEASONAL SIGNALS / PROMOTIONAL CALENDAR
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="section section-alt" id="s-seasonal">
+          <SectionLabel label="Seasonal Signals · Promotional Calendar"/>
+          <div className="section-heading">Live Demand Signals & Promotion Intelligence</div>
+          <div className="section-sub">Spring 2026 — Active Season · What's accelerating and when to promote it</div>
+          <div className="g2">
+            <div>
+              <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',color:'var(--tm)',marginBottom:10}}>Live Demand Signals</div>
+              {SIGNALS.map((s,i)=>(
+                <div key={i} className="sf-item">
+                  <div className="sf-icon">{s.icon}</div>
+                  <div>
+                    <div className="sf-cat">{s.cat}</div>
+                    <div className="sf-reason">{s.reason}</div>
+                  </div>
+                  <div className={`sf-chg ${s.cls}`}>{s.chg}</div>
+                  <div className={`sf-timing ${s.timing}`}>{s.timingLbl}</div>
+                </div>
+              ))}
+            </div>
+            <div>
+              <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',color:'var(--tm)',marginBottom:10}}>Promotion Timing Engine</div>
+              {PROMOS.map((p,i)=>(
+                <div key={i} className={`promo-item promo-timing-${p.urgency}`}>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:4}}>
+                    <div>
+                      <div className={`promo-urgency-${p.urgency}`}>{p.urgency==='now'?'▶ Act Now':p.urgency==='soon'?'◷ Q2':'◻ Plan Ahead'}</div>
+                      <div style={{fontSize:13,fontWeight:700,color:'var(--tx)',marginTop:2}}>{p.cat}</div>
+                      <div style={{fontSize:11,color:'var(--tm)'}}>📍 {p.zips}</div>
+                    </div>
+                    <div style={{textAlign:'right',flexShrink:0}}>
+                      <div style={{fontSize:20,fontWeight:700,color:'var(--g)',fontFamily:'Playfair Display,serif'}}>{p.hh}</div>
+                      <div style={{fontSize:10,color:'var(--tm)'}}>homes</div>
+                      <div style={{fontSize:10,fontWeight:600,color:'var(--tm)',marginTop:1}}>📅 {p.win}</div>
+                    </div>
+                  </div>
+                  <div style={{fontSize:11,color:'var(--tm)',borderTop:'1px solid var(--cd)',paddingTop:5}}>{p.reason}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="section-divider"/>
+
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 7 — PARTNER INTELLIGENCE
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="section" id="s-partner">
+          <SectionLabel label="Partner Intelligence Views"/>
+          <div className="section-heading">Tailored Intelligence by Partner Type</div>
+          <div className="section-sub">Switch between views to see HOMI data through each partner's lens</div>
+          <div className="card pad" style={{marginTop:0}}>
+            <div className="tab-bar">
+              {PARTNER_TABS.map(t=>(
+                <button key={t.id} className={`tab-btn ${partnerTab===t.id?'active':''}`} onClick={()=>setTab(t.id)}>{t.label}</button>
+              ))}
+            </div>
+            {partnerTab==='retail'    && <PartnerRetail/>}
+            {partnerTab==='insurance' && <PartnerInsurance/>}
+            {partnerTab==='contractor'&& <PartnerContractor/>}
+            {partnerTab==='lender'    && <PartnerLender/>}
+            {partnerTab==='hoa'       && <PartnerHOA/>}
+          </div>
+        </div>
+
+        <div className="section-divider"/>
+
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 8 — DATA API
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="section">
+          <SectionLabel>Data API & Market Intelligence Access</SectionLabel>
+          <div className="section-sub">Access HOMI's property intelligence programmatically. Power your forecasting, underwriting, and inventory systems with verified demand data.</div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:16,marginTop:20}}>
+            {[
+              {tier:"Market Reports",price:"$299",period:"/mo",desc:"Monthly PDF market snapshots covering system demand, urgency trends, and seasonal signals for your territory.",features:["Monthly PDF delivery","6 system categories","ZIP-level breakdown","YoY trend data"],color:"var(--g)",cta:"Get Started"},
+              {tier:"Live Data Feed",price:"$999",period:"/mo",desc:"REST API with weekly refreshed demand signals, ZIP zone data, and system lifecycle forecasts integrated into your own systems.",features:["REST API access","Weekly data refresh","All ZIP zones","Custom territory filters","JSON + CSV export"],color:"var(--g)",cta:"Start Free Trial",featured:true},
+              {tier:"Custom Analytics",price:"Enterprise",period:"",desc:"Dedicated HOMI data team builds custom models for your portfolio, underwriting workflow, or inventory system.",features:["Custom data models","Dedicated analyst","Direct DB integration","SLA guarantee","Quarterly business review"],color:"var(--g)",cta:"Contact Us"},
+            ].map(t=>(
+              <div key={t.tier} style={{background:t.featured?"var(--g)":"white",borderRadius:12,padding:24,border:t.featured?"none":"2px solid var(--br)",boxShadow:t.featured?"0 8px 32px rgba(28,74,46,.25)":"none",display:"flex",flexDirection:"column",gap:12,position:"relative"}}>
+                {t.featured&&<div style={{position:"absolute",top:-10,left:"50%",transform:"translateX(-50%)",background:"var(--gold)",color:"white",fontSize:10,fontWeight:700,padding:"3px 12px",borderRadius:20,letterSpacing:1,whiteSpace:"nowrap"}}>MOST POPULAR</div>}
+                <div>
+                  <div style={{fontSize:11,fontWeight:700,letterSpacing:1.5,textTransform:"uppercase",color:t.featured?"rgba(255,255,255,.6)":"var(--tm)",marginBottom:4}}>{t.tier}</div>
+                  <div style={{display:"flex",alignItems:"baseline",gap:2}}>
+                    <span style={{fontFamily:"'Playfair Display',serif",fontSize:32,fontWeight:700,color:t.featured?"white":"var(--g)"}}>{t.price}</span>
+                    {t.period&&<span style={{fontSize:13,color:t.featured?"rgba(255,255,255,.6)":"var(--tm)"}}>{t.period}</span>}
+                  </div>
+                  <div style={{fontSize:12,color:t.featured?"rgba(255,255,255,.75)":"var(--tm)",lineHeight:1.6,marginTop:8}}>{t.desc}</div>
+                </div>
+                <ul style={{listStyle:"none",display:"flex",flexDirection:"column",gap:7,flex:1}}>
+                  {t.features.map(f=>(
+                    <li key={f} style={{display:"flex",alignItems:"center",gap:8,fontSize:12,color:t.featured?"rgba(255,255,255,.9)":"var(--tx)"}}>
+                      <span style={{width:16,height:16,borderRadius:"50%",background:t.featured?"rgba(255,255,255,.2)":"var(--gp)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:9,color:t.featured?"white":"var(--g)"}}>✓</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <button style={{background:t.featured?"white":"var(--g)",color:t.featured?"var(--g)":"white",border:"none",borderRadius:8,padding:"11px 20px",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"'DM Sans',sans-serif",transition:"all .2s"}}>{t.cta}</button>
+              </div>
+            ))}
+          </div>
+          <div style={{marginTop:20,background:"#1A1A1A",borderRadius:10,padding:"16px 20px"}}>
+            <div style={{fontSize:11,fontWeight:700,color:"var(--gold)",letterSpacing:1.5,marginBottom:8}}>SAMPLE API RESPONSE</div>
+            <pre style={{fontSize:11,color:"#86efac",lineHeight:1.7,margin:0,overflow:"auto"}}>{`{
+  "market": "Lehigh Valley PA",
+  "homes_tracked": 2184,
+  "as_of": "2026-03-14",
+  "demand_signals": [
+    { "system": "hvac", "homes_due": 412, "urgency": "high",
+      "spend_forecast": 3700000, "peak_window": "Q2 2026" },
+    { "system": "water_heater", "homes_due": 566, "urgency": "high",
+      "spend_forecast": 1100000, "peak_window": "Q1-Q2 2026" },
+    { "system": "roofing", "homes_due": 198, "urgency": "medium",
+      "spend_forecast": 4500000, "peak_window": "Q2-Q3 2026" }
+  ],
+  "avg_home_health_score": 71
+}`}</pre>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 9 — SALES DATA CONNECTOR
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="section section-alt">
+          <div className="connect-panel">
+            <div style={{fontSize:30,marginBottom:8}}>📊</div>
+            <div style={{fontSize:18,fontWeight:700,color:'var(--tx)',marginBottom:6,fontFamily:'Playfair Display,serif'}}>Connect Your Sales Data</div>
+            <div style={{fontSize:13,color:'var(--tm)',lineHeight:1.65,maxWidth:420,margin:'0 auto 16px'}}>HOMI shows demand signal. Your POS shows actual sales. Connect them to see exactly where you're leaving revenue on the table — and prove HOMI's forecast accuracy against your own numbers.</div>
+            <button className="cta-btn">Connect Home Depot Sales Data →</button>
+            <div className="cp-preview">
+              {[{l:'HOMI Demand Signal',v:'+27%',s:'HVAC, Q2 2026'},{l:'Your Sales Trend',v:'—',s:'Connect to reveal'},{l:'Inventory Gap $',v:'—',s:'Unlocked after connect'}].map(s=>(
+                <div key={s.l} className="cpp"><div className="cpp-l">{s.l}</div><div className="cpp-v">{s.v}</div><div className="cpp-s">{s.s}</div></div>
+              ))}
+            </div>
+            <div style={{marginTop:10,fontSize:11,color:'var(--tm)',fontStyle:'italic'}}>Once connected, HOMI becomes part of your planning workflow — not a report you read once.</div>
+          </div>
+        </div>
+
+        <div className="section-divider"/>
+
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 9 — DATA API PITCH
+        ═══════════════════════════════════════════════════════════ */}
+        <div className="section" id="s-api">
+          <SectionLabel label="Data API · Access Tiers"/>
+          <div className="section-heading" style={{marginBottom:4}}>Access HOMI Market Intelligence via API</div>
+          <div className="section-sub">Three tiers to match your integration needs. From monthly reports to live data feeds.</div>
+
+          <div className="api-tier-grid">
+            {[
+              {name:'Market Reports',     price:'$299',  period:'/mo',  features:['Monthly PDF snapshots','Regional demand summaries','System lifecycle forecasts','Seasonal trend reports','Email delivery'],feat:false},
+              {name:'Live Data Feed',     price:'$999',  period:'/mo',  features:['REST API access','Refreshed weekly','ZIP + category queries','Promotion timing alerts','Webhook demand signals'],feat:true},
+              {name:'Custom Analytics',  price:'Contact us', period:'', features:['Dedicated data team','POS data integration','SKU-level recommendations','DC inventory planning','White-label + SLA'],feat:false},
+            ].map(t=>(
+              <div key={t.name} className={`api-tier ${t.feat?'featured':''}`}>
+                <div className="api-tier-name">{t.name}</div>
+                <div className="api-tier-price">{t.price}</div>
+                <div className="api-tier-period">{t.period||'Enterprise'}</div>
+                <ul className="api-tier-features">
+                  {t.features.map(f=><li key={f}>{f}</li>)}
+                </ul>
+                <button className="cta-btn" style={{width:'100%',background:t.feat?'var(--g)':'var(--go)',padding:'10px 0',fontSize:12}}>{t.feat?'Get API Access':'Learn More'}</button>
+              </div>
+            ))}
+          </div>
+
+          <div style={{marginBottom:10}}>
+            <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',color:'var(--tm)',marginBottom:8}}>Sample API Response</div>
+            <div className="code-block">
+{`{
+  `}<span className="ck">"market"</span>{`: `}<span className="cs">"lehigh_valley_pa"</span>{`,
+  `}<span className="ck">"homes_tracked"</span>{`: `}<span className="cn">2184</span>{`,  `}<span className="ck">"avg_health_score"</span>{`: `}<span className="cn">71</span>{`,
+  `}<span className="ck">"total_market_opportunity"</span>{`: `}<span className="cs">"$34.7M"</span>{`,
+  `}<span className="ck">"demand_forecast"</span>{`: [
+    { `}<span className="ck">"category"</span>{`: `}<span className="cs">"hvac"</span>{`, `}<span className="ck">"homes_in_window"</span>{`: `}<span className="cn">412</span>{`, `}<span className="ck">"urgency"</span>{`: `}<span className="cs">"high"</span>{`, `}<span className="ck">"est_spend"</span>{`: `}<span className="cs">"$3.7M"</span>{`, `}<span className="ck">"yoy"</span>{`: `}<span className="cn">0.27</span>{`, `}<span className="ck">"action"</span>{`: `}<span className="cs">"order_now"</span>{`, `}<span className="ck">"peak"</span>{`: `}<span className="cs">"Q2_2026"</span>{` },
+    { `}<span className="ck">"category"</span>{`: `}<span className="cs">"water_heater"</span>{`, `}<span className="ck">"homes_in_window"</span>{`: `}<span className="cn">566</span>{`, `}<span className="ck">"urgency"</span>{`: `}<span className="cs">"high"</span>{`, `}<span className="ck">"est_spend"</span>{`: `}<span className="cs">"$1.1M"</span>{`, `}<span className="ck">"yoy"</span>{`: `}<span className="cn">0.19</span>{`, `}<span className="ck">"action"</span>{`: `}<span className="cs">"build_q2"</span>{` },
+    { `}<span className="ck">"category"</span>{`: `}<span className="cs">"landscaping"</span>{`, `}<span className="ck">"homes_in_window"</span>{`: `}<span className="cn">344</span>{`, `}<span className="ck">"urgency"</span>{`: `}<span className="cs">"high"</span>{`, `}<span className="ck">"est_spend"</span>{`: `}<span className="cs">"$820K"</span>{`, `}<span className="ck">"yoy"</span>{`: `}<span className="cn">0.31</span>{`, `}<span className="ck">"action"</span>{`: `}<span className="cs">"order_now"</span>{` }
+  ],
+  `}<span className="ck">"system_urgency_breakdown"</span>{`: { `}<span className="ck">"high"</span>{`: `}<span className="cn">3</span>{`, `}<span className="ck">"medium"</span>{`: `}<span className="cn">2</span>{`, `}<span className="ck">"low"</span>{`: `}<span className="cn">1</span>{` },
+  `}<span className="ck">"industry_gap"</span>{`: { `}<span className="ck">"hvac"</span>{`: `}<span className="cs">"+23pt"</span>{`, `}<span className="ck">"landscaping"</span>{`: `}<span className="cs">"+25pt"</span>{`, `}<span className="ck">"water_heater"</span>{`: `}<span className="cs">"+14pt"</span>{` },
+  `}<span className="ck">"top_promo_recommendation"</span>{`: {
+    `}<span className="ck">"category"</span>{`: `}<span className="cs">"hvac_filters"</span>{`, `}<span className="ck">"zips"</span>{`: [`}<span className="cs">"18104"</span>{`, `}<span className="cs">"18052"</span>{`],
+    `}<span className="ck">"window"</span>{`: `}<span className="cs">"2026-03-15/2026-06-30"</span>{`, `}<span className="ck">"addressable_homes"</span>{`: `}<span className="cn">412</span>{`
+  }
+}`}
+            </div>
+          </div>
+
+          <div style={{display:'flex',alignItems:'center',gap:14}}>
+            <button className="cta-btn cta-btn-gold">Request API Access</button>
+            <span style={{fontSize:12,color:'var(--tm)'}}>Used by 40+ retailers and supply chain teams across the mid-Atlantic.</span>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════════
+            FOOTER
+        ═══════════════════════════════════════════════════════════ */}
+        <div style={{textAlign:'center',padding:'18px 28px 12px',borderTop:'1px solid var(--br)',background:'var(--wh)'}}>
+          <div style={{fontSize:11,color:'var(--tm)'}}>HOMI Supply Chain Intelligence · Lehigh Valley PA · Spring 2026 · {TOTAL_HOMES.toLocaleString()} homes tracked · 6 product categories · 93% avg forecast accuracy</div>
+          <div style={{fontSize:10,color:'var(--br)',marginTop:3}}>Prototype · Data illustrative for B2B supply chain evaluation · <a href="#" onClick={e=>{e.preventDefault();window.print();}} style={{color:'var(--tm)',textDecoration:'underline'}}>Print / Export PDF</a></div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
