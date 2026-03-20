@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HOMI ÃÂ· Spend Planner Ã¢ÂÂ 142 Maple Ridge Drive</title>
+<title>HOMI · Spend Planner — 142 Maple Ridge Drive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
@@ -41,7 +41,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .fade-up-3{animation:fadeUp .5s .24s ease both}
 .status-slide{animation:statusSlide .35s ease both}
 
-/* Ã¢ÂÂÃ¢ÂÂ PRINT Ã¢ÂÂÃ¢ÂÂ */
+/* ── PRINT ── */
 @media print{
   #top-nav,#print-btn,#footer{display:none!important}
   body{background:#fff}
@@ -50,7 +50,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   *{box-shadow:none!important}
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ MOBILE Ã¢ÂÂÃ¢ÂÂ */
+/* ── MOBILE ── */
 @media(max-width:768px){
   .grid-2{grid-template-columns:1fr!important}
   .grid-3{grid-template-columns:1fr!important}
@@ -76,43 +76,43 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 <script type="text/babel">
 const {useState,useMemo,useEffect,useRef,useCallback} = React;
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ DATA */
+/* ═══════════════════════════════════════════════════════ DATA */
 const PROPERTY = {address:"142 Maple Ridge Drive",city:"Allentown, PA 18104",built:2004,sqft:2847,beds:4,baths:2.5,climate:"IECC Zone 5A"};
 
 const SYSTEMS = [
-  {id:"water-heater",name:"Water Heater",icon:"Ã°ÂÂÂ§",installed:2018,lifespan:12,condition:"urgent",pct:67,nextEvent:"Replace within 18 months",nextYear:2026,urgency:"act",urgencyLabel:"Act Now",costLow:900,costHigh:1800,maintLow:0,maintHigh:100,diy:false,detail:"Sediment buildup detected and efficiency is dropping. This system is entering its replacement window. Replacement is the most cost-effective path. A tankless upgrade ($2,200Ã¢ÂÂ$3,500) offers long-term energy savings.",savingsMonths:12,priority:1,timelineX:12},
-  {id:"electrical",name:"Electrical Panel",icon:"Ã¢ÂÂ¡",installed:2004,lifespan:40,condition:"attention",pct:30,nextEvent:"Panel inspection overdue",nextYear:2026,urgency:"plan",urgencyLabel:"Plan This Year",costLow:3000,costHigh:6000,maintLow:200,maintHigh:400,diy:false,detail:"200A panel from 2004. Inspection is overdue Ã¢ÂÂ common in homes this age. No immediate replacement expected, but a safety audit is recommended this year.",savingsMonths:36,priority:2,timelineX:22},
-  {id:"roof",name:"Roof",icon:"Ã°ÂÂÂ ",installed:2004,lifespan:25,condition:"fair",pct:84,nextEvent:"Entering repair window 2027",nextYear:2027,urgency:"plan",urgencyLabel:"Plan This Year",costLow:11000,costHigh:15000,maintLow:500,maintHigh:1200,diy:false,detail:"Architectural shingles showing granule loss. 80 freeze cycles/year accelerates wear. Inspection + minor repairs recommended before full replacement window opens.",savingsMonths:48,priority:3,timelineX:38},
-  {id:"hvac",name:"HVAC System",icon:"Ã¢ÂÂÃ¯Â¸Â",installed:2016,lifespan:15,condition:"good",pct:60,nextEvent:"Annual service due 2026",nextYear:2031,urgency:"watch",urgencyLabel:"On Track",costLow:7000,costHigh:9500,maintLow:150,maintHigh:300,diy:false,detail:"Carrier 2-stage system in good condition. Annual tune-up extends life 3Ã¢ÂÂ5 years. Filter replacement every 90 days is recommended for Zone 5A climates.",savingsMonths:60,priority:4,timelineX:65},
-  {id:"exterior",name:"Exterior & Siding",icon:"Ã°ÂÂÂ¡",installed:2004,lifespan:30,condition:"good",pct:40,nextEvent:"Caulking recommended this season",nextYear:2030,urgency:"watch",urgencyLabel:"On Track",costLow:4000,costHigh:8000,maintLow:300,maintHigh:800,diy:true,detail:"Vinyl siding in good shape. Caulking around windows and doors prevents moisture intrusion. Power wash + touch-up paint on trim recommended this spring.",savingsMonths:60,priority:5,timelineX:55},
-  {id:"plumbing",name:"Plumbing",icon:"Ã°ÂÂÂ§",installed:2004,lifespan:40,condition:"good",pct:28,nextEvent:"No immediate action needed",nextYear:2035,urgency:"watch",urgencyLabel:"On Track",costLow:2000,costHigh:5000,maintLow:100,maintHigh:300,diy:false,detail:"Original supply lines in good condition. Routine drain cleaning every 2 years recommended. Minor leak check around fixtures annually.",savingsMonths:96,priority:6,timelineX:82},
-  {id:"landscaping",name:"Landscaping",icon:"Ã°ÂÂÂ¿",installed:2004,lifespan:1,condition:"good",pct:100,nextEvent:"Spring treatment due",nextYear:2025,urgency:"watch",urgencyLabel:"On Track",costLow:800,costHigh:2400,maintLow:800,maintHigh:2400,diy:true,detail:"Annual spring treatment includes aeration, overseeding, and fertilization. Mulching beds reduces maintenance. 4-zone irrigation system needs spring startup.",savingsMonths:12,priority:7,timelineX:5},
+  {id:"water-heater",name:"Water Heater",icon:"💧",installed:2018,lifespan:12,condition:"urgent",pct:67,nextEvent:"Replace within 18 months",nextYear:2026,urgency:"act",urgencyLabel:"Act Now",costLow:900,costHigh:1800,maintLow:0,maintHigh:100,diy:false,detail:"Sediment buildup detected and efficiency is dropping. This system is entering its replacement window. Replacement is the most cost-effective path. A tankless upgrade ($2,200–$3,500) offers long-term energy savings.",savingsMonths:12,priority:1,timelineX:12},
+  {id:"electrical",name:"Electrical Panel",icon:"⚡",installed:2004,lifespan:40,condition:"attention",pct:30,nextEvent:"Panel inspection overdue",nextYear:2026,urgency:"plan",urgencyLabel:"Plan This Year",costLow:3000,costHigh:6000,maintLow:200,maintHigh:400,diy:false,detail:"200A panel from 2004. Inspection is overdue — common in homes this age. No immediate replacement expected, but a safety audit is recommended this year.",savingsMonths:36,priority:2,timelineX:22},
+  {id:"roof",name:"Roof",icon:"🏠",installed:2004,lifespan:25,condition:"fair",pct:84,nextEvent:"Entering repair window 2027",nextYear:2027,urgency:"plan",urgencyLabel:"Plan This Year",costLow:11000,costHigh:15000,maintLow:500,maintHigh:1200,diy:false,detail:"Architectural shingles showing granule loss. 80 freeze cycles/year accelerates wear. Inspection + minor repairs recommended before full replacement window opens.",savingsMonths:48,priority:3,timelineX:38},
+  {id:"hvac",name:"HVAC System",icon:"❄️",installed:2016,lifespan:15,condition:"good",pct:60,nextEvent:"Annual service due 2026",nextYear:2031,urgency:"watch",urgencyLabel:"On Track",costLow:7000,costHigh:9500,maintLow:150,maintHigh:300,diy:false,detail:"Carrier 2-stage system in good condition. Annual tune-up extends life 3–5 years. Filter replacement every 90 days is recommended for Zone 5A climates.",savingsMonths:60,priority:4,timelineX:65},
+  {id:"exterior",name:"Exterior & Siding",icon:"🏡",installed:2004,lifespan:30,condition:"good",pct:40,nextEvent:"Caulking recommended this season",nextYear:2030,urgency:"watch",urgencyLabel:"On Track",costLow:4000,costHigh:8000,maintLow:300,maintHigh:800,diy:true,detail:"Vinyl siding in good shape. Caulking around windows and doors prevents moisture intrusion. Power wash + touch-up paint on trim recommended this spring.",savingsMonths:60,priority:5,timelineX:55},
+  {id:"plumbing",name:"Plumbing",icon:"🔧",installed:2004,lifespan:40,condition:"good",pct:28,nextEvent:"No immediate action needed",nextYear:2035,urgency:"watch",urgencyLabel:"On Track",costLow:2000,costHigh:5000,maintLow:100,maintHigh:300,diy:false,detail:"Original supply lines in good condition. Routine drain cleaning every 2 years recommended. Minor leak check around fixtures annually.",savingsMonths:96,priority:6,timelineX:82},
+  {id:"landscaping",name:"Landscaping",icon:"🌿",installed:2004,lifespan:1,condition:"good",pct:100,nextEvent:"Spring treatment due",nextYear:2025,urgency:"watch",urgencyLabel:"On Track",costLow:800,costHigh:2400,maintLow:800,maintHigh:2400,diy:true,detail:"Annual spring treatment includes aeration, overseeding, and fertilization. Mulching beds reduces maintenance. 4-zone irrigation system needs spring startup.",savingsMonths:12,priority:7,timelineX:5},
 ];
 
 const PRIORITIES = [
-  {rank:1,system:"Water Heater",action:"Replace water heater",urgency:"act",costLow:900,costHigh:1800,timing:"Within 12Ã¢ÂÂ18 months",diy:false,score:94},
-  {rank:2,system:"Electrical",action:"Schedule panel inspection",urgency:"plan",costLow:200,costHigh:400,timing:"This year (2025Ã¢ÂÂ2026)",diy:false,score:71},
-  {rank:3,system:"Roof",action:"Professional inspection + minor repairs",urgency:"plan",costLow:500,costHigh:1200,timing:"Spring 2026Ã¢ÂÂ2027",diy:false,score:68},
+  {rank:1,system:"Water Heater",action:"Replace water heater",urgency:"act",costLow:900,costHigh:1800,timing:"Within 12–18 months",diy:false,score:94},
+  {rank:2,system:"Electrical",action:"Schedule panel inspection",urgency:"plan",costLow:200,costHigh:400,timing:"This year (2025–2026)",diy:false,score:71},
+  {rank:3,system:"Roof",action:"Professional inspection + minor repairs",urgency:"plan",costLow:500,costHigh:1200,timing:"Spring 2026–2027",diy:false,score:68},
   {rank:4,system:"Exterior",action:"Caulk windows & doors",urgency:"watch",costLow:150,costHigh:400,timing:"This spring",diy:true,score:42},
-  {rank:5,system:"Landscaping",action:"Spring lawn treatment & irrigation startup",urgency:"watch",costLow:800,costHigh:1500,timing:"AprilÃ¢ÂÂMay 2025",diy:true,score:35},
+  {rank:5,system:"Landscaping",action:"Spring lawn treatment & irrigation startup",urgency:"watch",costLow:800,costHigh:1500,timing:"April–May 2025",diy:true,score:35},
   {rank:6,system:"HVAC",action:"Annual tune-up & filter replacement",urgency:"watch",costLow:150,costHigh:300,timing:"Before summer 2026",diy:false,score:30},
-  {rank:7,system:"Plumbing",action:"Drain cleaning & leak check",urgency:"watch",costLow:100,costHigh:300,timing:"No rush Ã¢ÂÂ 2026+",diy:false,score:18},
+  {rank:7,system:"Plumbing",action:"Drain cleaning & leak check",urgency:"watch",costLow:100,costHigh:300,timing:"No rush — 2026+",diy:false,score:18},
 ];
 
 const SCENARIOS = [
-  {id:"nothing",label:"Do Nothing",icon:"Ã°ÂÂÂ´",color:"#C0392B",bg:"#FDECEA",cost10:58000,scoreImpact:-22,risk:"High",desc:"Emergency replacements cost 30Ã¢ÂÂ40% more. Deferred maintenance compounds quickly into expensive crises.",items:["Emergency water heater failure (~$2,400+)","Roof leak causing interior damage ($5,000+)","HVAC breakdown mid-season","Electrical hazards go unaddressed"]},
-  {id:"maintain",label:"Maintain on Schedule",icon:"Ã°ÂÂÂ",color:"#D97706",bg:"#FEF3C7",cost10:41000,scoreImpact:+5,risk:"Low",desc:"Planned maintenance prevents most emergencies. The recommended baseline for any homeowner.",items:["Annual HVAC service & filter changes","Water heater replaced on schedule","Roof inspections every 3 years","Electrical panel inspected in 2026"],recommended:true},
-  {id:"proactive",label:"Full Proactive",icon:"Ã°ÂÂÂ",color:"#1C4A2E",bg:"#D8F3DC",cost10:35000,scoreImpact:+18,risk:"Minimal",desc:"Proactive upgrades maximize home value and efficiency. Best long-term financial outcome.",items:["Tankless water heater upgrade","High-efficiency HVAC system","50-year metal roof","Smart home systems integration"]},
+  {id:"nothing",label:"Do Nothing",icon:"😴",color:"#C0392B",bg:"#FDECEA",cost10:58000,scoreImpact:-22,risk:"High",desc:"Emergency replacements cost 30–40% more. Deferred maintenance compounds quickly into expensive crises.",items:["Emergency water heater failure (~$2,400+)","Roof leak causing interior damage ($5,000+)","HVAC breakdown mid-season","Electrical hazards go unaddressed"]},
+  {id:"maintain",label:"Maintain on Schedule",icon:"📅",color:"#D97706",bg:"#FEF3C7",cost10:41000,scoreImpact:+5,risk:"Low",desc:"Planned maintenance prevents most emergencies. The recommended baseline for any homeowner.",items:["Annual HVAC service & filter changes","Water heater replaced on schedule","Roof inspections every 3 years","Electrical panel inspected in 2026"],recommended:true},
+  {id:"proactive",label:"Full Proactive",icon:"🏆",color:"#1C4A2E",bg:"#D8F3DC",cost10:35000,scoreImpact:+18,risk:"Minimal",desc:"Proactive upgrades maximize home value and efficiency. Best long-term financial outcome.",items:["Tankless water heater upgrade","High-efficiency HVAC system","50-year metal roof","Smart home systems integration"]},
 ];
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ HELPERS */
+/* ═══════════════════════════════════════════════════════ HELPERS */
 const fmt = n => "$"+Math.round(n).toLocaleString();
-const fmtRange = (lo,hi) => `${fmt(lo)} Ã¢ÂÂ ${fmt(hi)}`;
+const fmtRange = (lo,hi) => `${fmt(lo)} – ${fmt(hi)}`;
 const uc = u => u==="act"?"#C0392B":u==="plan"?"#D97706":"#2D6A4F";
 const ub = u => u==="act"?"#FDECEA":u==="plan"?"#FEF3C7":"#D8F3DC";
 
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ ATOMS */
+/* ═══════════════════════════════════════════════════════ ATOMS */
 const S = {
   card:(extra={})=>({background:"#fff",borderRadius:16,padding:28,boxShadow:"0 2px 12px rgba(28,74,46,0.08)",border:"1px solid #E4DDD3",...extra}),
   btn:(bg,color,border)=>({background:bg,color:color,border:border||"none",borderRadius:8,padding:"10px 20px",fontSize:14,fontWeight:600,cursor:"pointer",fontFamily:"'DM Sans',sans-serif",transition:"all .18s ease",display:"inline-flex",alignItems:"center",gap:6}),
@@ -134,20 +134,20 @@ function LifecycleBar({pct,urgency}){
 function HomiGuidance({text}){
   return(
     <div style={{background:"#F0FDF4",border:"1px solid #D8F3DC",borderLeft:"3px solid #52B788",borderRadius:10,padding:"12px 16px",display:"flex",gap:10,alignItems:"flex-start",marginTop:14}}>
-      <span style={{fontSize:15,flexShrink:0}}>Ã°ÂÂÂ¡</span>
-      <p style={{fontSize:13,color:"#2D6A4F",lineHeight:1.55}}><strong style={{fontWeight:700}}>HOMI Guidance ÃÂ· </strong>{text}</p>
+      <span style={{fontSize:15,flexShrink:0}}>💡</span>
+      <p style={{fontSize:13,color:"#2D6A4F",lineHeight:1.55}}><strong style={{fontWeight:700}}>HOMI Guidance · </strong>{text}</p>
     </div>
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ NAV */
+/* ═══════════════════════════════════════════════════════ NAV */
 function TopNav({onPrint}){
   return(
     <div id="top-nav" style={{background:"#1C4A2E",position:"sticky",top:0,zIndex:100,boxShadow:"0 2px 16px rgba(0,0,0,0.18)"}}>
       <div style={{maxWidth:1200,margin:"0 auto",padding:"0 24px",display:"flex",justifyContent:"space-between",alignItems:"center",height:60}}>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
           <div style={{width:32,height:32,background:"linear-gradient(135deg,#52B788,#C9963A)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <span style={{fontSize:16}}>Ã°ÂÂÂ¡</span>
+            <span style={{fontSize:16}}>🏡</span>
           </div>
           <span style={{color:"#fff",fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:700}}>HOMI</span>
           <span style={{color:"#52B788",fontSize:13,fontWeight:500}}>Spend Planner</span>
@@ -159,7 +159,7 @@ function TopNav({onPrint}){
             <span style={{color:"#52B788",fontSize:13,fontWeight:500}}>Allentown, PA</span>
           </div>
           <button id="print-btn" onClick={onPrint} style={{...S.btnSm("rgba(255,255,255,0.12)","#D8F3DC","1px solid rgba(255,255,255,0.2)"),fontSize:12}}>
-            Ã°ÂÂÂ¨ Print Plan
+            🖨 Print Plan
           </button>
         </div>
       </div>
@@ -167,7 +167,7 @@ function TopNav({onPrint}){
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ PROPERTY HEADER */
+/* ═══════════════════════════════════════════════════════ PROPERTY HEADER */
 function PropertyHeader(){
   return(
     <div style={{background:"linear-gradient(135deg,#1C4A2E 0%,#2D6A4F 100%)",padding:"40px 0 32px"}}>
@@ -176,7 +176,7 @@ function PropertyHeader(){
           <div>
             <p style={{color:"#D8F3DC",fontSize:12,fontWeight:600,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:6}}>Property Lifecycle Intelligence</p>
             <h1 className="hero-h1" style={{fontFamily:"'Playfair Display',serif",fontSize:32,fontWeight:700,color:"#fff",marginBottom:6,lineHeight:1.2}}>142 Maple Ridge Drive</h1>
-            <p style={{color:"#A8D5BA",fontSize:15}}>Allentown, PA 18104 ÃÂ· Built {PROPERTY.built} ÃÂ· {PROPERTY.sqft.toLocaleString()} sq ft ÃÂ· {PROPERTY.beds}bd / {PROPERTY.baths}ba</p>
+            <p style={{color:"#A8D5BA",fontSize:15}}>Allentown, PA 18104 · Built {PROPERTY.built} · {PROPERTY.sqft.toLocaleString()} sq ft · {PROPERTY.beds}bd / {PROPERTY.baths}ba</p>
           </div>
           <div className="prop-meta" style={{display:"flex",gap:12,flexWrap:"wrap"}}>
             {[["Climate","IECC 5A"],["Freeze Cycles","80/yr"],["Hail Risk","Moderate"],["Systems","7 tracked"]].map(([k,v])=>(
@@ -192,14 +192,14 @@ function PropertyHeader(){
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ SECTION 1: COST FORECAST */
+/* ═══════════════════════════════════════════════════════ SECTION 1: COST FORECAST */
 function CostForecast({scenario,setScenario}){
   const costs = useMemo(()=>{
     const m = scenario==="full"?1:0.72;
     return {y1:Math.round(2400*m),y3:Math.round(8200*m),y5:Math.round(18500*m),y10:Math.round(41000*m)};
   },[scenario]);
 
-  // SVG timeline Ã¢ÂÂ proportional to actual years 2025Ã¢ÂÂ2035
+  // SVG timeline — proportional to actual years 2025–2035
   const events = [
     {year:2025,label:"Landscaping",color:"#2D6A4F",r:6,cost:1200},
     {year:2026,label:"Water Heater",color:"#C0392B",r:10,cost:1350},
@@ -243,7 +243,7 @@ function CostForecast({scenario,setScenario}){
 
         {/* SVG TIMELINE */}
         <div>
-          <p style={{...S.label,marginBottom:16}}>When Costs Arrive ÃÂ· 2025Ã¢ÂÂ2035</p>
+          <p style={{...S.label,marginBottom:16}}>When Costs Arrive · 2025–2035</p>
           <div style={{overflowX:"auto"}}>
             <svg viewBox="0 0 800 110" style={{width:"100%",minWidth:420,display:"block"}} aria-label="Cost timeline">
               {/* track */}
@@ -278,13 +278,13 @@ function CostForecast({scenario,setScenario}){
             </svg>
           </div>
         </div>
-        <HomiGuidance text="Most homeowners in the Lehigh Valley budget $200Ã¢ÂÂ$350/month for home maintenance and replacement reserves. Planning early typically costs 30% less than emergency repairs."/>
+        <HomiGuidance text="Most homeowners in the Lehigh Valley budget $200–$350/month for home maintenance and replacement reserves. Planning early typically costs 30% less than emergency repairs."/>
       </div>
     </div>
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ SECTION 1B: STATUS */
+/* ═══════════════════════════════════════════════════════ SECTION 1B: STATUS */
 function StatusIndicator({monthlySavings}){
   const upcomingCosts5yr = 18500; // actual 5yr projected cost
   const months = 60;
@@ -296,9 +296,9 @@ function StatusIndicator({monthlySavings}){
 
   const status = pct>=95?"track":pct>=70?"close":"attention";
   const cfg = {
-    track:{label:"You're On Track",color:"#1C4A2E",bg:"#D8F3DC",border:"#52B78840",icon:"Ã¢ÂÂ",msg:`Your current savings plan covers projected costs over the next 5 years. Keep it up.`},
-    close:{label:"Almost There",color:"#D97706",bg:"#FEF3C7",border:"#D9770640",icon:"Ã¢ÂÂ",msg:`A small increase of ${fmt(adjustNeeded)}/month would fully cover your 5-year plan.`},
-    attention:{label:"Needs Attention",color:"#C0392B",bg:"#FDECEA",border:"#C0392B40",icon:"Ã¢ÂÂ",msg:`Your plan falls short by ${fmt(gap)} over 5 years. Saving ${fmt(adjustNeeded)} more/month would close the gap.`},
+    track:{label:"You're On Track",color:"#1C4A2E",bg:"#D8F3DC",border:"#52B78840",icon:"✓",msg:`Your current savings plan covers projected costs over the next 5 years. Keep it up.`},
+    close:{label:"Almost There",color:"#D97706",bg:"#FEF3C7",border:"#D9770640",icon:"◎",msg:`A small increase of ${fmt(adjustNeeded)}/month would fully cover your 5-year plan.`},
+    attention:{label:"Needs Attention",color:"#C0392B",bg:"#FDECEA",border:"#C0392B40",icon:"○",msg:`Your plan falls short by ${fmt(gap)} over 5 years. Saving ${fmt(adjustNeeded)} more/month would close the gap.`},
   }[status];
 
   return(
@@ -307,69 +307,7 @@ function StatusIndicator({monthlySavings}){
         <div style={{width:52,height:52,borderRadius:14,background:cfg.color,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"background .4s"}}>
           <span style={{color:"#fff",fontSize:22,fontWeight:700}}>{cfg.icon}</span>
         </div>
-        <div 
-{/* ââ HOMI Intelligence Banner ââ */}
-<div style={{background:"linear-gradient(135deg,#1a1a1a 0%,#2D1A00 100%)",borderRadius:18,padding:"20px 24px",position:"relative",overflow:"hidden",border:"1px solid rgba(201,150,58,0.3)",marginBottom:4}}>
-  <div style={{position:"absolute",top:-30,right:-30,width:140,height:140,borderRadius:"50%",background:"rgba(201,150,58,0.07)"}}/>
-  <div style={{position:"absolute",bottom:-30,left:-20,width:100,height:100,borderRadius:"50%",background:"rgba(201,150,58,0.05)"}}/>
-  <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",position:"relative",gap:20}}>
-    <div style={{flex:1}}>
-      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
-        <span style={{fontSize:11,fontWeight:700,color:"rgba(201,150,58,0.9)",letterSpacing:1,textTransform:"uppercase"}}>HOMI Intelligence</span>
-        <span style={{background:"rgba(201,150,58,0.15)",color:"#E8B84B",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:20,border:"1px solid rgba(201,150,58,0.3)"}}>Spend Forecast</span>
-      </div>
-      <div style={{fontFamily:"'Playfair Display',serif",fontSize:34,fontWeight:700,color:"white",letterSpacing:-1,lineHeight:1.1}}>$11,600</div>
-      <div style={{fontSize:13,color:"rgba(255,255,255,0.65)",marginTop:4}}>recommended maintenance spend over the next 2 years</div>
-      <div style={{display:"flex",alignItems:"center",gap:6,marginTop:12,background:"rgba(28,74,46,0.15)",border:"1px solid rgba(28,74,46,0.25)",borderRadius:20,padding:"5px 14px",width:"fit-content"}}>
-        <span style={{fontSize:12,fontWeight:700,color:"#52B788"}}>&#9989; Proactive spending saves ~$3,400 vs. reactive repairs</span>
-      </div>
-    </div>
-    <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:5,flexShrink:0}}>
-      <div style={{fontFamily:"'Playfair Display',serif",fontSize:30,fontWeight:700,color:"#F4A261",lineHeight:1}}>$4,200</div>
-      <div style={{fontSize:10,color:"rgba(255,255,255,0.5)",textAlign:"center",lineHeight:1.4}}>HOMI<br/>Score</div>
-      
-{/* ── HOMI Intelligence Banner ── */}
-<div style={{background:"linear-gradient(135deg,#1a1a1a 0%,#2D1A00 100%)",borderRadius:18,padding:"20px 24px",position:"relative",overflow:"hidden",border:"1px solid rgba(201,150,58,0.3)",marginBottom:4}}>
-  <div style={{position:"absolute",top:-30,right:-30,width:140,height:140,borderRadius:"50%",background:"rgba(201,150,58,0.07)"}}/>
-  <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",position:"relative",gap:20}}>
-    <div style={{flex:1}}>
-      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}><span style={{fontSize:11,fontWeight:700,color:"rgba(201,150,58,0.9)",letterSpacing:1,textTransform:"uppercase"}}>Cost Intelligence</span><span style={{background:"rgba(201,150,58,0.15)",color:"#E8B84B",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:20,border:"1px solid rgba(201,150,58,0.3)"}}>Spend Forecast</span></div>
-      <div style={{fontFamily:"'Playfair Display',serif",fontSize:34,fontWeight:700,color:"white",letterSpacing:-1,lineHeight:1.1}}>$11,600</div>
-      <div style={{fontSize:13,color:"rgba(255,255,255,0.65)",marginTop:4}}>recommended maintenance spend over the next 2 years</div>
-      <div style={{display:"flex",alignItems:"center",gap:6,marginTop:12,background:"rgba(28,74,46,0.15)",border:"1px solid rgba(28,74,46,0.25)",borderRadius:20,padding:"5px 14px",width:"fit-content"}}><span style={{fontSize:12,fontWeight:700,color:"#52B788"}}>&#9989; Proactive spending saves ~$3,400 vs reactive repairs</span></div>
-    </div>
-    <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:5,flexShrink:0}}>
-      <div style={{fontFamily:"'Playfair Display',serif",fontSize:30,fontWeight:700,color:"#F4A261",lineHeight:1}}>$4.2K</div>
-      <div style={{fontSize:10,color:"rgba(255,255,255,0.5)",textAlign:"center",lineHeight:1.4}}>HOMI<br/>Score</div>
-      <div style={{fontSize:10,fontWeight:700,color:"#F4A261",background:"rgba(201,150,58,0.15)",padding:"3px 10px",borderRadius:20,border:"1px solid rgba(201,150,58,0.25)",whiteSpace:"nowrap"}}>Annual Budget Gap</div>
-    </div>
-  </div>
-</div>
-
-{/* ── HOMI Insight + Action ── */}
-<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:4}}>
-  <div style={{background:"linear-gradient(135deg,#EBF2FB,#DBEAFE)",border:"1px solid rgba(37,99,168,0.2)",borderRadius:16,padding:20}}>
-    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:11}}><div style={{width:30,height:30,borderRadius:9,background:"rgba(37,99,168,0.12)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:17}}>&#129504;</div><div style={{fontSize:11,fontWeight:700,color:"#2563A8",letterSpacing:.5,textTransform:"uppercase"}}>Spend Intelligence</div></div>
-    <div style={{fontSize:13,fontWeight:600,color:"#1A3A6A",lineHeight:1.6,marginBottom:12}}>Homeowners who plan maintenance spend 28% less than those who react to failures. Your biggest savings opportunity is the HVAC.</div>
-    <div style={{display:"flex",flexDirection:"column",gap:6}}>
-      <div style={{display:"flex",alignItems:"center",gap:8,padding:"7px 11px",background:"rgba(192,57,43,0.08)",borderRadius:10,border:"1px solid rgba(192,57,43,0.15)"}}><span style={{fontSize:13,flexShrink:0}}>&#128308;</span><span style={{fontSize:12,fontWeight:600,color:"#8B1A1A"}}>HVAC service overdue &mdash; costs rising each month</span></div>
-      <div style={{display:"flex",alignItems:"center",gap:8,padding:"7px 11px",background:"rgba(217,119,6,0.08)",borderRadius:10,border:"1px solid rgba(217,119,6,0.15)"}}><span style={{fontSize:13,flexShrink:0}}>&#128993;</span><span style={{fontSize:12,fontWeight:600,color:"#7A4500"}}>Roof inspection due &mdash; catch it before winter</span></div>
-      <div style={{display:"flex",alignItems:"center",gap:8,padding:"7px 11px",background:"rgba(28,74,46,0.07)",borderRadius:10,border:"1px solid rgba(28,74,46,0.12)"}}><span style={{fontSize:13,flexShrink:0}}>&#128994;</span><span style={{fontSize:12,fontWeight:600,color:"#1C4A2E"}}>Plumbing &mdash; on schedule, no action needed</span></div></div>
-  </div>
-  <div style={{background:"linear-gradient(135deg,#D8F3DC,#ECFDF5)",border:"1px solid rgba(28,74,46,0.2)",borderRadius:16,padding:20}}>
-    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:11}}><div style={{width:30,height:30,borderRadius:9,background:"rgba(28,74,46,0.1)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:17}}>&#127919;</div><div style={{fontSize:11,fontWeight:700,color:"#1C4A2E",letterSpacing:.5,textTransform:"uppercase"}}>Next Best Action</div></div>
-    <div style={{fontSize:13,fontWeight:600,color:"#1C4A2E",lineHeight:1.6,marginBottom:12}}>Book HVAC service this month. It is your highest-ROI move &mdash; delays cost more and reduce your home score.</div>
-    <div style={{display:"flex",flexDirection:"column",gap:7,marginBottom:14}}>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 11px",background:"rgba(28,74,46,0.07)",borderRadius:10}}><span style={{fontSize:12,color:"#1C4A2E"}}>Estimated service cost</span><span style={{fontSize:12,fontWeight:700,color:"#2D6A4F"}}>$180</span></div>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 11px",background:"rgba(28,74,46,0.07)",borderRadius:10}}><span style={{fontSize:12,color:"#1C4A2E"}}>Avoided future repair</span><span style={{fontSize:12,fontWeight:700,color:"#2D6A4F"}}>~$2,400</span></div></div>
-    <button className="btn-primary" style={{width:"100%",fontSize:12}}>Find an HVAC Pro &#8594;</button>
-  </div>
-</div>
-<div style={{fontSize:10,fontWeight:700,color:"#F4A261",background:"rgba(201,150,58,0.15)",padding:"3px 10px",borderRadius:20,border:"1px solid rgba(201,150,58,0.25)",whiteSpace:"nowrap"}}>Annual Gap</div>
-    </div>
-  </div>
-</div>
-style={{flex:1,minWidth:180}}>
+        <div style={{flex:1,minWidth:180}}>
           <p style={{fontSize:11,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",color:cfg.color,marginBottom:3,transition:"color .4s"}}>HOMI Status</p>
           <h3 style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:700,color:cfg.color,marginBottom:4,transition:"color .4s"}}>{cfg.label}</h3>
           <p style={{fontSize:14,color:"#1A1A1A",lineHeight:1.5}}>{cfg.msg}</p>
@@ -384,14 +322,14 @@ style={{flex:1,minWidth:180}}>
         <div style={{height:"100%",width:`${pct}%`,background:cfg.color,borderRadius:4,transition:"width .6s cubic-bezier(.4,0,.2,1)"}}/>
       </div>
       <div style={{display:"flex",justifyContent:"space-between",marginTop:8,flexWrap:"wrap",gap:8}}>
-        <p style={{fontSize:12,color:cfg.color,fontWeight:500}}>Next major event: <strong>Water Heater replacement window</strong> ÃÂ· Within 18 months</p>
+        <p style={{fontSize:12,color:cfg.color,fontWeight:500}}>Next major event: <strong>Water Heater replacement window</strong> · Within 18 months</p>
         <p style={{fontSize:12,color:"#8A8A8A"}}>Projected savings vs. {fmt(upcomingCosts5yr)} needed</p>
       </div>
     </div>
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ SECTION 2: NEXT BEST MOVE */
+/* ═══════════════════════════════════════════════════════ SECTION 2: NEXT BEST MOVE */
 function NextBestMove(){
   const top = SYSTEMS.find(s=>s.id==="water-heater");
   return(
@@ -402,8 +340,8 @@ function NextBestMove(){
           <div style={{width:56,height:56,borderRadius:14,background:"#FDECEA",display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,flexShrink:0}}>{top.icon}</div>
           <div style={{flex:1,minWidth:220}}>
             <div style={{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap",marginBottom:8}}>
-              <span style={{...S.tag("#FDECEA","#C0392B")}}>Ã¢ÂÂ Act Now</span>
-              <span style={{fontSize:13,color:"#8A8A8A"}}>Urgency ÃÂ impact score: 94/100</span>
+              <span style={{...S.tag("#FDECEA","#C0392B")}}>● Act Now</span>
+              <span style={{fontSize:13,color:"#8A8A8A"}}>Urgency × impact score: 94/100</span>
             </div>
             <h2 style={{...S.h2,fontSize:24,marginBottom:10}}>Replace Water Heater</h2>
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:16,marginBottom:18}}>
@@ -422,19 +360,19 @@ function NextBestMove(){
               </div>
             </div>
             <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
-              <button style={{...S.btn("#1C4A2E","#fff"),fontSize:13}}>Ã°ÂÂÂ° Save for This</button>
-              <button style={{...S.btn("transparent","#1C4A2E","2px solid #1C4A2E"),fontSize:13}}>Ã°ÂÂÂ Get Quote</button>
-              <button style={{...S.btn("transparent","#8A8A8A","1px solid #E4DDD3"),fontSize:13}}>Learn More Ã¢ÂÂ</button>
+              <button style={{...S.btn("#1C4A2E","#fff"),fontSize:13}}>💰 Save for This</button>
+              <button style={{...S.btn("transparent","#1C4A2E","2px solid #1C4A2E"),fontSize:13}}>📋 Get Quote</button>
+              <button style={{...S.btn("transparent","#8A8A8A","1px solid #E4DDD3"),fontSize:13}}>Learn More →</button>
             </div>
           </div>
         </div>
-        <HomiGuidance text="Scheduling a replacement proactively typically costs 20Ã¢ÂÂ30% less than responding to an emergency. Most licensed plumbers in Lehigh Valley can book within 2Ã¢ÂÂ3 weeks."/>
+        <HomiGuidance text="Scheduling a replacement proactively typically costs 20–30% less than responding to an emergency. Most licensed plumbers in Lehigh Valley can book within 2–3 weeks."/>
       </div>
     </div>
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ SECTION 3: MONTHLY BUDGET */
+/* ═══════════════════════════════════════════════════════ SECTION 3: MONTHLY BUDGET */
 function MonthlyBudgetPlanner({monthlySavings,setMonthlySavings}){
   const funds = [
     {name:"Water Heater",target:1350,months:18,color:"#C0392B"},
@@ -500,7 +438,7 @@ function MonthlyBudgetPlanner({monthlySavings,setMonthlySavings}){
                     <div style={{textAlign:"right"}}>
                       <p style={{fontSize:15,fontWeight:700,color:f.color,transition:"all .3s"}}>{pct}%</p>
                       {!onTrack && <p style={{fontSize:11,color:"#D97706"}}>Short {fmt(shortfall)}</p>}
-                      {onTrack && <p style={{fontSize:11,color:"#2D6A4F"}}>Ã¢ÂÂ Covered</p>}
+                      {onTrack && <p style={{fontSize:11,color:"#2D6A4F"}}>✓ Covered</p>}
                     </div>
                   </div>
                   <div style={{height:10,background:"#F0E9DC",borderRadius:5,overflow:"hidden"}}>
@@ -520,7 +458,7 @@ function MonthlyBudgetPlanner({monthlySavings,setMonthlySavings}){
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ SECTION 4: SYSTEM CARDS */
+/* ═══════════════════════════════════════════════════════ SECTION 4: SYSTEM CARDS */
 function SystemCard({system,budgeted,onToggle}){
   const [expanded,setExpanded] = useState(false);
   const [justBudgeted,setJustBudgeted] = useState(false);
@@ -537,7 +475,7 @@ function SystemCard({system,budgeted,onToggle}){
       {/* budgeted flash */}
       {justBudgeted&&<div style={{position:"absolute",inset:0,background:"#D8F3DC",opacity:0,animation:"budgetFlash .6s ease",pointerEvents:"none",zIndex:10,borderRadius:16}}/>}
       {budgeted&&<div style={{position:"absolute",top:12,right:12,width:24,height:24,borderRadius:"50%",background:"#2D6A4F",display:"flex",alignItems:"center",justifyContent:"center",zIndex:5}}>
-        <span style={{color:"#fff",fontSize:13,fontWeight:700,animation:"checkPop .4s ease"}}>Ã¢ÂÂ</span>
+        <span style={{color:"#fff",fontSize:13,fontWeight:700,animation:"checkPop .4s ease"}}>✓</span>
       </div>}
 
       <div style={{display:"flex",gap:14,alignItems:"flex-start"}}>
@@ -545,7 +483,7 @@ function SystemCard({system,budgeted,onToggle}){
         <div style={{flex:1,minWidth:0}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:6,marginBottom:8}}>
             <h3 style={{...S.h3,fontSize:16}}>{system.name}</h3>
-            <span style={{...S.tag(ub(system.urgency),uc(system.urgency)),fontSize:11}}>Ã¢ÂÂ {system.urgencyLabel}</span>
+            <span style={{...S.tag(ub(system.urgency),uc(system.urgency)),fontSize:11}}>● {system.urgencyLabel}</span>
           </div>
           <div style={{marginBottom:10}}>
             <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}>
@@ -564,13 +502,13 @@ function SystemCard({system,budgeted,onToggle}){
             <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
               <button onClick={handleToggle}
                 style={{...S.btnSm(budgeted?"#D8F3DC":"#F0E9DC",budgeted?"#1C4A2E":"#8A8A8A",`1px solid ${budgeted?"#52B788":"#E4DDD3"}`),fontSize:12,transition:"all .3s"}}>
-                {budgeted?"Ã¢ÂÂ Budgeted":"Mark Budgeted"}
+                {budgeted?"✓ Budgeted":"Mark Budgeted"}
               </button>
               {system.diy&&<span style={{...S.tag("#FDF3E0","#C9963A"),fontSize:11}}>DIY Possible</span>}
             </div>
             <button onClick={()=>setExpanded(!expanded)}
               style={{...S.btnSm("transparent","#2D6A4F","none"),fontSize:12,padding:"4px 0"}}>
-              {expanded?"Hide details Ã¢ÂÂ":"View details Ã¢ÂÂ"}
+              {expanded?"Hide details ↑":"View details ↓"}
             </button>
           </div>
         </div>
@@ -611,19 +549,19 @@ function SystemBreakdown({budgeted,setBudgeted}){
         </div>
         {budgetedCount>0&&(
           <div style={{...S.tag("#D8F3DC","#1C4A2E"),fontSize:13,padding:"6px 14px"}}>
-            Ã¢ÂÂ {budgetedCount} of {SYSTEMS.length} systems budgeted
+            ✓ {budgetedCount} of {SYSTEMS.length} systems budgeted
           </div>
         )}
       </div>
       <div className="grid-2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
         {sorted.map(s=><SystemCard key={s.id} system={s} budgeted={!!budgeted[s.id]} onToggle={toggle}/>)}
       </div>
-      <HomiGuidance text="Maintaining your HVAC annually can extend its life by 3Ã¢ÂÂ5 years and improve efficiency by up to 15%. Small investments in maintenance often prevent much larger replacement costs."/>
+      <HomiGuidance text="Maintaining your HVAC annually can extend its life by 3–5 years and improve efficiency by up to 15%. Small investments in maintenance often prevent much larger replacement costs."/>
     </div>
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ SECTION 5: SCENARIO COMPARISON */
+/* ═══════════════════════════════════════════════════════ SECTION 5: SCENARIO COMPARISON */
 function ScenarioComparison(){
   const [selected,setSelected] = useState("maintain");
   const sel = SCENARIOS.find(s=>s.id===selected);
@@ -638,7 +576,7 @@ function ScenarioComparison(){
       {/* Savings delta headline */}
       {selected!=="nothing"&&(
         <div style={{background:"linear-gradient(135deg,#1C4A2E,#2D6A4F)",borderRadius:14,padding:"20px 24px",marginBottom:20,display:"flex",alignItems:"center",gap:20,flexWrap:"wrap"}}>
-          <div style={{fontSize:32}}>Ã°ÂÂÂ°</div>
+          <div style={{fontSize:32}}>💰</div>
           <div>
             <p style={{color:"#D8F3DC",fontSize:13,fontWeight:600,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:4}}>
               {sel.label} vs. Do Nothing
@@ -664,7 +602,7 @@ function ScenarioComparison(){
             <p style={{fontSize:26,fontWeight:700,color:"#1A1A1A",marginBottom:4,transition:"all .3s"}}>{fmt(sc.cost10)}</p>
             <p style={{fontSize:12,color:"#8A8A8A",marginBottom:12}}>10-year total cost</p>
             <div style={{...S.tag(sc.bg,sc.color),fontSize:11,marginBottom:10}}>
-              Score {sc.scoreImpact>0?"+":""}{sc.scoreImpact} ÃÂ· Risk: {sc.risk}
+              Score {sc.scoreImpact>0?"+":""}{sc.scoreImpact} · Risk: {sc.risk}
             </div>
             <p style={{fontSize:13,color:"#1A1A1A",lineHeight:1.5}}>{sc.desc}</p>
           </div>
@@ -683,21 +621,21 @@ function ScenarioComparison(){
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:8}}>
             {sel.items.map((item,i)=>(
               <div key={i} style={{display:"flex",gap:8,alignItems:"flex-start",padding:"5px 0"}}>
-                <span style={{color:sel.color,fontSize:14,marginTop:1,flexShrink:0}}>Ã¢ÂÂº</span>
+                <span style={{color:sel.color,fontSize:14,marginTop:1,flexShrink:0}}>›</span>
                 <p style={{fontSize:13,color:"#1A1A1A",lineHeight:1.5}}>{item}</p>
               </div>
             ))}
           </div>
           {sel.id==="maintain"&&<HomiGuidance text="This is the recommended path for most homeowners. Planned maintenance prevents most emergencies and keeps your home value strong."/>}
-          {sel.id==="proactive"&&<HomiGuidance text="Proactive upgrades typically add $15,000Ã¢ÂÂ$30,000 in assessed home value and significantly reduce energy costs over 10 years."/>}
-          {sel.id==="nothing"&&<HomiGuidance text="Deferred maintenance rarely saves money long-term. Small issues compound into expensive crises Ã¢ÂÂ often at the worst possible time."/>}
+          {sel.id==="proactive"&&<HomiGuidance text="Proactive upgrades typically add $15,000–$30,000 in assessed home value and significantly reduce energy costs over 10 years."/>}
+          {sel.id==="nothing"&&<HomiGuidance text="Deferred maintenance rarely saves money long-term. Small issues compound into expensive crises — often at the worst possible time."/>}
         </div>
       )}
     </div>
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ SECTION 6: PRIORITY QUEUE */
+/* ═══════════════════════════════════════════════════════ SECTION 6: PRIORITY QUEUE */
 function PriorityQueue(){
   return(
     <div style={{marginBottom:48}}>
@@ -719,7 +657,7 @@ function PriorityQueue(){
                   <td style={{padding:"12px 12px",fontSize:14,fontWeight:700,color:"#8A8A8A"}}>{p.rank}</td>
                   <td style={{padding:"12px 12px",fontSize:14,fontWeight:600}}>{p.system}</td>
                   <td style={{padding:"12px 12px",fontSize:13,color:"#1A1A1A"}}>{p.action}</td>
-                  <td style={{padding:"12px 12px"}}><span style={{...S.tag(ub(p.urgency),uc(p.urgency)),fontSize:11}}>Ã¢ÂÂ {p.urgency==="act"?"Act Now":p.urgency==="plan"?"Plan This Year":"On Track"}</span></td>
+                  <td style={{padding:"12px 12px"}}><span style={{...S.tag(ub(p.urgency),uc(p.urgency)),fontSize:11}}>● {p.urgency==="act"?"Act Now":p.urgency==="plan"?"Plan This Year":"On Track"}</span></td>
                   <td style={{padding:"12px 12px",fontSize:13,fontWeight:600,color:"#1C4A2E"}}>{fmtRange(p.costLow,p.costHigh)}</td>
                   <td style={{padding:"12px 12px",fontSize:13,color:"#8A8A8A"}}>{p.timing}</td>
                   <td style={{padding:"12px 12px"}}>{p.diy?<span style={{...S.tag("#FDF3E0","#C9963A"),fontSize:11}}>DIY</span>:<span style={{fontSize:12,color:"#8A8A8A"}}>Pro</span>}</td>
@@ -749,7 +687,7 @@ function PriorityQueue(){
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ SECTION 7: CONTRACTOR TRACKER */
+/* ═══════════════════════════════════════════════════════ SECTION 7: CONTRACTOR TRACKER */
 const QUOTE_KEY = "homi_quotes_v1";
 const STATUS_CFG = {
   received:{color:"#2D6A4F",bg:"#D8F3DC",label:"Received"},
@@ -860,16 +798,16 @@ function ContractorTracker(){
                         <td style={{padding:"10px 10px",fontSize:14}}>{q.contractor}</td>
                         <td style={{padding:"10px 10px"}}>
                           <div style={{display:"flex",alignItems:"center",gap:6}}>
-                            <span style={{fontSize:15,fontWeight:700,color:"#1C4A2E"}}>{q.amount?fmt(q.amount):"Ã¢ÂÂ"}</span>
+                            <span style={{fontSize:15,fontWeight:700,color:"#1C4A2E"}}>{q.amount?fmt(q.amount):"—"}</span>
                             {lowest&&<span style={{...S.tag("#D8F3DC","#2D6A4F"),fontSize:10}}>Lowest</span>}
                           </div>
                         </td>
-                        <td style={{padding:"10px 10px",fontSize:13,color:"#8A8A8A"}}>{q.date||"Ã¢ÂÂ"}</td>
-                        <td style={{padding:"10px 10px"}}><span style={{...S.tag(cfg.bg,cfg.color),fontSize:11}}>Ã¢ÂÂ {cfg.label}</span></td>
+                        <td style={{padding:"10px 10px",fontSize:13,color:"#8A8A8A"}}>{q.date||"—"}</td>
+                        <td style={{padding:"10px 10px"}}><span style={{...S.tag(cfg.bg,cfg.color),fontSize:11}}>● {cfg.label}</span></td>
                         <td style={{padding:"10px 10px"}}>
                           <div style={{display:"flex",gap:6}}>
                             <button onClick={()=>startEdit(q)} style={{...S.btnSm("transparent","#2D6A4F","1px solid #D8F3DC"),fontSize:11,padding:"3px 8px"}}>Edit</button>
-                            <button onClick={()=>setQuotes(prev=>prev.filter(x=>x.id!==q.id))} style={{...S.btnSm("transparent","#C0392B","1px solid #FDECEA"),fontSize:11,padding:"3px 8px"}}>ÃÂ</button>
+                            <button onClick={()=>setQuotes(prev=>prev.filter(x=>x.id!==q.id))} style={{...S.btnSm("transparent","#C0392B","1px solid #FDECEA"),fontSize:11,padding:"3px 8px"}}>×</button>
                           </div>
                         </td>
                       </tr>
@@ -886,28 +824,28 @@ function ContractorTracker(){
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ FOOTER */
+/* ═══════════════════════════════════════════════════════ FOOTER */
 function Footer(){
   return(
     <div id="footer" style={{background:"#1C4A2E",padding:"32px 0",marginTop:32}}>
       <div style={{maxWidth:1200,margin:"0 auto",padding:"0 24px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:16}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
-          <div style={{width:28,height:28,background:"linear-gradient(135deg,#52B788,#C9963A)",borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontSize:14}}>Ã°ÂÂÂ¡</span></div>
+          <div style={{width:28,height:28,background:"linear-gradient(135deg,#52B788,#C9963A)",borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontSize:14}}>🏡</span></div>
           <span style={{color:"#fff",fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700}}>HOMI</span>
-          <span style={{color:"#52B788",fontSize:13}}>ÃÂ· Property Lifecycle Intelligence</span>
+          <span style={{color:"#52B788",fontSize:13}}>· Property Lifecycle Intelligence</span>
         </div>
         <div style={{display:"flex",gap:16,flexWrap:"wrap"}}>
           {["Dashboard","Documents","Maintenance","Marketplace"].map(l=>(
             <button key={l} style={{background:"none",border:"none",color:"#A8D5BA",fontSize:13,cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}}>{l}</button>
           ))}
         </div>
-        <p style={{color:"#52B788",fontSize:12}}>Data updated March 2025 ÃÂ· Lehigh Valley, PA</p>
+        <p style={{color:"#52B788",fontSize:12}}>Data updated March 2025 · Lehigh Valley, PA</p>
       </div>
     </div>
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ PRINT STYLESHEET */
+/* ═══════════════════════════════════════════════════════ PRINT STYLESHEET */
 function PrintStyles(){
   useEffect(()=>{
     const style = document.createElement("style");
@@ -926,7 +864,7 @@ function PrintStyles(){
   return null;
 }
 
-/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ APP */
+/* ═══════════════════════════════════════════════════════ APP */
 function App(){
   const [scenario,setScenario] = useState("conservative");
   const [monthlySavings,setMonthlySavings] = useState(275);
@@ -959,31 +897,5 @@ function App(){
 const root=ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App/>);
 </script>
-<style>
-#homi-sticky{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(28,74,46,0.97);backdrop-filter:blur(12px);border-top:1px solid rgba(82,183,136,0.25);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'DM Sans',sans-serif;}
-#homi-sticky .hs-left{display:flex;align-items:center;gap:12px;}
-#homi-sticky .hs-label{font-size:13px;font-weight:700;color:white;line-height:1.2;}
-#homi-sticky .hs-sub{font-size:11px;color:rgba(255,255,255,0.5);margin-top:1px;}
-#homi-sticky .hs-actions{display:flex;gap:10px;}
-#homi-sticky .hs-btn{border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;}
-#homi-sticky .hs-gold{background:#E8B84B;color:#1C4A2E;}
-#homi-sticky .hs-gold:hover{background:#F0C97A;}
-#homi-sticky .hs-ghost{background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);}
-#homi-sticky .hs-ghost:hover{background:rgba(255,255,255,0.18);}
-</style>
-<div id="homi-sticky">
-  <div class="hs-left">
-    <span style="font-size:22px">&#127968;</span>
-    <div><div class="hs-label">Your Spend Planner &mdash; HOMI</div><div class="hs-sub">$11,600 forecast &nbsp;&middot;&nbsp; $3,400 savings available</div></div>
-  </div>
-  <div class="hs-actions">
-    <button class="hs-btn hs-gold" onclick="if(navigator.share){navigator.share({title:'HOMI Report',url:window.location.href})}else{navigator.clipboard.writeText(window.location.href).then(()=>alert('Link copied!'))}">&#128228; Share My Plan</button>
-    <button class="hs-btn hs-ghost" onclick="alert('Feature coming soon.')">Update My Budget</button>
-  </div>
-</div>
-
-<style>#homi-sticky{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:rgba(28,74,46,0.97);backdrop-filter:blur(12px);border-top:1px solid rgba(82,183,136,0.25);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'DM Sans',sans-serif;}#homi-sticky .hs-l{display:flex;align-items:center;gap:12px;}#homi-sticky .hs-t{font-size:13px;font-weight:700;color:white;}#homi-sticky .hs-s{font-size:11px;color:rgba(255,255,255,0.5);margin-top:1px;}#homi-sticky .hs-a{display:flex;gap:10px;}#homi-sticky .hg{background:#E8B84B;color:#1C4A2E;border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}#homi-sticky .hg:hover{background:#F0C97A;}#homi-sticky .hh{background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;}#homi-sticky .hh:hover{background:rgba(255,255,255,0.18);}</style>
-<div id="homi-sticky"><div class="hs-l"><span style="font-size:20px">&#127968;</span><div><div class="hs-t">Your Spend Planner &mdash; HOMI</div><div class="hs-s">$11,600 forecast &nbsp;&middot;&nbsp; 2-year window &nbsp;&middot;&nbsp; $3,400 savings available</div></div></div><div class="hs-a"><button class="hg" onclick="if(navigator.share){navigator.share({title:'HOMI',url:window.location.href})}else{navigator.clipboard.writeText(window.location.href).then(()=>alert('Link copied!'))}">&#128228; Share My Plan</button><button class="hh" onclick="alert('Budget editor coming soon')">Update Budget</button></div></div>
-
 </body>
 </html>
