@@ -47,7 +47,7 @@ select:hover{border-color:#52B788;}
 <script type="text/babel">
 const {useState,useEffect,useRef} = React;
 
-// ââ Colors âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Colors ───────────────────────────────────────────────────────────────────
 const C={
   cream:"#FAF6F0",creamDark:"#F0E9DC",creamMid:"#EDE3D6",white:"#FFFFFF",
   green:"#1C4A2E",greenMid:"#2D6A4F",greenLight:"#52B788",greenPale:"#D8F3DC",
@@ -60,7 +60,7 @@ const C={
   sagePale:"#ECF4EE",
 };
 
-// ââ Icon set âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Icon set ─────────────────────────────────────────────────────────────────
 function Icon({name,size=20,color=C.green}){
   const p={
     home:<path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" fill="none" stroke={color} strokeWidth="1.8" strokeLinejoin="round"/>,
@@ -89,7 +89,7 @@ function Icon({name,size=20,color=C.green}){
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{flexShrink:0}}>{p[name]||null}</svg>;
 }
 
-// ââ House SVG illustration âââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── House SVG illustration ───────────────────────────────────────────────────
 function HouseIllustration(){
   return (
     <div className="hero-house">
@@ -186,21 +186,21 @@ function HouseIllustration(){
       </div>
       <div style={{position:"absolute",top:14,right:18,display:"flex",flexDirection:"column",gap:6,alignItems:"flex-end"}}>
         <div style={{background:"rgba(28,74,46,0.85)",backdropFilter:"blur(8px)",borderRadius:10,padding:"6px 14px",color:"white",fontSize:11,fontWeight:700,border:"1px solid rgba(82,183,136,0.4)"}}>
-          ð¡ Home Health Score <span style={{color:"#F0C97A",fontSize:15,fontWeight:700,marginLeft:6}}>7.2/10</span>
+          🏡 Home Health Score <span style={{color:"#F0C97A",fontSize:15,fontWeight:700,marginLeft:6}}>7.2/10</span>
         </div>
         <div style={{background:"rgba(201,150,58,0.85)",backdropFilter:"blur(8px)",borderRadius:10,padding:"5px 12px",color:"white",fontSize:11,fontWeight:600}}>
-          â¡ 2 items need attention
+          ⚡ 2 items need attention
         </div>
       </div>
       {/* Season badge */}
       <div style={{position:"absolute",bottom:14,right:18,background:"rgba(255,255,255,0.15)",backdropFilter:"blur(8px)",borderRadius:8,padding:"4px 12px",color:"white",fontSize:11,border:"1px solid rgba(255,255,255,0.25)"}}>
-        ð¸ Spring 2025 · Home age: 21 years
+        🌸 Spring 2025 · Home age: 21 years
       </div>
     </div>
   );
 }
 
-// ââ Notification toast ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Notification toast ────────────────────────────────────────────────────────
 function Toast({msg,onDone}){
   useEffect(()=>{const t=setTimeout(onDone,5000);return()=>clearTimeout(t);},[]);
   return (
@@ -218,7 +218,7 @@ function Toast({msg,onDone}){
   );
 }
 
-// ââ AI Panel ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── AI Panel ──────────────────────────────────────────────────────────────────
 async function callClaude(system,userMsg){
   const res=await fetch("/.netlify/functions/claude",{
     method:"POST",headers:{"Content-Type":"application/json"},
@@ -264,7 +264,7 @@ function AIPanel({title,badge,defaultQuote,prompts,systemPrompt,grid2col}){
   );
 }
 
-// ââ Data ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Data ──────────────────────────────────────────────────────────────────────
 const homeSystems=[
   {id:"hvac",      name:"HVAC System",     icon:"hvac",       age:8, life:15,service:"Oct 2024",status:"attention",next:"Schedule annual service",urgency:"soon",spend:"$150–250/yr",diy:false},
   {id:"roof",      name:"Roof",            icon:"roof",       age:12,life:25,service:"2022",    status:"good",     next:"Inspect flashings",      urgency:"watch",spend:"$0–150",   diy:true},
@@ -279,7 +279,7 @@ const allTasks=[
   {id:1,title:"Replace HVAC Filter",          system:"HVAC",       due:"Overdue",     urgency:"now", est:"$15–$30",  done:false,diy:true, guide:"Replace the 1-inch filter in your air handler. Slide the old one out, note the airflow arrow direction, insert new filter matching that arrow. Run fan for 10 min to test."},
   {id:2,title:"Water Heater Flush",            system:"Water Heater",due:"This month", urgency:"now", est:"$0 (DIY)", done:false,diy:true, guide:"Turn the dial to 'pilot'. Attach a garden hose to the drain valve near the bottom. Open the valve and let water flow until it runs clear (15–20 min). Close valve, remove hose, return to normal setting."},
   {id:3,title:"Schedule Panel Inspection",     system:"Electrical",  due:"Next 30 days",urgency:"soon",est:"$150–250",done:false,diy:false,guide:"This requires a licensed electrician. HOMI has found 3 qualified pros near you."},
-  {id:4,title:"Spring Lawn Treatment",         system:"Landscaping", due:"This week",  urgency:"soon",est:"$80–150",  done:false,diy:true, guide:"Apply pre-emergent herbicide before soil hits 55Â°F. Use a broadcast spreader at the rate on the bag. Water lightly after. Your soil temp in Allentown PA is currently 48Â°F  —  this week is ideal."},
+  {id:4,title:"Spring Lawn Treatment",         system:"Landscaping", due:"This week",  urgency:"soon",est:"$80–150",  done:false,diy:true, guide:"Apply pre-emergent herbicide before soil hits 55°F. Use a broadcast spreader at the rate on the bag. Water lightly after. Your soil temp in Allentown PA is currently 48°F  —  this week is ideal."},
   {id:5,title:"Trim Overgrown Hedges",         system:"Landscaping", due:"Next 2 weeks",urgency:"soon",est:"$0 (DIY)", done:false,diy:true, guide:"Use hedge shears for small bushes, a pole trimmer for taller shrubs. Cut back no more than 1/3 of growth at a time. Clean up debris after to prevent disease."},
   {id:6,title:"Clean Gutters",                 system:"Exterior",    due:"Next 60 days",urgency:"soon",est:"$100–200", done:false,diy:true, guide:"Use a ladder, gloves, and a bucket. Scoop debris from gutters moving toward downspouts. Flush with a garden hose. Check downspouts aren't clogged  —  pour water in top and watch it exit at bottom."},
   {id:7,title:"Roof Flashing Check",           system:"Roof",        due:"This season", urgency:"watch",est:"$0 (DIY)", done:true, diy:true, guide:""},
@@ -323,14 +323,14 @@ function HealthBar({age,life}){
   return <div style={{display:"flex",alignItems:"center",gap:8}}><div style={{flex:1,height:6,background:C.creamDark,borderRadius:4,overflow:"hidden"}}><div style={{width:`${pct}%`,height:"100%",background:col,borderRadius:4,transition:"width .8s ease"}}/></div><span style={{fontSize:11,color:C.textMuted,minWidth:30}}>{pct}%</span></div>;
 }
 
-// ââ DIY Guide modal âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── DIY Guide modal ───────────────────────────────────────────────────────────
 function DIYModal({task,onClose}){
   return (
     <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.45)",zIndex:500,display:"flex",alignItems:"center",justifyContent:"center",animation:"fadeIn .2s ease"}} onClick={onClose}>
       <div style={{background:C.white,borderRadius:20,padding:32,maxWidth:480,width:"90%",boxShadow:"0 20px 60px rgba(0,0,0,0.2)",animation:"fadeUp .25s ease"}} onClick={e=>e.stopPropagation()}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:20}}>
           <div>
-            <div className="pill" style={{background:C.greenPale,color:C.greenMid,marginBottom:8}}>ð§ DIY Guide</div>
+            <div className="pill" style={{background:C.greenPale,color:C.greenMid,marginBottom:8}}>🔧 DIY Guide</div>
             <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:22,color:C.green}}>{task.title}</h2>
             <div style={{fontSize:12,color:C.textMuted,marginTop:4}}>{task.system} · Est. {task.est}</div>
           </div>
@@ -340,7 +340,7 @@ function DIYModal({task,onClose}){
           {task.guide}
         </div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:20}}>
-          <button className="btn-outline" onClick={onClose}>Got it â</button>
+          <button className="btn-outline" onClick={onClose}>Got it ✓</button>
           <button className="btn-primary">Find a Pro Instead</button>
         </div>
       </div>
@@ -348,21 +348,21 @@ function DIYModal({task,onClose}){
   );
 }
 
-// ââ Provider modal ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Provider modal ────────────────────────────────────────────────────────────
 function ProviderModal({provider,onClose}){
   return (
     <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.45)",zIndex:500,display:"flex",alignItems:"center",justifyContent:"center",animation:"fadeIn .2s ease"}} onClick={onClose}>
       <div style={{background:C.white,borderRadius:20,padding:32,maxWidth:420,width:"90%",boxShadow:"0 20px 60px rgba(0,0,0,0.2)",animation:"fadeUp .25s ease"}} onClick={e=>e.stopPropagation()}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:20}}>
           <div>
-            <div className="pill" style={{background:provider.badge==="HOMI Preferred"?C.greenPale:C.amberPale,color:provider.badge==="HOMI Preferred"?C.greenMid:C.amber,marginBottom:8}}>â­ {provider.badge}</div>
+            <div className="pill" style={{background:provider.badge==="HOMI Preferred"?C.greenPale:C.amberPale,color:provider.badge==="HOMI Preferred"?C.greenMid:C.amber,marginBottom:8}}>⭐ {provider.badge}</div>
             <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:20,color:C.green}}>{provider.name}</h2>
             <div style={{fontSize:12,color:C.textMuted,marginTop:3}}>{provider.service} · {provider.dist} away</div>
           </div>
           <button onClick={onClose} style={{background:"none",border:"none",cursor:"pointer",padding:4}}><Icon name="close" size={20} color={C.textMuted}/></button>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:20}}>
-          {[{l:"Rating",v:`${provider.rating} â`},{l:"Reviews",v:provider.reviews},{l:"Available",v:provider.available}].map(s=>(
+          {[{l:"Rating",v:`${provider.rating} ★`},{l:"Reviews",v:provider.reviews},{l:"Available",v:provider.available}].map(s=>(
             <div key={s.l} style={{background:C.cream,borderRadius:12,padding:"12px 10px",textAlign:"center"}}>
               <div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700,color:C.green}}>{s.v}</div>
               <div style={{fontSize:11,color:C.textMuted,marginTop:2}}>{s.l}</div>
@@ -378,9 +378,9 @@ function ProviderModal({provider,onClose}){
   );
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 // HOMEOWNER DASHBOARD
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 function HomeownerDashboard(){
   const [tab,setTab]=useState("dashboard");
   const [tasks,setTasks]=useState(allTasks);
@@ -392,13 +392,13 @@ function HomeownerDashboard(){
     setTasks(p=>p.map(t=>{
       if(t.id!==id)return t;
       const done=!t.done;
-      if(done)setToast({title:"Task Completed! ð",body:`${t.title} marked as done. Great job keeping up with your home!`});
+      if(done)setToast({title:"Task Completed! 🎉",body:`${t.title} marked as done. Great job keeping up with your home!`});
       return {...t,done};
     }));
   };
 
   useEffect(()=>{
-    const t=setTimeout(()=>setToast({title:"ð¿ Spring Reminder",body:"Soil temps are perfect for pre-emergent herbicide this week. Your lawn will thank you!"}),3000);
+    const t=setTimeout(()=>setToast({title:"🌿 Spring Reminder",body:"Soil temps are perfect for pre-emergent herbicide this week. Your lawn will thank you!"}),3000);
     return()=>clearTimeout(t);
   },[]);
 
@@ -432,7 +432,7 @@ function HomeownerDashboard(){
         <div style={{padding:"8px 10px 14px",borderBottom:`1px solid ${C.border}`,marginBottom:8}}>
           <div style={{fontSize:10,color:C.textMuted,letterSpacing:.8,marginBottom:3}}>YOUR HOME</div>
           <div style={{fontSize:12,color:C.textMid,fontWeight:600,lineHeight:1.4}}>142 Maple Ridge Dr<br/><span style={{fontWeight:400,color:C.textMuted}}>Allentown, PA</span></div>
-          {urgent>0&&<div style={{marginTop:8,background:C.redPale,color:C.red,fontSize:11,fontWeight:700,padding:"4px 10px",borderRadius:8,display:"flex",alignItems:"center",gap:5}}><span>â </span>{urgent} urgent item{urgent>1?"s":""}</div>}
+          {urgent>0&&<div style={{marginTop:8,background:C.redPale,color:C.red,fontSize:11,fontWeight:700,padding:"4px 10px",borderRadius:8,display:"flex",alignItems:"center",gap:5}}><span>⚠</span>{urgent} urgent item{urgent>1?"s":""}</div>}
         </div>
         {navItems.map(n=>(
           <button key={n.id} className={`nav-btn${tab===n.id?" active":""}`} onClick={()=>n.id==="spend"?window.open("https://spendplanning1921.netlify.app/","_blank"):setTab(n.id)}>
@@ -450,7 +450,7 @@ function HomeownerDashboard(){
       {/* Content */}
       <div style={{flex:1,overflowY:"auto",padding:24}}>
 
-        {/* ââ OVERVIEW ââ */}
+        {/* ── OVERVIEW ── */}
         {tab==="dashboard"&&(
           <div style={{display:"grid",gap:20,animation:"fadeUp .35s ease"}}>
             {/* House hero */}
@@ -520,7 +520,7 @@ function HomeownerDashboard(){
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
               <div className="card" style={{padding:20}}>
                 <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
-                  <div style={{fontSize:22}}>ð¸</div>
+                  <div style={{fontSize:22}}>🌸</div>
                   <div>
                     <div style={{fontFamily:"'Playfair Display',serif",fontSize:16,color:C.green,fontWeight:700}}>Spring To-Do List</div>
                     <div style={{fontSize:11,color:C.textMuted}}>Seasonal tasks for your home</div>
@@ -545,11 +545,11 @@ function HomeownerDashboard(){
               <div style={{background:`linear-gradient(135deg,#2D5A3D,#1C4A2E)`,borderRadius:18,padding:20,color:"white",position:"relative",overflow:"hidden"}}>
                 <div style={{position:"absolute",top:-20,right:-20,width:100,height:100,borderRadius:"50%",background:"rgba(82,183,136,0.15)"}}/>
                 <div style={{position:"absolute",bottom:-30,left:-10,width:120,height:120,borderRadius:"50%",background:"rgba(82,183,136,0.1)"}}/>
-                <div style={{fontSize:28,marginBottom:8}}>ð¿</div>
+                <div style={{fontSize:28,marginBottom:8}}>🌿</div>
                 <div style={{fontFamily:"'Playfair Display',serif",fontSize:17,fontWeight:700,marginBottom:6}}>Landscaping Update</div>
-                <div style={{fontSize:12,opacity:.85,lineHeight:1.7,marginBottom:14}}>Your lawn is coming out of winter dormancy. Soil temps in Allentown are at <strong style={{color:C.goldLight}}>48Â°F</strong>  —  this week is the ideal window for pre-emergent weed control before spring growth kicks in.</div>
+                <div style={{fontSize:12,opacity:.85,lineHeight:1.7,marginBottom:14}}>Your lawn is coming out of winter dormancy. Soil temps in Allentown are at <strong style={{color:C.goldLight}}>48°F</strong>  —  this week is the ideal window for pre-emergent weed control before spring growth kicks in.</div>
                 <div style={{display:"flex",gap:8}}>
-                  <button onClick={()=>setDiyTask(tasks.find(t=>t.id===4))} style={{flex:1,background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",borderRadius:9,padding:"9px 12px",color:"white",fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>ð§ DIY Guide</button>
+                  <button onClick={()=>setDiyTask(tasks.find(t=>t.id===4))} style={{flex:1,background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",borderRadius:9,padding:"9px 12px",color:"white",fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>🔧 DIY Guide</button>
                   <button onClick={()=>setSelProvider(providers.find(p=>p.service==="Landscaping"))} style={{flex:1,background:C.goldLight,border:"none",borderRadius:9,padding:"9px 12px",color:C.green,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>Find a Pro</button>
                 </div>
               </div>
@@ -574,15 +574,15 @@ function HomeownerDashboard(){
     <div style={{display:"flex",flexDirection:"column",gap:7}}>
       <div style={{display:"flex",alignItems:"center",gap:8,padding:"8px 12px",background:"rgba(192,57,43,0.08)",borderRadius:10,border:"1px solid rgba(192,57,43,0.15)"}}>
         <span style={{fontSize:13,flexShrink:0}}>&#128308;</span>
-        <span style={{fontSize:12,fontWeight:600,color:"#8B1A1A"}}>Roof aging &mdash; $8,500 risk in 2&ndash;4 years</span>
+        <span style={{fontSize:12,fontWeight:600,color:"#8B1A1A"}}>Roof aging — $8,500 risk in 2–4 years</span>
       </div>
       <div style={{display:"flex",alignItems:"center",gap:8,padding:"8px 12px",background:"rgba(217,119,6,0.08)",borderRadius:10,border:"1px solid rgba(217,119,6,0.15)"}}>
         <span style={{fontSize:13,flexShrink:0}}>&#128993;</span>
-        <span style={{fontSize:12,fontWeight:600,color:"#7A4500"}}>HVAC near end of life &mdash; $6,200</span>
+        <span style={{fontSize:12,fontWeight:600,color:"#7A4500"}}>HVAC near end of life — $6,200</span>
       </div>
       <div style={{display:"flex",alignItems:"center",gap:8,padding:"8px 12px",background:"rgba(217,119,6,0.06)",borderRadius:10,border:"1px solid rgba(217,119,6,0.12)"}}>
         <span style={{fontSize:13,flexShrink:0}}>&#128993;</span>
-        <span style={{fontSize:12,fontWeight:600,color:"#7A4500"}}>Water heater &mdash; $2,100 within 3 years</span>
+        <span style={{fontSize:12,fontWeight:600,color:"#7A4500"}}>Water heater — $2,100 within 3 years</span>
       </div>
     </div>
   </div>
@@ -597,7 +597,7 @@ function HomeownerDashboard(){
       </div>
     </div>
     <div style={{fontSize:14,fontWeight:600,color:"#1C4A2E",lineHeight:1.6,marginBottom:14}}>
-      Request an HVAC service credit at closing &mdash; it is the fastest financial win available before you sign.
+      Request an HVAC service credit at closing — it is the fastest financial win available before you sign.
     </div>
     <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:14}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 12px",background:"rgba(28,74,46,0.07)",borderRadius:10}}>
@@ -643,7 +643,7 @@ function HomeownerDashboard(){
           </div>
         )}
 
-        {/* ââ SYSTEMS ââ */}
+        {/* ── SYSTEMS ── */}
         {tab==="systems"&&(
           <div style={{display:"grid",gap:20,animation:"fadeUp .35s ease"}}>
             <div><h1 style={{fontFamily:"'Playfair Display',serif",fontSize:26,fontWeight:700,color:C.green}}>Home Systems</h1><p style={{color:C.textMuted,fontSize:14,marginTop:4}}>Track the lifecycle and health of every major system  —  including your outdoor spaces.</p></div>
@@ -671,7 +671,7 @@ function HomeownerDashboard(){
           </div>
         )}
 
-        {/* ââ TASKS ââ */}
+        {/* ── TASKS ── */}
         {tab==="tasks"&&(
           <div style={{display:"grid",gap:20,animation:"fadeUp .35s ease"}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
@@ -709,7 +709,7 @@ function HomeownerDashboard(){
           </div>
         )}
 
-        {/* ââ PROVIDERS ââ */}
+        {/* ── PROVIDERS ── */}
         {tab==="providers"&&(
           <div style={{display:"grid",gap:20,animation:"fadeUp .35s ease"}}>
             <div><h1 style={{fontFamily:"'Playfair Display',serif",fontSize:26,fontWeight:700,color:C.green}}>Find a Local Pro</h1><p style={{color:C.textMuted,fontSize:14,marginTop:4}}>HOMI-vetted service providers near Allentown, PA · Rated by your neighbors</p></div>
@@ -718,30 +718,30 @@ function HomeownerDashboard(){
                 <div key={i} className="provider-card" onClick={()=>setSelProvider(p)} style={{animation:`fadeUp .4s ease ${i*.07}s both`}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
                     <div>
-                      <div className="pill" style={{background:p.badge==="HOMI Preferred"?C.greenPale:C.amberPale,color:p.badge==="HOMI Preferred"?C.greenMid:C.amber,marginBottom:6}}>{p.badge==="HOMI Preferred"?"ð":p.badge==="Highly Rated"?"â­":"â"} {p.badge}</div>
+                      <div className="pill" style={{background:p.badge==="HOMI Preferred"?C.greenPale:C.amberPale,color:p.badge==="HOMI Preferred"?C.greenMid:C.amber,marginBottom:6}}>{p.badge==="HOMI Preferred"?"🏅":p.badge==="Highly Rated"?"⭐":"✓"} {p.badge}</div>
                       <div style={{fontFamily:"'Playfair Display',serif",fontSize:16,fontWeight:700,color:C.green}}>{p.name}</div>
                       <div style={{fontSize:12,color:C.textMuted,marginTop:2}}>{p.service} · {p.dist} away</div>
                     </div>
                     <div style={{textAlign:"right",flexShrink:0}}>
-                      <div style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:700,color:C.green}}>{p.rating} <span style={{color:C.gold}}>â</span></div>
+                      <div style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:700,color:C.green}}>{p.rating} <span style={{color:C.gold}}>★</span></div>
                       <div style={{fontSize:11,color:C.textMuted}}>{p.reviews} reviews</div>
                     </div>
                   </div>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingTop:10,borderTop:`1px solid ${C.border}`}}>
-                    <div style={{fontSize:12,color:C.textMuted}}>ð Available: <span style={{color:C.greenMid,fontWeight:600}}>{p.available}</span></div>
+                    <div style={{fontSize:12,color:C.textMuted}}>🗓 Available: <span style={{color:C.greenMid,fontWeight:600}}>{p.available}</span></div>
                     <button style={{fontSize:11,background:C.green,color:"white",border:"none",borderRadius:8,padding:"6px 14px",cursor:"pointer",fontFamily:"inherit",fontWeight:600}}>Book →</button>
                   </div>
                 </div>
               ))}
             </div>
             <div style={{background:C.green,borderRadius:18,padding:24,color:"white",display:"flex",alignItems:"center",gap:20}}>
-              <div style={{fontSize:36}}>ð¤</div>
+              <div style={{fontSize:36}}>🤝</div>
               <div style={{flex:1}}><div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700,marginBottom:6}}>All HOMI providers are vetted</div><p style={{fontSize:13,opacity:.85,lineHeight:1.7}}>Every service provider on HOMI is licensed, insured, and reviewed by real homeowners in your area. We handle the vetting  —  you just pick who to call.</p></div>
             </div>
           </div>
         )}
 
-        {/* ââ SPEND PLANNER ââ */}
+        {/* ── SPEND PLANNER ── */}
         {tab==="spend"&&(()=>{
           const spendYears=[
             {year:"2025",total:{low:1250,high:2450},items:[
@@ -764,10 +764,10 @@ function HomeownerDashboard(){
             ]},
           ];
           const flagCfg={
-            critical:{label:"â  High Cost",bg:"#FEE2E2",text:C.red,  bar:C.red,    desc:"Plan well ahead  —  this is a major expense"},
-            high:    {label:"ð° Big Spend", bg:C.goldPale,text:C.gold,bar:C.goldLight,desc:"Start saving now to avoid financial strain"},
-            watch:   {label:"ð Watch",    bg:C.amberPale,text:C.amber,bar:C.amber, desc:"Budget for this  —  could escalate if deferred"},
-            routine: {label:"â Routine",   bg:C.greenPale,text:C.greenMid,bar:C.greenLight,desc:"Manageable with regular budgeting"},
+            critical:{label:"⚠ High Cost",bg:"#FEE2E2",text:C.red,  bar:C.red,    desc:"Plan well ahead  —  this is a major expense"},
+            high:    {label:"💰 Big Spend", bg:C.goldPale,text:C.gold,bar:C.goldLight,desc:"Start saving now to avoid financial strain"},
+            watch:   {label:"👁 Watch",    bg:C.amberPale,text:C.amber,bar:C.amber, desc:"Budget for this  —  could escalate if deferred"},
+            routine: {label:"✓ Routine",   bg:C.greenPale,text:C.greenMid,bar:C.greenLight,desc:"Manageable with regular budgeting"},
           };
           const totalLow=spendYears.reduce((a,y)=>a+(y.year.includes("–")?8500:y.total.low),0);
           const totalHigh=spendYears.reduce((a,y)=>a+(y.year.includes("–")?16500:y.total.high),0);
@@ -784,7 +784,7 @@ function HomeownerDashboard(){
               <div style={{display:"flex",gap:8}}>
                 {Object.entries(flagCfg).map(([k,v])=>(
                   <div key={k} style={{display:"flex",alignItems:"center",gap:5,fontSize:11,color:C.textMuted}}>
-                    <div style={{width:8,height:8,borderRadius:2,background:v.bar}}/>{v.label.replace(/[â ð°ðâ]\s/,"")}
+                    <div style={{width:8,height:8,borderRadius:2,background:v.bar}}/>{v.label.replace(/[⚠💰👁✓]\s/,"")}
                   </div>
                 ))}
               </div>
@@ -811,7 +811,7 @@ function HomeownerDashboard(){
             {/* How to read your costs  —  interpretation guide */}
             <div style={{background:`linear-gradient(135deg,${C.green} 0%,${C.greenMid} 100%)`,borderRadius:18,padding:24,color:"white"}}>
               <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
-                <div style={{width:36,height:36,borderRadius:10,background:"rgba(255,255,255,0.12)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18}}>ð</div>
+                <div style={{width:36,height:36,borderRadius:10,background:"rgba(255,255,255,0.12)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18}}>📖</div>
                 <div>
                   <div style={{fontFamily:"'Playfair Display',serif",fontSize:17,fontWeight:700}}>How to Read Your Costs</div>
                   <div style={{fontSize:12,opacity:.7,marginTop:1}}>Understanding your spend estimates</div>
@@ -819,9 +819,9 @@ function HomeownerDashboard(){
               </div>
               <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12}}>
                 {[
-                  {icon:"ð",title:"Low vs. High Range",body:"Every estimate shows a low and high. The low assumes DIY or competitive bids; the high assumes full-service or emergency timing. Plan for the middle."},
-                  {icon:"ð",title:"Defer = More Expensive",body:"Putting off routine maintenance rarely saves money. A $200 gutter clean today prevents a $4,000 foundation repair. A $150 HVAC service prevents a $7,000 replacement."},
-                  {icon:"ð¡",title:"Flag Colors Explained",body:"Red = plan now, major outlay coming. Gold = big spend, start saving. Amber = watch closely, could escalate. Green = routine, manageable with monthly budgeting."},
+                  {icon:"📊",title:"Low vs. High Range",body:"Every estimate shows a low and high. The low assumes DIY or competitive bids; the high assumes full-service or emergency timing. Plan for the middle."},
+                  {icon:"🗓",title:"Defer = More Expensive",body:"Putting off routine maintenance rarely saves money. A $200 gutter clean today prevents a $4,000 foundation repair. A $150 HVAC service prevents a $7,000 replacement."},
+                  {icon:"💡",title:"Flag Colors Explained",body:"Red = plan now, major outlay coming. Gold = big spend, start saving. Amber = watch closely, could escalate. Green = routine, manageable with monthly budgeting."},
                 ].map(g=>(
                   <div key={g.title} style={{background:"rgba(255,255,255,0.09)",borderRadius:12,padding:16}}>
                     <div style={{fontSize:20,marginBottom:8}}>{g.icon}</div>
@@ -835,7 +835,7 @@ function HomeownerDashboard(){
             {/* Savings recommendation banner for big items */}
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
               <div style={{background:C.redPale,border:`1.5px solid ${C.red}44`,borderRadius:16,padding:20,display:"flex",gap:14,alignItems:"flex-start"}}>
-                <div style={{fontSize:28,flexShrink:0}}>ð¨</div>
+                <div style={{fontSize:28,flexShrink:0}}>🚨</div>
                 <div>
                   <div style={{fontSize:13,fontWeight:700,color:C.red,marginBottom:4}}>Roof Replacement Incoming (2028–2030)</div>
                   <div style={{fontSize:12,color:C.textMid,lineHeight:1.7}}>At $11,000–$15,000 this is your biggest home expense. To be ready by 2028, you need to save <strong style={{color:C.red}}>$300–$400/month starting now.</strong></div>
@@ -846,7 +846,7 @@ function HomeownerDashboard(){
                 </div>
               </div>
               <div style={{background:C.goldPale,border:`1.5px solid ${C.gold}44`,borderRadius:16,padding:20,display:"flex",gap:14,alignItems:"flex-start"}}>
-                <div style={{fontSize:28,flexShrink:0}}>â¡</div>
+                <div style={{fontSize:28,flexShrink:0}}>⚡</div>
                 <div>
                   <div style={{fontSize:13,fontWeight:700,color:C.gold,marginBottom:4}}>Water Heater Due This Year</div>
                   <div style={{fontSize:12,color:C.textMid,lineHeight:1.7}}>At 9 years old your unit is past its prime. Budget $900–$1,800 for replacement. <strong style={{color:C.gold}}>Hybrid heat pump models save $400/yr in energy</strong> and qualify for a $300 federal tax credit.</div>
@@ -896,12 +896,12 @@ function HomeownerDashboard(){
                             </div>
                           </div>
                           <button onClick={()=>setExpandedTip(isOpen?null:`${yr.year}-${item.name}`)} style={{width:28,height:28,borderRadius:8,border:`1px solid ${C.border}`,background:isOpen?C.greenPale:"white",cursor:"pointer",fontSize:14,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .15s"}}>
-                            {isOpen?"â":"ð¡"}
+                            {isOpen?"↑":"💡"}
                           </button>
                         </div>
                         {isOpen&&(
                           <div style={{marginLeft:48,background:C.cream,borderLeft:`3px solid ${fc.bar}`,borderRadius:"0 10px 10px 0",padding:"12px 16px",fontSize:13,color:C.textMid,lineHeight:1.75,animation:"fadeUp .2s ease"}}>
-                            <strong style={{color:fc.text,display:"block",marginBottom:4}}>ð¡ HOMI Advice</strong>
+                            <strong style={{color:fc.text,display:"block",marginBottom:4}}>💡 HOMI Advice</strong>
                             {item.tip}
                           </div>
                         )}
@@ -923,7 +923,7 @@ function HomeownerDashboard(){
             {/* Monthly savings guide */}
             <div className="card-gold" style={{padding:26}}>
               <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:18}}>
-                <div style={{width:42,height:42,borderRadius:12,background:C.goldPale,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>ð¦</div>
+                <div style={{width:42,height:42,borderRadius:12,background:C.goldPale,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>🏦</div>
                 <div>
                   <h3 style={{fontFamily:"'Playfair Display',serif",fontSize:18,color:C.green}}>Monthly Savings Roadmap</h3>
                   <div style={{fontSize:12,color:C.textMuted,marginTop:2}}>How much to set aside each month to stay ahead</div>
@@ -943,7 +943,7 @@ function HomeownerDashboard(){
                 ))}
               </div>
               <div style={{marginTop:14,padding:"14px 18px",background:C.white,borderRadius:12,border:`1px solid ${C.borderGold}`,display:"flex",alignItems:"center",gap:12}}>
-                <div style={{fontSize:20}}>ð¯</div>
+                <div style={{fontSize:20}}>🎯</div>
                 <div style={{flex:1}}>
                   <div style={{fontSize:13,fontWeight:700,color:C.green}}>Recommended total: <span style={{color:C.gold}}>$500/month</span> into a dedicated home fund</div>
                   <div style={{fontSize:12,color:C.textMuted,marginTop:2}}>Based on your home's age, systems status, and upcoming major replacements. This keeps you fully covered through 2030.</div>
@@ -980,7 +980,7 @@ function HomeownerDashboard(){
           );
         })()}
 
-        {/* ââ HISTORY ââ */}
+        {/* ── HISTORY ── */}
         {tab==="history"&&(
           <div style={{display:"grid",gap:20,animation:"fadeUp .35s ease"}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
@@ -1007,9 +1007,9 @@ function HomeownerDashboard(){
   );
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 // LIFECYCLE TIMELINE (unchanged from working version)
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 const LC_STATUS={
   healthy: {bg:C.greenPale, text:C.greenMid,bar:C.greenLight,label:"Healthy"},
   maintain:{bg:C.amberPale, text:C.amber,   bar:C.goldLight, label:"Maintenance Window"},
@@ -1019,13 +1019,13 @@ const LC_STATUS={
 const LC_START=2025,LC_END=2035,LC_YEARS=Array.from({length:11},(_,i)=>2025+i);
 const lcX=yr=>((yr-2025)/10)*100;
 const lcSystems=[
-  {id:"hvac",name:"HVAC System",icon:"ð",installed:2016,lifespan:"15–18 years",status:"healthy",cost:{low:6800,high:8200,label:"HVAC Replacement"},events:[{year:2025,label:"Filter change",type:"maintain",dot:true},{year:2026,label:"Annual service",type:"maintain",dot:true},{year:2028,label:"Inspection",type:"maintain",dot:true},{year:2029,label:"Assessment",type:"plan",dot:true},{year:2031,label:"Replacement",type:"replace",dot:true}],bars:[{from:2025,to:2028,s:"healthy"},{from:2028,to:2030,s:"maintain"},{from:2030,to:2032,s:"plan"},{from:2032,to:2035,s:"replace"}]},
-  {id:"roof",name:"Roof",icon:"ð ",installed:2004,lifespan:"25–30 years",status:"maintain",cost:{low:11000,high:15000,label:"Roof Replacement"},events:[{year:2025,label:"Inspection",type:"maintain",dot:true},{year:2027,label:"Repair likely",type:"plan",dot:true},{year:2029,label:"Replacement window",type:"replace",dot:true},{year:2031,label:"Must replace",type:"replace",dot:true}],bars:[{from:2025,to:2026,s:"maintain"},{from:2026,to:2029,s:"plan"},{from:2029,to:2035,s:"replace"}]},
-  {id:"water",name:"Water Heater",icon:"ð§",installed:2018,lifespan:"10–13 years",status:"healthy",cost:{low:1200,high:2000,label:"Water Heater"},events:[{year:2026,label:"Annual flush",type:"maintain",dot:true},{year:2028,label:"Inspection",type:"maintain",dot:true},{year:2029,label:"Plan ahead",type:"plan",dot:true},{year:2031,label:"End of life",type:"replace",dot:true}],bars:[{from:2025,to:2027,s:"healthy"},{from:2027,to:2030,s:"maintain"},{from:2030,to:2032,s:"plan"},{from:2032,to:2035,s:"replace"}]},
-  {id:"electrical",name:"Electrical",icon:"â¡",installed:2004,lifespan:"40–60 years",status:"maintain",cost:{low:2500,high:5000,label:"Panel Upgrade"},events:[{year:2025,label:"Panel inspection",type:"maintain",dot:true},{year:2028,label:"Full audit",type:"maintain",dot:true},{year:2030,label:"Upgrade plan",type:"plan",dot:true}],bars:[{from:2025,to:2027,s:"maintain"},{from:2027,to:2030,s:"healthy"},{from:2030,to:2033,s:"plan"},{from:2033,to:2035,s:"healthy"}]},
-  {id:"plumbing",name:"Plumbing",icon:"ð§",installed:2004,lifespan:"40–70 years",status:"healthy",cost:{low:800,high:2500,label:"Plumbing"},events:[{year:2026,label:"Camera inspection",type:"maintain",dot:true},{year:2032,label:"Full inspection",type:"maintain",dot:true}],bars:[{from:2025,to:2028,s:"healthy"},{from:2028,to:2031,s:"maintain"},{from:2031,to:2035,s:"healthy"}]},
-  {id:"exterior",name:"Exterior",icon:"ð¡",installed:2004,lifespan:"25–40 years",status:"healthy",cost:{low:4000,high:8000,label:"Exterior Refresh"},events:[{year:2025,label:"Caulking",type:"maintain",dot:true},{year:2029,label:"Full repaint",type:"plan",dot:true},{year:2032,label:"Siding check",type:"plan",dot:true}],bars:[{from:2025,to:2027,s:"healthy"},{from:2027,to:2030,s:"maintain"},{from:2030,to:2033,s:"plan"},{from:2033,to:2035,s:"replace"}]},
-  {id:"landscape",name:"Landscaping",icon:"ð¿",installed:2004,lifespan:"99 years",status:"maintain",cost:{low:600,high:2000,label:"Landscape Upkeep"},events:[{year:2025,label:"Spring treatment",type:"maintain",dot:true},{year:2026,label:"Aeration",type:"maintain",dot:true},{year:2028,label:"Major refresh",type:"plan",dot:true}],bars:[{from:2025,to:2028,s:"maintain"},{from:2028,to:2032,s:"healthy"},{from:2032,to:2035,s:"maintain"}]},
+  {id:"hvac",name:"HVAC System",icon:"🌀",installed:2016,lifespan:"15–18 years",status:"healthy",cost:{low:6800,high:8200,label:"HVAC Replacement"},events:[{year:2025,label:"Filter change",type:"maintain",dot:true},{year:2026,label:"Annual service",type:"maintain",dot:true},{year:2028,label:"Inspection",type:"maintain",dot:true},{year:2029,label:"Assessment",type:"plan",dot:true},{year:2031,label:"Replacement",type:"replace",dot:true}],bars:[{from:2025,to:2028,s:"healthy"},{from:2028,to:2030,s:"maintain"},{from:2030,to:2032,s:"plan"},{from:2032,to:2035,s:"replace"}]},
+  {id:"roof",name:"Roof",icon:"🏠",installed:2004,lifespan:"25–30 years",status:"maintain",cost:{low:11000,high:15000,label:"Roof Replacement"},events:[{year:2025,label:"Inspection",type:"maintain",dot:true},{year:2027,label:"Repair likely",type:"plan",dot:true},{year:2029,label:"Replacement window",type:"replace",dot:true},{year:2031,label:"Must replace",type:"replace",dot:true}],bars:[{from:2025,to:2026,s:"maintain"},{from:2026,to:2029,s:"plan"},{from:2029,to:2035,s:"replace"}]},
+  {id:"water",name:"Water Heater",icon:"💧",installed:2018,lifespan:"10–13 years",status:"healthy",cost:{low:1200,high:2000,label:"Water Heater"},events:[{year:2026,label:"Annual flush",type:"maintain",dot:true},{year:2028,label:"Inspection",type:"maintain",dot:true},{year:2029,label:"Plan ahead",type:"plan",dot:true},{year:2031,label:"End of life",type:"replace",dot:true}],bars:[{from:2025,to:2027,s:"healthy"},{from:2027,to:2030,s:"maintain"},{from:2030,to:2032,s:"plan"},{from:2032,to:2035,s:"replace"}]},
+  {id:"electrical",name:"Electrical",icon:"⚡",installed:2004,lifespan:"40–60 years",status:"maintain",cost:{low:2500,high:5000,label:"Panel Upgrade"},events:[{year:2025,label:"Panel inspection",type:"maintain",dot:true},{year:2028,label:"Full audit",type:"maintain",dot:true},{year:2030,label:"Upgrade plan",type:"plan",dot:true}],bars:[{from:2025,to:2027,s:"maintain"},{from:2027,to:2030,s:"healthy"},{from:2030,to:2033,s:"plan"},{from:2033,to:2035,s:"healthy"}]},
+  {id:"plumbing",name:"Plumbing",icon:"🔧",installed:2004,lifespan:"40–70 years",status:"healthy",cost:{low:800,high:2500,label:"Plumbing"},events:[{year:2026,label:"Camera inspection",type:"maintain",dot:true},{year:2032,label:"Full inspection",type:"maintain",dot:true}],bars:[{from:2025,to:2028,s:"healthy"},{from:2028,to:2031,s:"maintain"},{from:2031,to:2035,s:"healthy"}]},
+  {id:"exterior",name:"Exterior",icon:"🏡",installed:2004,lifespan:"25–40 years",status:"healthy",cost:{low:4000,high:8000,label:"Exterior Refresh"},events:[{year:2025,label:"Caulking",type:"maintain",dot:true},{year:2029,label:"Full repaint",type:"plan",dot:true},{year:2032,label:"Siding check",type:"plan",dot:true}],bars:[{from:2025,to:2027,s:"healthy"},{from:2027,to:2030,s:"maintain"},{from:2030,to:2033,s:"plan"},{from:2033,to:2035,s:"replace"}]},
+  {id:"landscape",name:"Landscaping",icon:"🌿",installed:2004,lifespan:"99 years",status:"maintain",cost:{low:600,high:2000,label:"Landscape Upkeep"},events:[{year:2025,label:"Spring treatment",type:"maintain",dot:true},{year:2026,label:"Aeration",type:"maintain",dot:true},{year:2028,label:"Major refresh",type:"plan",dot:true}],bars:[{from:2025,to:2028,s:"maintain"},{from:2028,to:2032,s:"healthy"},{from:2032,to:2035,s:"maintain"}]},
 ];
 
 function LCRow({sys,isSelected,onClick,hovYr}){
@@ -1091,7 +1091,7 @@ function LifecycleTimeline(){
             {lcSystems.map(s=><LCRow key={s.id} sys={s} isSelected={sel===s.id} onClick={()=>setSel(sel===s.id?null:s.id)} hovYr={hovYr}/>)}
             <div style={{padding:"10px 14px",background:C.greenPale,display:"flex",alignItems:"center",gap:8,borderTop:`1px solid ${C.borderGreen}`}}>
               <div style={{width:9,height:9,borderRadius:"50%",background:C.green}}/><span style={{fontSize:11,color:C.greenMid,fontWeight:700}}>TODAY  —  2025</span><span style={{fontSize:11,color:C.textMuted,marginLeft:6}}>Home age: 21 years</span>
-              {sel&&<button onClick={()=>setSel(null)} style={{marginLeft:"auto",fontSize:11,color:C.textMuted,background:"none",border:`1px solid ${C.border}`,borderRadius:6,padding:"3px 10px",cursor:"pointer",fontFamily:"inherit"}}>Clear â</button>}
+              {sel&&<button onClick={()=>setSel(null)} style={{marginLeft:"auto",fontSize:11,color:C.textMuted,background:"none",border:`1px solid ${C.border}`,borderRadius:6,padding:"3px 10px",cursor:"pointer",fontFamily:"inherit"}}>Clear ✕</button>}
             </div>
           </div>
           <div className="card" style={{padding:20}}>
@@ -1110,9 +1110,9 @@ function LifecycleTimeline(){
   );
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 // RETAIL INTELLIGENCE
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 function DemandMap(){
   const [hov,setHov]=useState(null);
   const clusters=[{x:28,y:33,r:50,color:C.red,label:"HVAC Cluster",sub:"NW Lehigh Valley",homes:412},{x:67,y:54,r:43,color:C.blue,label:"Water Heater",sub:"East Allentown",homes:566},{x:51,y:71,r:37,color:C.greenMid,label:"Roof Lifecycle",sub:"Bethlehem",homes:198},{x:18,y:64,r:26,color:C.amber,label:"Electrical",sub:"West Allentown",homes:123},{x:78,y:27,r:33,color:C.teal,label:"Exterior",sub:"Nazareth",homes:290},{x:42,y:45,r:22,color:"#7B3FA0",label:"Landscaping",sub:"Central Valley",homes:344}];
@@ -1143,7 +1143,7 @@ function RetailIntelligence(){
   const [radius,setRadius]=useState("5");
   const [horizon,setHorizon]=useState("12");
   const forecastData=[{system:"HVAC Systems",homes:412,value:"$3.7M",trend:27,color:C.red},{system:"Water Heaters",homes:566,value:"$1.1M",trend:19,color:C.blue},{system:"Roofing",homes:198,value:"$4.5M",trend:14,color:C.amber},{system:"Electrical",homes:123,value:"$650K",trend:8,color:C.teal},{system:"Exterior Systems",homes:290,value:"$2.3M",trend:22,color:C.greenMid},{system:"Landscaping",homes:344,value:"$820K",trend:31,color:"#7B3FA0"}];
-  const retailSignals=[{product:"HVAC Filters & Maintenance Kits",units:"3,200 units",urgency:"high",icon:"ð",delta:"+18%"},{product:"Water Heater Elements & Flush Kits",units:"1,500 units",urgency:"high",icon:"ð§",delta:"+24%"},{product:"Lawn Treatments & Pre-Emergent",units:"2,800 units",urgency:"high",icon:"ð¿",delta:"+31%"},{product:"Gutter & Exterior Supplies",units:"2,100 units",urgency:"medium",icon:"ð ",delta:"+11%"},{product:"Roofing Materials & Sealants",units:"198 projects",urgency:"watch",icon:"ðï¸",delta:"+9%"},{product:"Electrical Supplies & Panels",units:"123 homes",urgency:"watch",icon:"â¡",delta:"+7%"}];
+  const retailSignals=[{product:"HVAC Filters & Maintenance Kits",units:"3,200 units",urgency:"high",icon:"🌀",delta:"+18%"},{product:"Water Heater Elements & Flush Kits",units:"1,500 units",urgency:"high",icon:"💧",delta:"+24%"},{product:"Lawn Treatments & Pre-Emergent",units:"2,800 units",urgency:"high",icon:"🌿",delta:"+31%"},{product:"Gutter & Exterior Supplies",units:"2,100 units",urgency:"medium",icon:"🏠",delta:"+11%"},{product:"Roofing Materials & Sealants",units:"198 projects",urgency:"watch",icon:"🏗️",delta:"+9%"},{product:"Electrical Supplies & Panels",units:"123 homes",urgency:"watch",icon:"⚡",delta:"+7%"}];
   const urgSty={high:{bg:C.redPale,text:C.red},medium:{bg:C.amberPale,text:C.amber},watch:{bg:C.greenPale,text:C.greenMid}};
   const kpis=[{l:"Homes Analyzed",v:"2,184",s:"Lehigh Valley market",a:C.green,b:C.greenPale},{l:"Avg. Home Age",v:"26 yrs",s:"Prime maintenance window",a:C.blue,b:C.bluePale},{l:"In Lifecycle Window",v:"32%",s:"699 homes entering demand",a:C.greenMid,b:C.sagePale},{l:"Est. Retail Opportunity",v:"$12.3M",s:"Next 12–18 months",a:C.gold,b:C.goldPale}];
   const maxH=Math.max(...forecastData.map(d=>d.homes));
@@ -1160,7 +1160,7 @@ function RetailIntelligence(){
           <div style={{display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:11,color:C.textMuted}}>Market:</span><select value={market} onChange={e=>setMarket(e.target.value)}><option>Lehigh Valley, PA</option><option>Philadelphia Metro, PA</option><option>Pittsburgh, PA</option></select></div>
           <div style={{display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:11,color:C.textMuted}}>Radius:</span><select value={radius} onChange={e=>setRadius(e.target.value)}><option value="5">5 mi</option><option value="10">10 mi</option><option value="25">25 mi</option></select></div>
           <div style={{display:"flex",alignItems:"center",gap:6}}><span style={{fontSize:11,color:C.textMuted}}>Horizon:</span><select value={horizon} onChange={e=>setHorizon(e.target.value)}><option value="6">6 months</option><option value="12">12 months</option><option value="24">24 months</option></select></div>
-          <button style={{background:C.green,color:"#fff",border:"none",padding:"8px 16px",borderRadius:9,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>Export â</button>
+          <button style={{background:C.green,color:"#fff",border:"none",padding:"8px 16px",borderRadius:9,fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>Export ↗</button>
         </div>
       </div>
       <div style={{padding:"24px 28px",display:"flex",flexDirection:"column",gap:20}}>
@@ -1186,7 +1186,7 @@ function RetailIntelligence(){
                   <div style={{display:"flex",alignItems:"center",gap:8}}><div style={{width:9,height:9,borderRadius:"50%",background:d.color,flexShrink:0}}/><span style={{fontSize:13,color:C.textMid,fontWeight:600}}>{d.system}</span></div>
                   <div style={{position:"relative",height:26,background:C.creamDark,borderRadius:7,overflow:"hidden"}}><div style={{position:"absolute",left:0,top:0,bottom:0,width:`${(d.homes/maxH)*100}%`,background:`linear-gradient(90deg,${d.color}88,${d.color})`,borderRadius:7}}/><div style={{position:"absolute",right:8,top:"50%",transform:"translateY(-50%)",fontSize:11,color:C.textMuted,fontWeight:600}}>{d.homes.toLocaleString()}</div></div>
                   <div style={{fontSize:13,color:C.green,fontWeight:700,textAlign:"right"}}>{d.value}</div>
-                  <div style={{fontSize:11,color:C.greenMid,textAlign:"right",fontWeight:700}}>â² {d.trend}%</div>
+                  <div style={{fontSize:11,color:C.greenMid,textAlign:"right",fontWeight:700}}>▲ {d.trend}%</div>
                 </div>
               ))}
             </div>
@@ -1225,12 +1225,12 @@ function RetailIntelligence(){
         </div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:18}}>
           <div style={{background:C.green,borderRadius:18,padding:28,color:"#fff"}}>
-            <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:18}}><div style={{width:40,height:40,borderRadius:12,background:"rgba(255,255,255,0.12)",display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontSize:20}}>ð¯</span></div><div><div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700}}>Retail Strategy Opportunity</div><div style={{fontSize:11,opacity:.65,marginTop:2}}>Data-driven inventory & promotion planning</div></div></div>
+            <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:18}}><div style={{width:40,height:40,borderRadius:12,background:"rgba(255,255,255,0.12)",display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontSize:20}}>🎯</span></div><div><div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700}}>Retail Strategy Opportunity</div><div style={{fontSize:11,opacity:.65,marginTop:2}}>Data-driven inventory & promotion planning</div></div></div>
             <p style={{fontSize:13,opacity:.85,lineHeight:1.8,marginBottom:18}}>HOMI connects homeowner lifecycle data directly to retail demand signals. Retailers can align inventory, promotions, and supply chain planning before demand peaks  —  not after.</p>
-            {[{icon:"ð¦",t:"Align SKU inventory 90 days ahead of demand windows"},{icon:"ð¿",t:"Target landscaping & seasonal products at spring lifecycle clusters"},{icon:"ð¢",t:"Trigger localized promotions when cluster density rises"},{icon:"ð¤",t:"Partner with local service pros to drive co-marketing reach"}].map((b,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"10px 14px",background:"rgba(255,255,255,0.08)",borderRadius:10,marginBottom:8}}><span style={{fontSize:16}}>{b.icon}</span><span style={{fontSize:12,lineHeight:1.55,opacity:.9}}>{b.t}</span></div>)}
+            {[{icon:"📦",t:"Align SKU inventory 90 days ahead of demand windows"},{icon:"🌿",t:"Target landscaping & seasonal products at spring lifecycle clusters"},{icon:"📢",t:"Trigger localized promotions when cluster density rises"},{icon:"🤝",t:"Partner with local service pros to drive co-marketing reach"}].map((b,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"10px 14px",background:"rgba(255,255,255,0.08)",borderRadius:10,marginBottom:8}}><span style={{fontSize:16}}>{b.icon}</span><span style={{fontSize:12,lineHeight:1.55,opacity:.9}}>{b.t}</span></div>)}
           </div>
           <div className="card-gold" style={{padding:28}}>
-            <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:18}}><div style={{width:40,height:40,borderRadius:12,background:C.goldPale,display:"flex",alignItems:"center",justifyContent:"center",border:`1px solid ${C.borderGold}`}}><span style={{fontSize:20}}>ð¡</span></div><div><div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700,color:C.green}}>HOMI Data Partnership</div><div style={{fontSize:11,color:C.textMuted,marginTop:2}}>What you get as a HOMI retail partner</div></div></div>
+            <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:18}}><div style={{width:40,height:40,borderRadius:12,background:C.goldPale,display:"flex",alignItems:"center",justifyContent:"center",border:`1px solid ${C.borderGold}`}}><span style={{fontSize:20}}>💡</span></div><div><div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700,color:C.green}}>HOMI Data Partnership</div><div style={{fontSize:11,color:C.textMuted,marginTop:2}}>What you get as a HOMI retail partner</div></div></div>
             {[{l:"Market Coverage",v:"Statewide + expanding"},{l:"Data Refresh Rate",v:"Monthly signals update"},{l:"Forecast Accuracy",v:"89% within 15% margin"},{l:"Markets Available",v:"PA · NJ · NY · DE"},{l:"Systems Tracked",v:"8 incl. Landscaping"},{l:"API Access",v:"REST API + Dashboard"}].map((r,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"9px 14px",background:C.cream,borderRadius:10,marginBottom:7}}><span style={{fontSize:12,color:C.textMuted}}>{r.l}</span><span style={{fontSize:12,color:C.gold,fontWeight:700}}>{r.v}</span></div>)}
             <button style={{width:"100%",background:C.green,color:"#fff",border:"none",padding:"13px",borderRadius:10,fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",marginTop:8}} onMouseEnter={e=>e.currentTarget.style.background=C.greenMid} onMouseLeave={e=>e.currentTarget.style.background=C.green}>Request a Partnership Demo →</button>
           </div>
@@ -1240,13 +1240,13 @@ function RetailIntelligence(){
   );
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 // HOME INTELLIGENCE SNAPSHOT  —  the magic entry moment
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════════
 // HOMI HOME HEALTH SCORE ENGINE v2  —  Two-Layer Architecture
 // Fresh/Aging/Stale · Verification Coverage · Provenance Markers · Hybrid Cap
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 
 // System weights
 const SYS_WEIGHTS = {
@@ -1320,22 +1320,22 @@ const CONFIDENCE_FACTOR = {
 
 // Provenance display config
 const SOURCE_CONFIG = {
-  inspector: {label:"Inspector verified",   color:"#2D6A4F", bg:"#D8F3DC", icon:"ð"},
-  permit:    {label:"Permit record",         color:"#2563A8", bg:"#EBF2FB", icon:"ð"},
-  provider:  {label:"Provider confirmed",    color:"#2563A8", bg:"#EBF2FB", icon:"ð§"},
-  document:  {label:"Document verified",     color:"#C9963A", bg:"#FDF3E0", icon:"ð§¾"},
-  owner_photo:{label:"Owner w/ photo",       color:"#D97706", bg:"#FEF3C7", icon:"ð·"},
-  owner:     {label:"Owner reported",        color:"#8A8A8A", bg:"#F5F5F5", icon:"ð¤"},
-  inferred:  {label:"Inferred",              color:"#8A8A8A", bg:"#F5F5F5", icon:"ð"},
+  inspector: {label:"Inspector verified",   color:"#2D6A4F", bg:"#D8F3DC", icon:"🔍"},
+  permit:    {label:"Permit record",         color:"#2563A8", bg:"#EBF2FB", icon:"📋"},
+  provider:  {label:"Provider confirmed",    color:"#2563A8", bg:"#EBF2FB", icon:"🔧"},
+  document:  {label:"Document verified",     color:"#C9963A", bg:"#FDF3E0", icon:"🧾"},
+  owner_photo:{label:"Owner w/ photo",       color:"#D97706", bg:"#FEF3C7", icon:"📷"},
+  owner:     {label:"Owner reported",        color:"#8A8A8A", bg:"#F5F5F5", icon:"👤"},
+  inferred:  {label:"Inferred",              color:"#8A8A8A", bg:"#F5F5F5", icon:"📊"},
 };
 
 // Evidence ladder for owner updates
 const EVIDENCE_LADDER = [
-  {key:"none",       label:"No evidence",          icon:"ð", maxPts:2,  color:"#8A8A8A", bg:"#F5F5F5"},
-  {key:"photo",      label:"Photo attached",        icon:"ð·", maxPts:4,  color:"#D97706", bg:"#FEF3C7"},
-  {key:"receipt",    label:"Receipt / invoice",     icon:"ð§¾", maxPts:7,  color:"#C9963A", bg:"#FDF3E0"},
-  {key:"contractor", label:"Contractor confirmed",  icon:"ð§", maxPts:9,  color:"#2D6A4F", bg:"#D8F3DC"},
-  {key:"inspector",  label:"Inspector verified",    icon:"â", maxPts:10, color:"#1C4A2E", bg:"#D8F3DC"},
+  {key:"none",       label:"No evidence",          icon:"📝", maxPts:2,  color:"#8A8A8A", bg:"#F5F5F5"},
+  {key:"photo",      label:"Photo attached",        icon:"📷", maxPts:4,  color:"#D97706", bg:"#FEF3C7"},
+  {key:"receipt",    label:"Receipt / invoice",     icon:"🧾", maxPts:7,  color:"#C9963A", bg:"#FDF3E0"},
+  {key:"contractor", label:"Contractor confirmed",  icon:"🔧", maxPts:9,  color:"#2D6A4F", bg:"#D8F3DC"},
+  {key:"inspector",  label:"Inspector verified",    icon:"✅", maxPts:10, color:"#1C4A2E", bg:"#D8F3DC"},
 ];
 
 const CLIMATE_ADJ = {roof:-3, hvac:-2, plumbing:-1, exterior:-2, water:-1, electrical:0};
@@ -1463,7 +1463,7 @@ function computeHomeScore(systems, ownerUpdates=[], maintenanceBehavior=70){
   };
 }
 
-// ââ Property data âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Property data ─────────────────────────────────────────────────────────────
 const HOME_SYSTEMS_RAW = [
   {key:"roof",      name:"Roof",         icon:"roof",       age:21, expectedLife:25, condition:"fair",    maintenanceRate:0.60, event:"moderate",       source:"inspector", monthsAgo:6},
   {key:"hvac",      name:"HVAC",         icon:"hvac",       age:9,  expectedLife:15, condition:"good",    maintenanceRate:0.80, event:"none",           source:"inspector", monthsAgo:6},
@@ -1481,7 +1481,7 @@ const OWNER_UPDATES_RAW = [
 
 const SCORE_RESULT = computeHomeScore(HOME_SYSTEMS_RAW, OWNER_UPDATES_RAW, 79);
 
-// ââ TWO-LAYER SCORE CARD COMPONENT v2 ââââââââââââââââââââââââââââââââââââââââ
+// ── TWO-LAYER SCORE CARD COMPONENT v2 ────────────────────────────────────────
 function TwoLayerScoreCard({compact=false}){
   const {
     vis, oes, ownerBoost, breakdown, confLabel, confColor, confScore,
@@ -1494,9 +1494,9 @@ function TwoLayerScoreCard({compact=false}){
   const scoreColor = oes>=80?"#2D6A4F":oes>=65?"#C9963A":oes>=50?"#D97706":"#C0392B";
   const scoreLabel = oes>=80?"Good Condition":oes>=65?"Fair Condition":oes>=50?"Needs Attention":"Poor Condition";
   const trajColor  = trajectory==="improving"?C.greenMid:trajectory==="declining"?C.red:C.textMuted;
-  const trajIcon   = trajectory==="improving"?"â":trajectory==="declining"?"â":"→";
+  const trajIcon   = trajectory==="improving"?"↑":trajectory==="declining"?"↓":"→";
 
-  // ââ COMPACT MODE (used in snapshot + dashboard header) ââââââââââââââââââââââ
+  // ── COMPACT MODE (used in snapshot + dashboard header) ──────────────────────
   if(compact) return(
     <div style={{background:C.white,borderRadius:18,padding:"22px 24px",border:`1px solid ${C.border}`,boxShadow:"0 2px 16px rgba(0,0,0,.07)",display:"flex",flexDirection:"column",gap:16}}>
 
@@ -1565,9 +1565,9 @@ function TwoLayerScoreCard({compact=false}){
       {/* Bottom: provenance markers + coverage bar */}
       <div style={{display:"grid",gap:8}}>
         <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-          {verifiedSystemCount>0&&<span style={{fontSize:10,background:C.greenPale,color:C.greenMid,padding:"3px 10px",borderRadius:20,fontWeight:700}}>ð {verifiedSystemCount} inspector-verified</span>}
-          {ownerCount>0&&<span style={{fontSize:10,background:C.amberPale,color:C.amber,padding:"3px 10px",borderRadius:20,fontWeight:700}}>ð¤ {ownerCount} owner-reported</span>}
-          {inferredCount>0&&<span style={{fontSize:10,background:C.cream,color:C.textMuted,padding:"3px 10px",borderRadius:20,border:`1px solid ${C.border}`,fontWeight:600}}>ð {inferredCount} inferred</span>}
+          {verifiedSystemCount>0&&<span style={{fontSize:10,background:C.greenPale,color:C.greenMid,padding:"3px 10px",borderRadius:20,fontWeight:700}}>🔍 {verifiedSystemCount} inspector-verified</span>}
+          {ownerCount>0&&<span style={{fontSize:10,background:C.amberPale,color:C.amber,padding:"3px 10px",borderRadius:20,fontWeight:700}}>👤 {ownerCount} owner-reported</span>}
+          {inferredCount>0&&<span style={{fontSize:10,background:C.cream,color:C.textMuted,padding:"3px 10px",borderRadius:20,border:`1px solid ${C.border}`,fontWeight:600}}>📊 {inferredCount} inferred</span>}
         </div>
         <div style={{display:"flex",gap:10,alignItems:"center"}}>
           <div style={{flex:1,height:6,background:C.creamDark,borderRadius:3,overflow:"hidden"}}>
@@ -1581,14 +1581,14 @@ function TwoLayerScoreCard({compact=false}){
     </div>
   );
 
-  // ââ FULL MODE âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  // ── FULL MODE ───────────────────────────────────────────────────────────────
   return(
     <div style={{display:"grid",gap:16,animation:"fadeUp .35s ease"}}>
 
       {/* Plausibility flags */}
       {plausibilityFlags.length>0&&plausibilityFlags.map((f,i)=>(
         <div key={i} style={{background:C.amberPale,border:`1.5px solid ${C.amber}`,borderRadius:12,padding:"11px 16px",display:"flex",gap:12,alignItems:"flex-start"}}>
-          <span style={{fontSize:18,flexShrink:0}}>ð</span>
+          <span style={{fontSize:18,flexShrink:0}}>🔒</span>
           <div style={{flex:1}}>
             <div style={{fontSize:12,fontWeight:700,color:C.amber,marginBottom:2}}>{f.name}  —  Score capped pending verification</div>
             <div style={{fontSize:12,color:C.textMid}}>{f.message}</div>
@@ -1637,8 +1637,8 @@ function TwoLayerScoreCard({compact=false}){
                 <div style={{fontSize:9,color:"rgba(255,255,255,.45)",marginTop:2}}>Inspector · Provider · Permit</div>
                 {/* Provenance breakdown */}
                 <div style={{marginTop:8,display:"grid",gap:3}}>
-                  {verifiedSystemCount>0&&<div style={{fontSize:9,color:"rgba(255,255,255,.6)"}}>ð {verifiedSystemCount} systems inspector-verified</div>}
-                  {HOME_SYSTEMS_RAW.filter(s=>s.source==="provider").length>0&&<div style={{fontSize:9,color:"rgba(255,255,255,.6)"}}>ð§ {HOME_SYSTEMS_RAW.filter(s=>s.source==="provider").length} system provider-confirmed</div>}
+                  {verifiedSystemCount>0&&<div style={{fontSize:9,color:"rgba(255,255,255,.6)"}}>🔍 {verifiedSystemCount} systems inspector-verified</div>}
+                  {HOME_SYSTEMS_RAW.filter(s=>s.source==="provider").length>0&&<div style={{fontSize:9,color:"rgba(255,255,255,.6)"}}>🔧 {HOME_SYSTEMS_RAW.filter(s=>s.source==="provider").length} system provider-confirmed</div>}
                 </div>
               </div>
               <div style={{background:"rgba(201,150,58,.18)",borderRadius:12,padding:"12px 16px",flex:1,border:"1px solid rgba(232,184,75,.25)"}}>
@@ -1681,7 +1681,7 @@ function TwoLayerScoreCard({compact=false}){
                 <div style={{flex:1,background:"rgba(255,255,255,.15)",borderRadius:"0 4px 4px 0"}}/>
               </div>
               <div style={{display:"grid",gap:3}}>
-                <div style={{fontSize:9,color:"rgba(255,255,255,.6)"}}>ð¢ {verifiedSystemCount} verified · ð¡ {ownerCount} owner · âª {inferredCount} inferred</div>
+                <div style={{fontSize:9,color:"rgba(255,255,255,.6)"}}>🟢 {verifiedSystemCount} verified · 🟡 {ownerCount} owner · ⚪ {inferredCount} inferred</div>
               </div>
             </div>
 
@@ -1712,7 +1712,7 @@ function TwoLayerScoreCard({compact=false}){
 
         <div style={{padding:24}}>
 
-          {/* ââ OVERVIEW ââ */}
+          {/* ── OVERVIEW ── */}
           {activeTab==="overview"&&(
             <div style={{display:"grid",gap:18,animation:"fadeUp .25s ease"}}>
 
@@ -1750,7 +1750,7 @@ function TwoLayerScoreCard({compact=false}){
 
               {/* Age benchmark */}
               <div style={{background:C.cream,borderRadius:12,padding:14,display:"flex",alignItems:"center",gap:14}}>
-                <div style={{fontSize:22}}>ð</div>
+                <div style={{fontSize:22}}>📊</div>
                 <div style={{flex:1}}>
                   <div style={{fontSize:13,fontWeight:700,color:C.green}}>Above average for comparable homes in Lehigh Valley</div>
                   <div style={{fontSize:11,color:C.textMuted,marginTop:2}}>Median score for homes built 2000–2010: 64 · Your score: {oes} · Percentile: ~72nd</div>
@@ -1783,7 +1783,7 @@ function TwoLayerScoreCard({compact=false}){
             </div>
           )}
 
-          {/* ââ SYSTEM DETAIL ââ */}
+          {/* ── SYSTEM DETAIL ── */}
           {activeTab==="systems"&&(
             <div style={{display:"grid",gap:10,animation:"fadeUp .25s ease"}}>
               <div style={{fontSize:11,color:C.textMuted,marginBottom:4}}>Every system scored row by row. Sources are color-coded. Freshness state shown per system.</div>
@@ -1843,7 +1843,7 @@ function TwoLayerScoreCard({compact=false}){
             </div>
           )}
 
-          {/* ââ OWNER UPDATES ââ */}
+          {/* ── OWNER UPDATES ── */}
           {activeTab==="updates"&&(
             <div style={{display:"grid",gap:14,animation:"fadeUp .25s ease"}}>
               <div style={{background:C.goldPale,borderRadius:12,padding:16,border:`1px solid ${C.gold}22`,fontSize:12,color:C.textMid,lineHeight:1.7}}>
@@ -1875,7 +1875,7 @@ function TwoLayerScoreCard({compact=false}){
                   </div>
                 </div>
                 <div style={{marginTop:12,padding:"9px 12px",background:C.greenPale,borderRadius:8,fontSize:11,color:C.greenMid,fontWeight:600}}>
-                  ð Your current level: Receipt / invoice · Next: Contractor confirmation unlocks +9 pts max
+                  📍 Your current level: Receipt / invoice · Next: Contractor confirmation unlocks +9 pts max
                 </div>
               </div>
 
@@ -1894,7 +1894,7 @@ function TwoLayerScoreCard({compact=false}){
                         <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4,flexWrap:"wrap"}}>
                           <span style={{fontSize:13,fontWeight:700,color:C.text}}>{sys?.name}</span>
                           <span style={{fontSize:10,background:ev.bg,color:ev.color,padding:"2px 9px",borderRadius:6,fontWeight:600}}>{ev.icon} {ev.label}</span>
-                          {pf?.flag&&<span style={{fontSize:10,background:C.amberPale,color:C.amber,padding:"2px 9px",borderRadius:6,fontWeight:600}}>ð Capped</span>}
+                          {pf?.flag&&<span style={{fontSize:10,background:C.amberPale,color:C.amber,padding:"2px 9px",borderRadius:6,fontWeight:600}}>🔒 Capped</span>}
                           <span style={{fontSize:10,color:C.textMuted,marginLeft:"auto"}}>{u.date}</span>
                         </div>
                         <div style={{fontSize:12,color:C.textMid,marginBottom:8}}>{u.note}</div>
@@ -1918,7 +1918,7 @@ function TwoLayerScoreCard({compact=false}){
             </div>
           )}
 
-          {/* ââ CONFIDENCE & FRESHNESS ââ */}
+          {/* ── CONFIDENCE & FRESHNESS ── */}
           {activeTab==="confidence"&&(
             <div style={{display:"grid",gap:16,animation:"fadeUp .25s ease"}}>
 
@@ -1951,7 +1951,7 @@ function TwoLayerScoreCard({compact=false}){
                     <div key={state} style={{display:"flex",alignItems:"center",gap:6}}>
                       <div style={{width:10,height:10,borderRadius:3,background:FRESHNESS_COLOR[state]}}/>
                       <span style={{fontSize:11,color:FRESHNESS_COLOR[state],fontWeight:600,textTransform:"capitalize"}}>{state}</span>
-                      <span style={{fontSize:10,color:C.textMuted}}>Ã{FRESHNESS_MULTIPLIER[state]}</span>
+                      <span style={{fontSize:10,color:C.textMuted}}>×{FRESHNESS_MULTIPLIER[state]}</span>
                     </div>
                   ))}
                 </div>
@@ -1971,7 +1971,7 @@ function TwoLayerScoreCard({compact=false}){
                         <div style={{display:"flex",gap:12,fontSize:10,color:C.textMuted}}>
                           <span>Verified {sys.monthsAgo}mo ago</span>
                           <span>Fresh window: {t.fresh}mo</span>
-                          <span>Score multiplier: Ã{FRESHNESS_MULTIPLIER[state]}</span>
+                          <span>Score multiplier: ×{FRESHNESS_MULTIPLIER[state]}</span>
                         </div>
                       </div>
                       <div style={{height:7,background:C.creamDark,borderRadius:4,overflow:"hidden"}}>
@@ -1981,7 +1981,7 @@ function TwoLayerScoreCard({compact=false}){
                   );
                 })}
                 <div style={{marginTop:14,padding:"11px 14px",background:C.amberPale,borderRadius:10,border:`1px solid ${C.amber}18`,fontSize:11,color:C.amber,fontWeight:600}}>
-                  ð¡ Re-inspection resets all systems to Fresh and typically moves the score 8–14 points. Inspectors see this as a recurring revenue opportunity.
+                  💡 Re-inspection resets all systems to Fresh and typically moves the score 8–14 points. Inspectors see this as a recurring revenue opportunity.
                 </div>
               </div>
 
@@ -2111,7 +2111,7 @@ function SnapshotEntry({onEnter}){
       </div>
       {/* Social proof */}
       <div style={{display:"flex",gap:28,marginTop:44,animation:"fadeUp .6s ease .35s both"}}>
-        {[["ð ","47,000+","Property records"],["ð","$2.3B","In lifecycle costs tracked"],["â­","4.9/5","Homeowner rating"]].map(([icon,val,label])=>(
+        {[["🏠","47,000+","Property records"],["🔍","$2.3B","In lifecycle costs tracked"],["⭐","4.9/5","Homeowner rating"]].map(([icon,val,label])=>(
           <div key={label} style={{textAlign:"center"}}>
             <div style={{fontSize:18,marginBottom:4}}>{icon}</div>
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:700,color:C.goldLight}}>{val}</div>
@@ -2146,15 +2146,15 @@ function HomeIntelligenceSnapshot({onOwnerMode,onBuyerMode,onRealtorMode}){
           <div style={{display:"flex",gap:10,flexShrink:0}}>
             <button onClick={onBuyerMode} style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:11,padding:"9px 18px",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit",color:C.textMid,transition:"all .2s"}}
               onMouseEnter={e=>e.currentTarget.style.borderColor=C.greenLight} onMouseLeave={e=>e.currentTarget.style.borderColor=C.border}>
-              ð Buyer View
+              🔍 Buyer View
             </button>
             <button onClick={onRealtorMode} style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:11,padding:"9px 18px",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit",color:C.textMid,transition:"all .2s"}}
               onMouseEnter={e=>e.currentTarget.style.borderColor=C.greenLight} onMouseLeave={e=>e.currentTarget.style.borderColor=C.border}>
-              ð· Realtor View
+              🏷 Realtor View
             </button>
             <button onClick={onOwnerMode} style={{background:C.green,border:"none",borderRadius:11,padding:"9px 20px",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white",transition:"all .2s"}}
               onMouseEnter={e=>e.currentTarget.style.background=C.greenMid} onMouseLeave={e=>e.currentTarget.style.background=C.green}>
-              ð  I Own This Home →
+              🏠 I Own This Home →
             </button>
           </div>
         </div>
@@ -2179,7 +2179,7 @@ function HomeIntelligenceSnapshot({onOwnerMode,onBuyerMode,onRealtorMode}){
               </div>
             ))}
             <div style={{marginTop:14,padding:"10px 14px",background:C.greenPale,borderRadius:10,fontSize:12,color:C.greenMid,fontWeight:600}}>
-              ð¡ Zillow tells you what it costs today. HOMI tells you what it'll cost tomorrow.
+              💡 Zillow tells you what it costs today. HOMI tells you what it'll cost tomorrow.
             </div>
           </div>
 
@@ -2274,7 +2274,7 @@ function HomeIntelligenceSnapshot({onOwnerMode,onBuyerMode,onRealtorMode}){
 
         {/* HOMI positioning footer */}
         <div style={{background:C.creamDark,borderRadius:16,padding:"18px 24px",display:"flex",alignItems:"center",gap:20,animation:"fadeUp .4s ease .32s both"}}>
-          <div style={{fontSize:28}}>ð</div>
+          <div style={{fontSize:28}}>🔑</div>
           <div style={{flex:1}}>
             <div style={{fontSize:13,fontWeight:700,color:C.green,marginBottom:3}}>The persistent property intelligence record</div>
             <div style={{fontSize:12,color:C.textMuted,lineHeight:1.6}}>Unlike inspection reports that disappear in inboxes, HOMI records survive ownership transfers. Every repair, service, and upgrade stays attached to this address  —  and becomes part of its verified history.</div>
@@ -2289,11 +2289,11 @@ function HomeIntelligenceSnapshot({onOwnerMode,onBuyerMode,onRealtorMode}){
   );
 }
 
-// ââ Buyer Mode ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Buyer Mode ────────────────────────────────────────────────────────────────
 function BuyerView({onBack}){
   const d=SNAPSHOT_DATA;
 
-  // ââ state ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  // ── state ──────────────────────────────────────────────────────────────────
   const [activeTab,setActiveTab]=useState("overview");
   const [checkedQ,setCheckedQ]=useState({});
   const [checkedInsp,setCheckedInsp]=useState({});
@@ -2335,7 +2335,7 @@ function BuyerView({onBack}){
 
   useEffect(()=>{if(aiEndRef.current)aiEndRef.current.scrollIntoView({behavior:"smooth"});},[aiHistory,aiLoading]);
 
-  // ââ negotiation items: id, criticality, lo/hi credit range âââââââââââââââ
+  // ── negotiation items: id, criticality, lo/hi credit range ───────────────
   // criticality: "critical" | "important" | "nice"
   const NEG_ITEMS=[
     {id:"n_water",  system:"Water Heater",        icon:"water",      criticality:"critical",  lo:900,  hi:1800, why:"9 of 12 years  —  replacement likely within 18 months. Standard repair credit.",           tag:"Safety & Function"},
@@ -2361,7 +2361,7 @@ function BuyerView({onBack}){
   const allNegLo=NEG_ITEMS.reduce((a,n)=>a+n.lo,0);
   const allNegHi=NEG_ITEMS.reduce((a,n)=>a+n.hi,0);
 
-  // ââ true cost = purchase price + cost to bring to 100 (repairs only) ââââââââ
+  // ── true cost = purchase price + cost to bring to 100 (repairs only) ────────
   const repairItems=[
     {id:"n_water",    label:"Water Heater Replacement",   icon:"water",      criticality:"critical",  lo:900,  hi:1800,  color:C.red,     bg:C.redPale},
     {id:"n_roof",     label:"Roof Repair / Replacement",  icon:"roof",       criticality:"critical",  lo:4500, hi:9000,  color:C.red,     bg:C.redPale},
@@ -2375,7 +2375,7 @@ function BuyerView({onBack}){
   const trueCostLo=purchasePrice+repairLo;
   const trueCostHi=purchasePrice+repairHi;
 
-  // ââ questions data âââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  // ── questions data ─────────────────────────────────────────────────────────
   const questionGroups=[
     {group:"Ask Before Offer",color:C.red,questions:[
       {id:"q1",text:"When was the water heater installed, and do you have the purchase receipt or warranty?"},
@@ -2394,15 +2394,15 @@ function BuyerView({onBack}){
     ]},
   ];
 
-  // ââ inspection checklist ââââââââââââââââââââââââââââââââââââââââââââââââââ
+  // ── inspection checklist ──────────────────────────────────────────────────
   const inspSections=[
-    {room:"Water Heater",icon:"ð§",color:C.red,flag:"URGENT",items:[
+    {room:"Water Heater",icon:"💧",color:C.red,flag:"URGENT",items:[
       {id:"i1", text:"Check age tag  —  confirm manufacture date (should read ~2015–2016)"},
       {id:"i2", text:"Inspect for rust, corrosion, or mineral buildup at base and connections"},
       {id:"i3", text:"Test pressure relief valve  —  lift handle briefly, verify water flows"},
       {id:"i4", text:"Look for water stains on floor below tank indicating past leaks"},
     ]},
-    {room:"Windows & Doors",icon:"ðª",color:C.amber,flag:"HIGH COST",items:[
+    {room:"Windows & Doors",icon:"🪟",color:C.amber,flag:"HIGH COST",items:[
       {id:"i5", text:"Check every window for fogging or condensation between panes  —  indicates seal failure"},
       {id:"i6", text:"Open and close each window  —  test locks, latches, and ease of operation"},
       {id:"i7", text:"Feel around frames in winter (or with a lighter flame) for drafts"},
@@ -2412,31 +2412,31 @@ function BuyerView({onBack}){
       {id:"i11",text:"Test all sliding doors and storm doors  —  should move smoothly without forcing"},
       {id:"i12",text:"Confirm double-pane or triple-pane construction  —  single pane is a significant efficiency issue"},
     ]},
-    {room:"Roof",icon:"ð ",color:C.amber,flag:"ATTENTION",items:[
+    {room:"Roof",icon:"🏠",color:C.amber,flag:"ATTENTION",items:[
       {id:"i13",text:"From ground: look for missing, curling, or granule-loss shingles"},
       {id:"i14",text:"Inspect attic for daylight penetration, dark staining, or soft decking"},
       {id:"i15",text:"Check flashing around chimney, skylights, and roof-wall intersections"},
       {id:"i16",text:"Inspect gutters for granule accumulation  —  sign of shingle aging"},
       {id:"i17",text:"Look for sagging or uneven ridge line  —  may indicate structural issue"},
     ]},
-    {room:"Electrical Panel",icon:"â¡",color:C.amber,flag:"ATTENTION",items:[
+    {room:"Electrical Panel",icon:"⚡",color:C.amber,flag:"ATTENTION",items:[
       {id:"i18",text:"Confirm 200-amp service (standard for 2,847 sq ft home)"},
       {id:"i19",text:"Look for double-tapped breakers, scorch marks, or burning smell"},
       {id:"i20",text:"Test GFCI outlets in kitchen, bathrooms, garage, and exterior"},
       {id:"i21",text:"Ask inspector about panel brand  —  check for recalled Zinsco or FPE panels"},
     ]},
-    {room:"Basement & Foundation",icon:"ðï¸",color:C.greenMid,items:[
+    {room:"Basement & Foundation",icon:"🏗️",color:C.greenMid,items:[
       {id:"i22",text:"Walk full perimeter  —  look for cracks, efflorescence (white staining), or damp patches"},
       {id:"i23",text:"Check sump pit and pump  —  test manually by pouring water into pit"},
       {id:"i24",text:"Inspect floor joists for soft spots, staining, or pest damage"},
       {id:"i25",text:"Look for fresh paint or patching that might conceal moisture damage"},
     ]},
-    {room:"HVAC System",icon:"ð¡ï¸",color:C.greenMid,items:[
+    {room:"HVAC System",icon:"🌡️",color:C.greenMid,items:[
       {id:"i26",text:"Check furnace filter  —  if clogged, ask when it was last changed"},
       {id:"i27",text:"Run heat and A/C  —  confirm both respond and air flows at all vents"},
       {id:"i28",text:"Check furnace flue and A/C refrigerant lines for damage"},
     ]},
-    {room:"Plumbing",icon:"ð§",color:C.greenMid,items:[
+    {room:"Plumbing",icon:"🔧",color:C.greenMid,items:[
       {id:"i29",text:"Run all faucets  —  check water pressure and hot water response time"},
       {id:"i30",text:"Flush all toilets  —  confirm no running, rocking, or slow drain"},
       {id:"i31",text:"Check under all sinks for staining, soft cabinet bottoms, or drips"},
@@ -2444,19 +2444,19 @@ function BuyerView({onBack}){
     ]},
   ];
 
-  // ââ tab navigation âââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  // ── tab navigation ─────────────────────────────────────────────────────────
   const tabs=[
-    {id:"overview",  label:"ð  Overview"},
-    {id:"questions", label:"â Questions"},
-    {id:"advisor",   label:"ð¤ AI Advisor"},
-    {id:"checklist", label:"â Checklist"},
+    {id:"overview",  label:"🏠 Overview"},
+    {id:"questions", label:"❓ Questions"},
+    {id:"advisor",   label:"🤖 AI Advisor"},
+    {id:"checklist", label:"✅ Checklist"},
   ];
 
   return(
     <div style={{overflowY:"auto",height:"calc(100vh - 56px)",background:C.cream}}>
       <div style={{maxWidth:1020,margin:"0 auto",padding:"24px 28px",display:"grid",gap:18}}>
 
-        {/* ââ Header ââ */}
+        {/* ── Header ── */}
         <div style={{display:"flex",alignItems:"center",gap:14,flexWrap:"wrap"}}>
           <button onClick={onBack} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:9,padding:"7px 14px",fontSize:12,cursor:"pointer",fontFamily:"inherit",color:C.textMuted,flexShrink:0}}>← Back</button>
           <div>
@@ -2464,13 +2464,13 @@ function BuyerView({onBack}){
             <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:22,fontWeight:700,color:C.green}}>{d.address} · {d.city}</h1>
           </div>
           <div style={{marginLeft:"auto",background:C.bluePale,border:`1px solid ${C.blue}33`,borderRadius:10,padding:"7px 14px"}}>
-            <div style={{fontSize:11,color:C.blue,fontWeight:700}}>ð Buyer Mode Active</div>
+            <div style={{fontSize:11,color:C.blue,fontWeight:700}}>🔍 Buyer Mode Active</div>
           </div>
         </div>
 
-        {/* ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+        {/* ════════════════════════════════════════════════════════════
             HERO  —  4 stat cards (always visible)
-        ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */}
+        ════════════════════════════════════════════════════════════ */}
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12}}>
 
           {/* Card 1: List Price */}
@@ -2511,14 +2511,14 @@ function BuyerView({onBack}){
               </>
             ):(
               <>
-                <div style={{fontSize:22,marginBottom:4,opacity:.4}}>â</div>
+                <div style={{fontSize:22,marginBottom:4,opacity:.4}}>↓</div>
                 <div style={{fontSize:10,color:C.textMuted,lineHeight:1.6}}>Use the negotiation<br/>builder below</div>
               </>
             )}
           </div>
         </div>
 
-        {/* ââ Tab Nav ââ */}
+        {/* ── Tab Nav ── */}
         <div style={{display:"flex",gap:4,background:C.white,borderRadius:14,padding:5,border:`1px solid ${C.border}`}}>
           {tabs.map(t=>(
             <button key={t.id} onClick={()=>setActiveTab(t.id)}
@@ -2531,15 +2531,15 @@ function BuyerView({onBack}){
           ))}
         </div>
 
-        {/* ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+        {/* ══════════════════════════════════════════════════════════════════
             TAB: OVERVIEW  —  Flagged systems + Negotiation builder + True Cost
-        ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */}
+        ══════════════════════════════════════════════════════════════════ */}
         {activeTab==="overview"&&(()=>{
           const critGroups=["critical","important","nice"];
           return(
           <div style={{display:"grid",gap:18,animation:"fadeUp .3s ease"}}>
 
-            {/* ââ HOMI Advisor intro ââ */}
+            {/* ── HOMI Advisor intro ── */}
             <div style={{background:`linear-gradient(135deg,${C.green},${C.greenMid})`,borderRadius:16,padding:"18px 22px",color:"white",display:"flex",alignItems:"center",gap:14}}>
               <div style={{width:36,height:36,borderRadius:10,background:"rgba(255,255,255,0.12)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
                 <Icon name="sparkle" size={18} color={C.goldLight}/>
@@ -2549,7 +2549,7 @@ function BuyerView({onBack}){
               </div>
             </div>
 
-            {/* ââ Negotiation Builder ââ */}
+            {/* ── Negotiation Builder ── */}
             <div>
               <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14,flexWrap:"wrap"}}>
                 <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:18,color:C.green}}>Build Your Negotiation</h2>
@@ -2632,7 +2632,7 @@ function BuyerView({onBack}){
               </div>
             </div>
 
-            {/* ââ True Cost: What it takes to reach a healthy home ââ */}
+            {/* ── True Cost: What it takes to reach a healthy home ── */}
             <div className="card" style={{padding:22}}>
               {/* Header row */}
               <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:14,marginBottom:6,flexWrap:"wrap"}}>
@@ -2717,11 +2717,11 @@ function BuyerView({onBack}){
               )}
             </div>
 
-            {/* ââ Quick-access to other tabs ââ */}
+            {/* ── Quick-access to other tabs ── */}
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
               {[
-                {tab:"questions",emoji:"â",title:"Questions to Ask",desc:`${questionGroups.reduce((a,g)=>a+g.questions.length,0)} curated questions · ${Object.values(checkedQ).filter(Boolean).length} asked`},
-                {tab:"checklist",emoji:"â",title:"Inspection Checklist",desc:`${inspSections.reduce((a,s)=>a+s.items.length,0)} items · ${Object.values(checkedInsp).filter(Boolean).length} checked`},
+                {tab:"questions",emoji:"❓",title:"Questions to Ask",desc:`${questionGroups.reduce((a,g)=>a+g.questions.length,0)} curated questions · ${Object.values(checkedQ).filter(Boolean).length} asked`},
+                {tab:"checklist",emoji:"✅",title:"Inspection Checklist",desc:`${inspSections.reduce((a,s)=>a+s.items.length,0)} items · ${Object.values(checkedInsp).filter(Boolean).length} checked`},
               ].map(c=>(
                 <div key={c.tab} className="card" style={{padding:"16px 18px",cursor:"pointer",transition:"all .2s",display:"flex",alignItems:"center",gap:14}}
                   onClick={()=>setActiveTab(c.tab)}
@@ -2738,15 +2738,15 @@ function BuyerView({onBack}){
             </div>
 
             <div style={{padding:"10px 14px",background:C.amberPale,borderRadius:10,border:`1px solid ${C.amber}33`,fontSize:11,color:C.amber,lineHeight:1.65}}>
-              â  Credit ranges are estimates based on system age and condition data  —  not guaranteed values. Obtain licensed contractor estimates before finalizing any negotiation.
+              ⚠ Credit ranges are estimates based on system age and condition data  —  not guaranteed values. Obtain licensed contractor estimates before finalizing any negotiation.
             </div>
           </div>
           );
         })()}
 
-        {/* ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+        {/* ══════════════════════════════════════════════════════════════════
             TAB: QUESTIONS TO ASK
-        ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */}
+        ══════════════════════════════════════════════════════════════════ */}
         {activeTab==="questions"&&(
           <div style={{display:"grid",gap:16,animation:"fadeUp .3s ease"}}>
             <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:14,flexWrap:"wrap"}}>
@@ -2787,9 +2787,9 @@ function BuyerView({onBack}){
           </div>
         )}
 
-        {/* ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+        {/* ══════════════════════════════════════════════════════════════════
             TAB: AI BUYER ADVISOR
-        ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */}
+        ══════════════════════════════════════════════════════════════════ */}
         {activeTab==="advisor"&&(
           <div style={{display:"grid",gap:16,animation:"fadeUp .3s ease"}}>
             <div>
@@ -2867,9 +2867,9 @@ function BuyerView({onBack}){
           </div>
         )}
 
-        {/* ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+        {/* ══════════════════════════════════════════════════════════════════
             TAB: INSPECTION CHECKLIST
-        ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */}
+        ══════════════════════════════════════════════════════════════════ */}
         {activeTab==="checklist"&&(
           <div style={{display:"grid",gap:16,animation:"fadeUp .3s ease"}}>
             <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:14,flexWrap:"wrap"}}>
@@ -2882,7 +2882,7 @@ function BuyerView({onBack}){
                   <div style={{fontSize:20,fontWeight:700,color:C.green}}>{Object.values(checkedInsp).filter(Boolean).length}/{inspSections.reduce((a,s)=>a+s.items.length,0)}</div>
                   <div style={{fontSize:10,color:C.greenMid,fontWeight:600}}>Checked</div>
                 </div>
-                <button onClick={()=>window.print()} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:9,padding:"8px 14px",fontSize:11,cursor:"pointer",fontFamily:"inherit",color:C.textMuted}}>ð¨ Print</button>
+                <button onClick={()=>window.print()} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:9,padding:"8px 14px",fontSize:11,cursor:"pointer",fontFamily:"inherit",color:C.textMuted}}>🖨 Print</button>
               </div>
             </div>
             {inspSections.map(sec=>(
@@ -2912,7 +2912,7 @@ function BuyerView({onBack}){
               </div>
             ))}
             <div style={{padding:"12px 16px",background:C.amberPale,borderRadius:10,border:`1px solid ${C.amber}33`,fontSize:11,color:C.amber,lineHeight:1.7}}>
-              â  This checklist is a buyer's guide, not a substitute for a licensed home inspection. Always hire a certified inspector (ASHI or InterNACHI) for a full professional assessment.
+              ⚠ This checklist is a buyer's guide, not a substitute for a licensed home inspection. Always hire a certified inspector (ASHI or InterNACHI) for a full professional assessment.
             </div>
           </div>
         )}
@@ -2922,7 +2922,7 @@ function BuyerView({onBack}){
   );
 }
 
-// ââ Realtor View ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Realtor View ──────────────────────────────────────────────────────────────
 function RealtorView({onBack}){
   const d=SNAPSHOT_DATA;
   return(
@@ -2935,8 +2935,8 @@ function RealtorView({onBack}){
             <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:24,fontWeight:700,color:C.green}}>{d.address}</h1>
           </div>
           <div style={{marginLeft:"auto",display:"flex",gap:8}}>
-            <div style={{background:C.goldPale,border:`1px solid ${C.gold}33`,borderRadius:10,padding:"8px 16px"}}><div style={{fontSize:11,color:C.gold,fontWeight:700}}>ð· Realtor Mode</div></div>
-            <button style={{background:C.green,border:"none",borderRadius:10,padding:"8px 18px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white"}}>Share Report â</button>
+            <div style={{background:C.goldPale,border:`1px solid ${C.gold}33`,borderRadius:10,padding:"8px 16px"}}><div style={{fontSize:11,color:C.gold,fontWeight:700}}>🏷 Realtor Mode</div></div>
+            <button style={{background:C.green,border:"none",borderRadius:10,padding:"8px 18px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white"}}>Share Report ↗</button>
           </div>
         </div>
 
@@ -2966,7 +2966,7 @@ function RealtorView({onBack}){
               {item:"HVAC last serviced Oct 2024",note:"Service records available  —  positive signal for buyers.",level:"positive"},
             ].map((r,i)=>(
               <div key={i} style={{display:"flex",gap:10,padding:"9px 12px",borderRadius:10,background:r.level==="disclose"?C.amberPale:r.level==="positive"?C.greenPale:C.cream,marginBottom:7,border:`1px solid ${r.level==="disclose"?C.amber+"33":r.level==="positive"?C.greenLight+"33":C.border}`}}>
-                <div style={{fontSize:14,flexShrink:0}}>{r.level==="disclose"?"â ï¸":r.level==="positive"?"â":"ð¡"}</div>
+                <div style={{fontSize:14,flexShrink:0}}>{r.level==="disclose"?"⚠️":r.level==="positive"?"✅":"💡"}</div>
                 <div><div style={{fontSize:12,fontWeight:600,color:C.text}}>{r.item}</div><div style={{fontSize:11,color:C.textMuted,marginTop:1}}>{r.note}</div></div>
               </div>
             ))}
@@ -2978,7 +2978,7 @@ function RealtorView({onBack}){
               <div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700,marginBottom:8}}>Stay connected after close</div>
               <p style={{fontSize:13,opacity:.85,lineHeight:1.7}}>HOMI lets you share this property record with your buyer at closing  —  so your name stays attached to the home long after the transaction. When they need a recommendation or their first big repair hits, you're the one they call.</p>
             </div>
-            {[{icon:"ð¬",t:"Auto-reminders sent in your name"},{icon:"ð",t:"Your buyers get monthly home updates"},{icon:"ð¤",t:"Referrals triggered at lifecycle events"}].map(b=>(
+            {[{icon:"📬",t:"Auto-reminders sent in your name"},{icon:"📊",t:"Your buyers get monthly home updates"},{icon:"🤝",t:"Referrals triggered at lifecycle events"}].map(b=>(
               <div key={b.t} style={{display:"flex",gap:10,padding:"10px 14px",background:"rgba(255,255,255,0.1)",borderRadius:10}}>
                 <span style={{fontSize:16}}>{b.icon}</span><span style={{fontSize:12,opacity:.9}}>{b.t}</span>
               </div>
@@ -2991,12 +2991,12 @@ function RealtorView({onBack}){
   );
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 // ROOT SHELL
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════════════
 // INSPECTOR MODE
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 const INSP_SECTIONS=[
   {id:"exterior",  label:"Exterior",         icon:"exterior",   color:"#2D6A4F"},
   {id:"roof",      label:"Roof",             icon:"roof",       color:"#6B3A2A"},
@@ -3091,7 +3091,7 @@ function InspectorMode(){
     },2200);
   };
 
-  // ââ START SCREEN ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  // ── START SCREEN ────────────────────────────────────────────────────────────
   if(phase==="start") return(
     <div style={{overflowY:"auto",height:"calc(100vh - 52px)",background:C.cream,display:"flex",alignItems:"center",justifyContent:"center",padding:40}}>
       <div style={{maxWidth:560,width:"100%",animation:"fadeUp .4s ease"}}>
@@ -3110,7 +3110,7 @@ function InspectorMode(){
           <input value={address} onChange={e=>setAddress(e.target.value)}
             style={{width:"100%",background:C.cream,border:`1.5px solid ${C.border}`,borderRadius:10,padding:"11px 14px",fontSize:14,fontFamily:"inherit",color:C.text,outline:"none",boxSizing:"border-box"}}/>
           <div style={{marginTop:10,padding:"8px 12px",background:C.greenPale,borderRadius:8,fontSize:11,color:C.greenMid,display:"flex",alignItems:"center",gap:6}}>
-            <span>â</span><span>Existing HOMI record found · Home Health Score 72 · Last updated 6 months ago</span>
+            <span>✓</span><span>Existing HOMI record found · Home Health Score 72 · Last updated 6 months ago</span>
           </div>
         </div>
 
@@ -3118,7 +3118,7 @@ function InspectorMode(){
         <div style={{background:C.white,borderRadius:16,padding:24,marginBottom:24,boxShadow:"0 2px 12px rgba(0,0,0,.06)"}}>
           <div style={{fontSize:11,fontWeight:700,color:C.textMuted,letterSpacing:1,marginBottom:12}}>INSPECTION TYPE</div>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
-            {[{val:"buyer",label:"ð Buyer Inspection"},{val:"prelisting",label:"ð· Seller Pre-Listing"},{val:"maintenance",label:"ð§ Maintenance Check"},{val:"insurance",label:"ð¡ Insurance Inspection"}].map(t=>(
+            {[{val:"buyer",label:"🔍 Buyer Inspection"},{val:"prelisting",label:"🏷 Seller Pre-Listing"},{val:"maintenance",label:"🔧 Maintenance Check"},{val:"insurance",label:"🛡 Insurance Inspection"}].map(t=>(
               <button key={t.val} onClick={()=>setInspType(t.val)} style={{padding:"12px 14px",borderRadius:10,border:`1.5px solid ${inspType===t.val?C.green:C.border}`,background:inspType===t.val?C.greenPale:C.white,cursor:"pointer",fontFamily:"inherit",fontSize:13,fontWeight:inspType===t.val?700:400,color:inspType===t.val?C.green:C.textMid,transition:"all .15s",textAlign:"left"}}>
                 {t.label}
               </button>
@@ -3135,7 +3135,7 @@ function InspectorMode(){
     </div>
   );
 
-  // ââ OUTPUTS SCREEN ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  // ── OUTPUTS SCREEN ──────────────────────────────────────────────────────────
   if(phase==="outputs") return(
     <div style={{overflowY:"auto",height:"calc(100vh - 52px)",background:C.cream,padding:"28px 32px"}}>
       <div style={{maxWidth:1100,margin:"0 auto",display:"grid",gap:20}}>
@@ -3162,7 +3162,7 @@ function InspectorMode(){
 
         {/* Output tabs */}
         <div style={{display:"flex",gap:0,background:C.white,borderRadius:14,padding:6,boxShadow:"0 2px 12px rgba(0,0,0,.06)",width:"fit-content"}}>
-          {[{id:"dashboard",label:"ð  Property Dashboard",desc:"Living intelligence record"},{id:"report",label:"ð Inspection Report",desc:"Traditional PDF format"},{id:"brief",label:"ð¼ Buyer Brief",desc:"Negotiation summary"}].map(t=>(
+          {[{id:"dashboard",label:"🏠 Property Dashboard",desc:"Living intelligence record"},{id:"report",label:"📄 Inspection Report",desc:"Traditional PDF format"},{id:"brief",label:"💼 Buyer Brief",desc:"Negotiation summary"}].map(t=>(
             <button key={t.id} onClick={()=>setOutputTab(t.id)} style={{padding:"10px 20px",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"inherit",background:outputTab===t.id?C.green:"transparent",color:outputTab===t.id?"white":C.textMuted,fontWeight:outputTab===t.id?700:400,fontSize:13,transition:"all .15s",display:"flex",flexDirection:"column",alignItems:"center",gap:2}}>
               <span>{t.label}</span>
               <span style={{fontSize:9,opacity:.7}}>{t.desc}</span>
@@ -3170,7 +3170,7 @@ function InspectorMode(){
           ))}
         </div>
 
-        {/* ââ OUTPUT 1: PROPERTY DASHBOARD ââ */}
+        {/* ── OUTPUT 1: PROPERTY DASHBOARD ── */}
         {outputTab==="dashboard"&&(
           <div style={{display:"grid",gap:18,animation:"fadeUp .35s ease"}}>
             <div style={{background:`linear-gradient(135deg,${C.green},${C.greenMid})`,borderRadius:18,padding:26,color:"white",display:"grid",gridTemplateColumns:"1fr 1fr 1fr 1fr",gap:16}}>
@@ -3259,7 +3259,7 @@ function InspectorMode(){
           </div>
         )}
 
-        {/* ââ OUTPUT 2: TRADITIONAL REPORT ââ */}
+        {/* ── OUTPUT 2: TRADITIONAL REPORT ── */}
         {outputTab==="report"&&(
           <div style={{display:"grid",gap:16,animation:"fadeUp .35s ease"}}>
             <div style={{background:C.white,borderRadius:16,padding:28,border:`1px solid ${C.border}`}}>
@@ -3276,7 +3276,7 @@ function InspectorMode(){
                 </div>
               </div>
               <div style={{padding:"10px 14px",background:C.amberPale,borderRadius:10,border:`1px solid ${C.amber}33`,fontSize:11,color:C.amber,marginBottom:20}}>
-                â  This report is not a warranty. Systems inspected reflect conditions at time of inspection only. Recommend consultation with licensed contractors for all major findings.
+                ⚠ This report is not a warranty. Systems inspected reflect conditions at time of inspection only. Recommend consultation with licensed contractors for all major findings.
               </div>
               {/* System findings */}
               {INSP_SECTIONS.filter(sec=>sections[sec.id].condition||sections[sec.id].observations).map((sec,i)=>{
@@ -3305,7 +3305,7 @@ function InspectorMode(){
           </div>
         )}
 
-        {/* ââ OUTPUT 3: BUYER BRIEF ââ */}
+        {/* ── OUTPUT 3: BUYER BRIEF ── */}
         {outputTab==="brief"&&(
           <div style={{display:"grid",gap:16,animation:"fadeUp .35s ease"}}>
             <div style={{background:C.white,borderRadius:16,padding:28,border:`1px solid ${C.border}`,maxWidth:680}}>
@@ -3363,7 +3363,7 @@ function InspectorMode(){
     </div>
   );
 
-  // ââ MAIN INSPECTION SCREEN ââââââââââââââââââââââââââââââââââââââââââââââââââ
+  // ── MAIN INSPECTION SCREEN ──────────────────────────────────────────────────
   return(
     <div style={{display:"flex",height:"calc(100vh - 52px)",overflow:"hidden"}}>
 
@@ -3389,7 +3389,7 @@ function InspectorMode(){
             return(
               <button key={sec.id} onClick={()=>setActiveSection(sec.id)} style={{width:"100%",padding:"10px 16px",display:"flex",alignItems:"center",gap:10,background:isActive?"rgba(255,255,255,.15)":"transparent",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left",transition:"background .15s",borderLeft:isActive?"3px solid "+C.goldLight:"3px solid transparent"}}>
                 <div style={{width:24,height:24,borderRadius:7,background:isDone?condColor:"rgba(255,255,255,.12)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                  {isDone?<span style={{fontSize:10,color:"white",fontWeight:700}}>â</span>:<Icon name={sec.icon} size={12} color="rgba(255,255,255,.6)"/>}
+                  {isDone?<span style={{fontSize:10,color:"white",fontWeight:700}}>✓</span>:<Icon name={sec.icon} size={12} color="rgba(255,255,255,.6)"/>}
                 </div>
                 <span style={{fontSize:12,color:isActive?"white":"rgba(255,255,255,.75)",fontWeight:isActive?700:400}}>{sec.label}</span>
               </button>
@@ -3400,7 +3400,7 @@ function InspectorMode(){
         {/* Generate outputs button */}
         <div style={{padding:14,borderTop:"1px solid rgba(255,255,255,.12)"}}>
           <button onClick={()=>{setGenerating(true);setTimeout(()=>{setGenerating(false);setPhase("outputs");},1800);}} style={{width:"100%",background:C.gold,border:"none",borderRadius:11,padding:"12px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white",lineHeight:1.3}}>
-            {generating?"Generating…":"â¡ Generate All Outputs"}
+            {generating?"Generating…":"⚡ Generate All Outputs"}
           </button>
           <div style={{fontSize:9,color:"rgba(255,255,255,.4)",marginTop:6,textAlign:"center"}}>Dashboard · Report · Buyer Brief</div>
         </div>
@@ -3412,12 +3412,12 @@ function InspectorMode(){
         {/* Risk alert banner */}
         {riskAlert&&riskAlert.section===activeSection&&(
           <div style={{background:C.amberPale,border:`1.5px solid ${C.amber}`,borderRadius:12,padding:"12px 16px",marginBottom:16,display:"flex",gap:12,alignItems:"flex-start",animation:"fadeUp .25s ease"}}>
-            <div style={{fontSize:20,flexShrink:0}}>ð</div>
+            <div style={{fontSize:20,flexShrink:0}}>🔍</div>
             <div style={{flex:1}}>
               <div style={{fontSize:12,fontWeight:700,color:C.amber,marginBottom:2}}>HOMI Missed Risk Detector</div>
               <div style={{fontSize:12,color:C.textMid}}>{riskAlert.message}</div>
             </div>
-            <button onClick={()=>setRiskAlert(null)} style={{background:"none",border:"none",cursor:"pointer",fontSize:16,color:C.textMuted,flexShrink:0}}>â</button>
+            <button onClick={()=>setRiskAlert(null)} style={{background:"none",border:"none",cursor:"pointer",fontSize:16,color:C.textMuted,flexShrink:0}}>✕</button>
           </div>
         )}
 
@@ -3430,7 +3430,7 @@ function InspectorMode(){
             <div>
               <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:700,color:C.green,margin:0}}>{curDef.label}</h2>
               <div style={{fontSize:11,color:C.textMuted,marginTop:2}}>
-                {curSec.complete?"â Captured":"Fill in what you observe"}
+                {curSec.complete?"✓ Captured":"Fill in what you observe"}
               </div>
             </div>
           </div>
@@ -3468,8 +3468,8 @@ function InspectorMode(){
                 style={{width:"100%",background:C.cream,border:`1.5px solid ${C.border}`,borderRadius:10,padding:"11px 14px",fontSize:18,fontFamily:"inherit",fontWeight:700,color:C.green,outline:"none",boxSizing:"border-box"}}/>
               {curSec.age&&(()=>{
                 const rule=RISK_RULES[activeSection];
-                if(rule&&parseInt(curSec.age)>=rule.ageThreshold) return <div style={{marginTop:8,fontSize:11,color:C.amber,fontWeight:600}}>â  At or past typical replacement threshold</div>;
-                return <div style={{marginTop:8,fontSize:11,color:C.greenMid}}>â Within normal service range</div>;
+                if(rule&&parseInt(curSec.age)>=rule.ageThreshold) return <div style={{marginTop:8,fontSize:11,color:C.amber,fontWeight:600}}>⚠ At or past typical replacement threshold</div>;
+                return <div style={{marginTop:8,fontSize:11,color:C.greenMid}}>✓ Within normal service range</div>;
               })()}
             </div>
 
@@ -3491,7 +3491,7 @@ function InspectorMode(){
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
             <div style={{fontSize:11,fontWeight:700,color:C.textMuted,letterSpacing:1}}>OBSERVATIONS</div>
             <button onClick={mockVoice} disabled={dictating} style={{display:"flex",alignItems:"center",gap:6,background:dictating?C.redPale:C.greenPale,border:`1px solid ${dictating?C.red:C.greenLight}33`,borderRadius:8,padding:"6px 14px",fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:dictating?C.red:C.greenMid,transition:"all .2s"}}>
-              <span style={{fontSize:15}}>{dictating?"ð´":"ð¤"}</span>
+              <span style={{fontSize:15}}>{dictating?"🔴":"🎤"}</span>
               {dictating?"Listening…":"Voice Dictation"}
             </button>
           </div>
@@ -3511,10 +3511,10 @@ function InspectorMode(){
           <div style={{fontSize:11,fontWeight:700,color:C.textMuted,letterSpacing:1,marginBottom:12}}>PHOTOS</div>
           <div style={{display:"flex",gap:10}}>
             <button style={{width:80,height:80,borderRadius:12,border:`2px dashed ${C.border}`,background:C.cream,cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4,color:C.textMuted,fontSize:10}}>
-              <span style={{fontSize:22}}>ð·</span>Capture
+              <span style={{fontSize:22}}>📷</span>Capture
             </button>
             {/* Mock photos for roof */}
-            {activeSection==="roof"&&[["ð ","Roof overview"],["ð","Flashing detail"],["â ","Wear area"]].map(([em,lbl])=>(
+            {activeSection==="roof"&&[["🏠","Roof overview"],["🔍","Flashing detail"],["⚠","Wear area"]].map(([em,lbl])=>(
               <div key={lbl} style={{width:80,height:80,borderRadius:12,background:C.greenPale,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4,position:"relative"}}>
                 <span style={{fontSize:24}}>{em}</span>
                 <div style={{position:"absolute",bottom:0,left:0,right:0,background:"rgba(0,0,0,.4)",borderRadius:"0 0 12px 12px",padding:"2px 4px",fontSize:9,color:"white",textAlign:"center"}}>{lbl}</div>
@@ -3527,7 +3527,7 @@ function InspectorMode(){
         {/* Mark complete */}
         <div style={{marginTop:16,display:"flex",justifyContent:"flex-end"}}>
           <button onClick={()=>{updateSection(activeSection,"complete",true);const idx=INSP_SECTIONS.findIndex(s=>s.id===activeSection);if(idx<INSP_SECTIONS.length-1)setActiveSection(INSP_SECTIONS[idx+1].id);}} style={{background:C.green,border:"none",borderRadius:11,padding:"12px 28px",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white",display:"flex",alignItems:"center",gap:8}}>
-            â Save & Next Section →
+            ✓ Save & Next Section →
           </button>
         </div>
       </div>
@@ -3535,15 +3535,15 @@ function InspectorMode(){
   );
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 // HOMI PROPERTY PASSPORT v2  —  Shareable Print-Ready Document
-// ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ════════════════════════════════════════════════════════════════════════════════
 const PASSPORT_DATA = {
   // 1. Property Identity
   address: "142 Maple Ridge Drive",
   city: "Allentown, PA 18104",
   parcelId: "548-22-0114-003",
-  lat: "40.6084Â° N", lng: "75.4902Â° W",
+  lat: "40.6084° N", lng: "75.4902° W",
   built: 2004,
   sqft: "2,847",
   lotSize: "0.34 acres",
@@ -3704,13 +3704,13 @@ function PropertyPassport(){
   const scoreColor = oes>=80?C.greenMid:oes>=65?C.gold:oes>=50?C.amber:C.red;
 
   const srcBadge = s=>({
-    inspector:{label:"Inspector verified", color:C.greenMid, bg:C.greenPale, icon:"ð"},
-    provider: {label:"Provider confirmed", color:C.blue,     bg:C.bluePale,  icon:"ð§"},
-    receipt:  {label:"Receipt on file",    color:C.gold,     bg:C.goldPale,  icon:"ð§¾"},
-    photo:    {label:"Photo attached",     color:C.amber,    bg:C.amberPale, icon:"ð·"},
-    owner:    {label:"Owner reported",     color:C.textMuted,bg:C.cream,     icon:"ð¤"},
-    permit:   {label:"Permit record",      color:C.blue,     bg:C.bluePale,  icon:"ð"},
-  }[s]||{label:"Unverified",color:C.textMuted,bg:C.cream,icon:"ð"});
+    inspector:{label:"Inspector verified", color:C.greenMid, bg:C.greenPale, icon:"🔍"},
+    provider: {label:"Provider confirmed", color:C.blue,     bg:C.bluePale,  icon:"🔧"},
+    receipt:  {label:"Receipt on file",    color:C.gold,     bg:C.goldPale,  icon:"🧾"},
+    photo:    {label:"Photo attached",     color:C.amber,    bg:C.amberPale, icon:"📷"},
+    owner:    {label:"Owner reported",     color:C.textMuted,bg:C.cream,     icon:"👤"},
+    permit:   {label:"Permit record",      color:C.blue,     bg:C.bluePale,  icon:"📋"},
+  }[s]||{label:"Unverified",color:C.textMuted,bg:C.cream,icon:"📊"});
 
   const urgencyStyle = u=>({
     urgent: {color:"#B91C1C", bg:"#FEF2F2", dot:"#EF4444"},
@@ -3748,7 +3748,7 @@ function PropertyPassport(){
   return(
     <div style={{overflowY:"auto",height:"calc(100vh - 52px)",background:"#EDEAE4",fontFamily:"'DM Sans',sans-serif"}}>
 
-      {toast&&<div style={{position:"fixed",top:20,left:"50%",transform:"translateX(-50%)",background:C.green,color:"white",borderRadius:12,padding:"11px 24px",fontSize:13,fontWeight:700,zIndex:9999,boxShadow:"0 8px 32px rgba(0,0,0,.2)",animation:"fadeUp .2s ease"}}>â Passport link copied</div>}
+      {toast&&<div style={{position:"fixed",top:20,left:"50%",transform:"translateX(-50%)",background:C.green,color:"white",borderRadius:12,padding:"11px 24px",fontSize:13,fontWeight:700,zIndex:9999,boxShadow:"0 8px 32px rgba(0,0,0,.2)",animation:"fadeUp .2s ease"}}>✓ Passport link copied</div>}
 
       <div style={{maxWidth:960,margin:"0 auto",padding:"28px 20px 60px"}}>
 
@@ -3779,7 +3779,7 @@ function PropertyPassport(){
           ))}
         </div>
 
-        {/* ââ DOCUMENT ââ */}
+        {/* ══ DOCUMENT ══ */}
         <div style={{background:"white",borderRadius:22,boxShadow:"0 6px 40px rgba(0,0,0,.09)",overflow:"hidden"}}>
 
           {/* COVER BAND */}
@@ -3818,7 +3818,7 @@ function PropertyPassport(){
             </div>
           </div>
 
-          {/* ââ SECTION 1: PROPERTY IDENTITY ââ */}
+          {/* ── SECTION 1: PROPERTY IDENTITY ── */}
           <div id="pp-identity" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 1  —  PROPERTY IDENTITY</div>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20}}>
@@ -3856,21 +3856,21 @@ function PropertyPassport(){
               </div>
             </div>
             <div style={{marginTop:12,padding:"8px 12px",background:C.greenPale,borderRadius:9,fontSize:10,color:C.greenMid}}>
-              ð Data sourced from Lehigh County Assessor · Bright MLS · HOMI Canonical Property Record  —  Confidence: <strong>High</strong>
+              📍 Data sourced from Lehigh County Assessor · Bright MLS · HOMI Canonical Property Record  —  Confidence: <strong>High</strong>
             </div>
           </div>
 
-          {/* ââ SECTION 2: PROPERTY ENVIRONMENT ââ */}
+          {/* ── SECTION 2: PROPERTY ENVIRONMENT ── */}
           <div id="pp-environment" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 2  —  PROPERTY ENVIRONMENT & RISK CONTEXT</div>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
               {[
-                {label:"Flood Zone",         value:D.environment.floodZone,        note:D.environment.femaStatus,    icon:"ð§", color:C.blue,    bg:C.bluePale},
-                {label:"Climate Zone",        value:D.environment.climateZone,      note:D.environment.freezeThawCycles+" freeze-thaw cycles/yr", icon:"ð¡ï¸",color:C.amber,  bg:C.amberPale},
-                {label:"Wind Exposure",       value:D.environment.windExposure,     note:"Standard suburban framing loads",icon:"ð¨",color:C.textMid,bg:C.cream},
-                {label:"Soil Conditions",     value:D.environment.soilCondition,    note:"Moderate drainage  —  monitor gutters",icon:"ðï¸",color:C.textMid,bg:C.cream},
-                {label:"Wildfire Risk",       value:D.environment.wildfireRisk,     note:"PA suburban  —  not applicable",  icon:"ð¥",color:C.greenMid,bg:C.greenPale},
-                {label:"Seismic Risk",        value:D.environment.seismicRisk,      note:"Standard construction applies",  icon:"ð",color:C.greenMid,bg:C.greenPale},
+                {label:"Flood Zone",         value:D.environment.floodZone,        note:D.environment.femaStatus,    icon:"💧", color:C.blue,    bg:C.bluePale},
+                {label:"Climate Zone",        value:D.environment.climateZone,      note:D.environment.freezeThawCycles+" freeze-thaw cycles/yr", icon:"🌡️",color:C.amber,  bg:C.amberPale},
+                {label:"Wind Exposure",       value:D.environment.windExposure,     note:"Standard suburban framing loads",icon:"💨",color:C.textMid,bg:C.cream},
+                {label:"Soil Conditions",     value:D.environment.soilCondition,    note:"Moderate drainage  —  monitor gutters",icon:"🏔️",color:C.textMid,bg:C.cream},
+                {label:"Wildfire Risk",       value:D.environment.wildfireRisk,     note:"PA suburban  —  not applicable",  icon:"🔥",color:C.greenMid,bg:C.greenPale},
+                {label:"Seismic Risk",        value:D.environment.seismicRisk,      note:"Standard construction applies",  icon:"📊",color:C.greenMid,bg:C.greenPale},
               ].map(item=>(
                 <div key={item.label} style={{background:item.bg,borderRadius:12,padding:"13px 15px",display:"flex",gap:12,alignItems:"flex-start"}}>
                   <span style={{fontSize:16}}>{item.icon}</span>
@@ -3887,17 +3887,17 @@ function PropertyPassport(){
             </div>
           </div>
 
-          {/* ââ SECTION 3: UTILITY INFRASTRUCTURE ââ */}
+          {/* ── SECTION 3: UTILITY INFRASTRUCTURE ── */}
           <div id="pp-utilities" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 3  —  UTILITY INFRASTRUCTURE</div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12}}>
               {[
-                {icon:"ð§",label:"Water",      primary:D.utilities.waterSource,      secondary:"Municipal supply"},
-                {icon:"ð",label:"Sewer",       primary:D.utilities.sewerType,        secondary:"City connection"},
-                {icon:"â¡",label:"Electric",    primary:D.utilities.electricProvider,  secondary:"PPL service area"},
-                {icon:"ð¥",label:"Gas",          primary:D.utilities.gasProvider,       secondary:"Natural gas"},
-                {icon:"ð",label:"Internet",    primary:D.utilities.internetAvailability,secondary:"Multiple providers"},
-                {icon:"ð ",label:"HVAC Fuel",   primary:D.utilities.hvacFuelType,     secondary:"Heat pump"},
+                {icon:"💧",label:"Water",      primary:D.utilities.waterSource,      secondary:"Municipal supply"},
+                {icon:"🔄",label:"Sewer",       primary:D.utilities.sewerType,        secondary:"City connection"},
+                {icon:"⚡",label:"Electric",    primary:D.utilities.electricProvider,  secondary:"PPL service area"},
+                {icon:"🔥",label:"Gas",          primary:D.utilities.gasProvider,       secondary:"Natural gas"},
+                {icon:"🌐",label:"Internet",    primary:D.utilities.internetAvailability,secondary:"Multiple providers"},
+                {icon:"🏠",label:"HVAC Fuel",   primary:D.utilities.hvacFuelType,     secondary:"Heat pump"},
               ].map(u=>(
                 <div key={u.label} style={{background:C.cream,borderRadius:11,padding:"13px 14px",border:`1px solid ${C.border}`}}>
                   <div style={{fontSize:18,marginBottom:4}}>{u.icon}</div>
@@ -3909,7 +3909,7 @@ function PropertyPassport(){
             </div>
           </div>
 
-          {/* ââ SECTION 4: HOME HEALTH SCORE ââ */}
+          {/* ── SECTION 4: HOME HEALTH SCORE ── */}
           <div id="pp-score" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`,background:C.greenPale}}>
             <div style={{fontSize:9,fontWeight:700,color:C.greenMid,letterSpacing:2,marginBottom:16}}>SECTION 4  —  HOME HEALTH SCORE</div>
             <div style={{display:"grid",gridTemplateColumns:"auto 1fr 1fr",gap:28,alignItems:"center"}}>
@@ -3933,7 +3933,7 @@ function PropertyPassport(){
                 {[
                   {label:"Verified Intelligence Score", value:vis,           color:C.greenMid, bar:true,  sub:"Inspector · provider · permit data"},
                   {label:"Owner Enhanced Score",         value:oes,           color:scoreColor,  bar:true,  sub:`Includes +${ownerBoost.toFixed(1)} pts owner evidence`},
-                  {label:"Score Confidence",             value:confLabel,     color:confColor,   bar:false, sub:"Freshness Ã verification quality"},
+                  {label:"Score Confidence",             value:confLabel,     color:confColor,   bar:false, sub:"Freshness × verification quality"},
                   {label:"Verification Coverage",        value:verifCoverage+"%",color:C.blue,  bar:true,  sub:`${SCORE_RESULT.verifiedSystemCount} of ${D.systems.length} systems verified`},
                 ].map(row=>(
                   <div key={row.label} style={{display:"flex",alignItems:"center",gap:10}}>
@@ -3967,13 +3967,13 @@ function PropertyPassport(){
                   })}
                 </div>
                 <div style={{fontSize:9,color:C.textMuted,marginTop:8,fontStyle:"italic",lineHeight:1.5}}>
-                  {trajectory==="improving"?"â Improving trend":"Stable trend"}  —  {D.scoreHistory.length} data points over 5 years
+                  {trajectory==="improving"?"↑ Improving trend":"Stable trend"}  —  {D.scoreHistory.length} data points over 5 years
                 </div>
               </div>
             </div>
           </div>
 
-          {/* ââ SECTION 5: VERIFIED SYSTEM RECORDS ââ */}
+          {/* ── SECTION 5: VERIFIED SYSTEM RECORDS ── */}
           <div id="pp-systems" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 5  —  VERIFIED SYSTEM INVENTORY</div>
             <div style={{display:"grid",gap:8}}>
@@ -4011,7 +4011,7 @@ function PropertyPassport(){
                       <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4}}>
                         <div style={{fontFamily:"'Playfair Display',serif",fontSize:19,fontWeight:700,color:isOpen?sb.color:C.green}}>{breakdown.find(b=>b.key===sys.key)?.finalScore||" — "}</div>
                         <div style={{fontSize:8,color:C.textMuted}}>system score</div>
-                        <div style={{fontSize:9,color:C.textMuted,transform:isOpen?"rotate(180deg)":"none",transition:"transform .2s"}}>â¾</div>
+                        <div style={{fontSize:9,color:C.textMuted,transform:isOpen?"rotate(180deg)":"none",transition:"transform .2s"}}>▾</div>
                       </div>
                     </div>
                     {isOpen&&(
@@ -4044,7 +4044,7 @@ function PropertyPassport(){
             </div>
           </div>
 
-          {/* ââ SECTION 6: LIFECYCLE TIMELINE ââ */}
+          {/* ── SECTION 6: LIFECYCLE TIMELINE ── */}
           <div id="pp-lifecycle" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 6  —  LIFECYCLE TIMELINE</div>
             <div style={{display:"grid",gap:8}}>
@@ -4063,11 +4063,11 @@ function PropertyPassport(){
               })}
             </div>
             <div style={{marginTop:12,padding:"10px 14px",background:C.amberPale,borderRadius:10,fontSize:10,color:C.amber,fontWeight:600}}>
-              â ï¸ 1 urgent action: Electrical panel inspection overdue. Schedule within 60 days to maintain score confidence.
+              ⚠️ 1 urgent action: Electrical panel inspection overdue. Schedule within 60 days to maintain score confidence.
             </div>
           </div>
 
-          {/* ââ SECTION 7: PROPERTY HISTORY ââ */}
+          {/* ── SECTION 7: PROPERTY HISTORY ── */}
           <div id="pp-history" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 7  —  COMPLETE PROPERTY HISTORY · {D.fullHistory.length} Events</div>
             <div style={{position:"relative"}}>
@@ -4098,7 +4098,7 @@ function PropertyPassport(){
             </div>
           </div>
 
-          {/* ââ SECTION 8: MAINTENANCE PLANNER ââ */}
+          {/* ── SECTION 8: MAINTENANCE PLANNER ── */}
           <div id="pp-maintenance" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:6}}>SECTION 8  —  MAINTENANCE PLANNER</div>
             <div style={{fontSize:10,color:C.textMuted,marginBottom:14}}>Completing tasks improves your Home Health Score. Urgent items affect score confidence.</div>
@@ -4110,7 +4110,7 @@ function PropertyPassport(){
                   <div key={i} style={{display:"flex",gap:12,alignItems:"center",padding:"11px 14px",background:done?"#F0FAF4":us.bg,borderRadius:11,border:`1px solid ${done?"#4ADE80":us.dot}33`,opacity:done?.7:1,transition:"all .2s"}}>
                     <button onClick={e=>{e.stopPropagation();setCompletedTasks(p=>({...p,[i]:!p[i]}));}}
                       style={{width:22,height:22,borderRadius:"50%",border:`2px solid ${done?C.greenMid:us.dot}`,background:done?C.greenMid:"transparent",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontWeight:700,color:"white",fontSize:11}}>
-                      {done?"â":""}
+                      {done?"✓":""}
                     </button>
                     <div style={{flex:1}}>
                       <div style={{fontSize:12,fontWeight:done?400:600,color:done?C.textMuted:C.text,textDecoration:done?"line-through":"none"}}>{task.task}</div>
@@ -4126,11 +4126,11 @@ function PropertyPassport(){
               })}
             </div>
             <div style={{marginTop:12,padding:"8px 12px",background:C.greenPale,borderRadius:9,fontSize:10,color:C.greenMid}}>
-              â Completing all overdue tasks improves your score by an estimated +3–5 points and raises confidence to High.
+              ✓ Completing all overdue tasks improves your score by an estimated +3–5 points and raises confidence to High.
             </div>
           </div>
 
-          {/* ââ SECTION 9: INSPECTION ARCHIVE ââ */}
+          {/* ── SECTION 9: INSPECTION ARCHIVE ── */}
           <div id="pp-inspections" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 9  —  INSPECTION ARCHIVE · {D.inspectionArchive.length} Inspections on Record</div>
             <div style={{display:"grid",gap:10}}>
@@ -4142,7 +4142,7 @@ function PropertyPassport(){
                     <div style={{padding:"13px 16px",display:"grid",gridTemplateColumns:"1fr auto",gap:12,alignItems:"center"}}>
                       <div>
                         <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
-                          <span style={{fontSize:9,background:C.greenPale,color:C.greenMid,padding:"2px 8px",borderRadius:20,fontWeight:700}}>ð {insp.type}</span>
+                          <span style={{fontSize:9,background:C.greenPale,color:C.greenMid,padding:"2px 8px",borderRadius:20,fontWeight:700}}>🔍 {insp.type}</span>
                           <span style={{fontSize:11,fontWeight:700,color:C.text}}>{insp.date}</span>
                         </div>
                         <div style={{fontSize:12,fontWeight:600,color:C.green}}>{insp.inspector} · <span style={{fontWeight:400,color:C.textMid}}>{insp.cert}</span></div>
@@ -4150,7 +4150,7 @@ function PropertyPassport(){
                       </div>
                       <div style={{textAlign:"right",display:"flex",flexDirection:"column",alignItems:"flex-end",gap:3}}>
                         <div style={{fontSize:10,color:C.textMuted}}>{insp.systemsCovered} systems · {insp.photos} photos · {insp.duration}</div>
-                        <div style={{fontSize:9,color:C.textMuted,transform:isOpen?"rotate(180deg)":"none",transition:"transform .2s"}}>â¾</div>
+                        <div style={{fontSize:9,color:C.textMuted,transform:isOpen?"rotate(180deg)":"none",transition:"transform .2s"}}>▾</div>
                       </div>
                     </div>
                     {isOpen&&(
@@ -4168,7 +4168,7 @@ function PropertyPassport(){
             </div>
           </div>
 
-          {/* ââ SECTION 10: COST FORECAST ââ */}
+          {/* ── SECTION 10: COST FORECAST ── */}
           <div id="pp-costs" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 10  —  COST FORECAST</div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14,marginBottom:18}}>
@@ -4195,11 +4195,11 @@ function PropertyPassport(){
               ))}
             </div>
             <div style={{padding:"10px 14px",background:C.cream,borderRadius:10,fontSize:10,color:C.textMid}}>
-              ð¡ Cost estimates derived from HOMI lifecycle engine using system ages, climate zone, and Lehigh Valley regional cost data. Ranges reflect best-case vs. deferred-maintenance scenarios.
+              💡 Cost estimates derived from HOMI lifecycle engine using system ages, climate zone, and Lehigh Valley regional cost data. Ranges reflect best-case vs. deferred-maintenance scenarios.
             </div>
           </div>
 
-          {/* ââ SECTION 11: SERVICE PROVIDERS ââ */}
+          {/* ── SECTION 11: SERVICE PROVIDERS ── */}
           <div id="pp-providers" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 11  —  SERVICE PROVIDER RECORDS</div>
             <div style={{display:"grid",gap:8}}>
@@ -4214,7 +4214,7 @@ function PropertyPassport(){
                     <div style={{fontSize:9,color:C.textMuted}}>{sp.type}</div>
                   </div>
                   <div style={{fontSize:9,background:C.greenPale,color:C.greenMid,padding:"3px 9px",borderRadius:20,fontWeight:600,textAlign:"center"}}>
-                    â {sp.verified}
+                    ✓ {sp.verified}
                   </div>
                   <div style={{fontSize:12,fontWeight:700,color:C.gold,textAlign:"right"}}>{sp.cost}</div>
                 </div>
@@ -4225,7 +4225,7 @@ function PropertyPassport(){
             </div>
           </div>
 
-          {/* ââ SECTION 12: VERIFICATION COVERAGE ââ */}
+          {/* ── SECTION 12: VERIFICATION COVERAGE ── */}
           <div id="pp-coverage" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`,background:C.cream}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 12  —  VERIFICATION COVERAGE</div>
             <div style={{display:"grid",gridTemplateColumns:"auto 1fr",gap:28,alignItems:"center"}}>
@@ -4243,7 +4243,7 @@ function PropertyPassport(){
               <div>
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:12}}>
                   {[
-                    {label:"Verified",  count:verifiedSystems.length,  color:C.greenMid, bg:C.greenPale, icon:"â"},
+                    {label:"Verified",  count:verifiedSystems.length,  color:C.greenMid, bg:C.greenPale, icon:"✓"},
                     {label:"Inferred",  count:inferredSystems.length,   color:C.amber,    bg:C.amberPale, icon:"~"},
                     {label:"Unknown",   count:unknownSystems.length,    color:C.textMuted, bg:C.cream,    icon:"?"},
                   ].map(item=>(
@@ -4261,7 +4261,7 @@ function PropertyPassport(){
                     return(
                       <div key={sys.key} style={{display:"flex",alignItems:"center",gap:8}}>
                         <div style={{width:16,height:16,borderRadius:4,background:isVerified?C.greenPale:C.amberPale,display:"flex",alignItems:"center",justifyContent:"center"}}>
-                          <span style={{fontSize:8,color:isVerified?C.greenMid:C.amber}}>{isVerified?"â":"~"}</span>
+                          <span style={{fontSize:8,color:isVerified?C.greenMid:C.amber}}>{isVerified?"✓":"~"}</span>
                         </div>
                         <span style={{fontSize:11,flex:1,color:C.text}}>{sys.name}</span>
                         <span style={{fontSize:9,color:sb.color}}>{sb.icon} {sb.label}</span>
@@ -4273,14 +4273,14 @@ function PropertyPassport(){
             </div>
           </div>
 
-          {/* ââ SECTION 13: OWNERSHIP TIMELINE ââ */}
+          {/* ── SECTION 13: OWNERSHIP TIMELINE ── */}
           <div id="pp-ownership" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 13  —  OWNERSHIP TIMELINE</div>
             <div style={{display:"grid",gap:0}}>
               {/* Build event */}
               <div style={{display:"flex",gap:14,alignItems:"flex-start",marginBottom:0}}>
                 <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:0}}>
-                  <div style={{width:32,height:32,borderRadius:"50%",background:C.creamDark,border:`2px solid ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12}}>ðï¸</div>
+                  <div style={{width:32,height:32,borderRadius:"50%",background:C.creamDark,border:`2px solid ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12}}>🏗️</div>
                   <div style={{width:2,height:24,background:C.border}}/>
                 </div>
                 <div style={{paddingTop:6,marginBottom:0}}>
@@ -4305,11 +4305,11 @@ function PropertyPassport(){
               ))}
             </div>
             <div style={{marginTop:14,padding:"9px 14px",background:C.greenPale,borderRadius:10,fontSize:10,color:C.greenMid}}>
-              ð Ownership transfer does not erase the Passport. All history, scores, and verified records carry forward to the next owner.
+              🔒 Ownership transfer does not erase the Passport. All history, scores, and verified records carry forward to the next owner.
             </div>
           </div>
 
-          {/* ââ SECTION 14: PASSPORT TRANSFER STATUS ââ */}
+          {/* ── SECTION 14: PASSPORT TRANSFER STATUS ── */}
           <div id="pp-transfer" style={{padding:"28px 36px",borderBottom:`1px solid ${C.border}`}}>
             <div style={{fontSize:9,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>SECTION 14  —  PASSPORT TRANSFER STATUS</div>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
@@ -4353,7 +4353,7 @@ function PropertyPassport(){
                   {["Complete inspection archive (4 reports)", "Verified system records for all 7 major systems", "17-year property event history", "HVAC, roof, and water heater documentation", "Service provider contact records", "Active lifecycle predictions"].map((item,i)=>(
                     <div key={i} style={{display:"flex",gap:8,alignItems:"center",marginBottom:5}}>
                       <div style={{width:14,height:14,borderRadius:"50%",background:C.greenPale,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                        <span style={{fontSize:8,color:C.greenMid}}>â</span>
+                        <span style={{fontSize:8,color:C.greenMid}}>✓</span>
                       </div>
                       <span style={{fontSize:10,color:C.textMid}}>{item}</span>
                     </div>
@@ -4390,7 +4390,7 @@ function PropertyPassport(){
 }
 
 
-const VIEWS=[{id:"snapshot",label:"ð Property Intelligence"},{id:"dashboard",label:"ð  Owner Dashboard"},{id:"passport",label:"ð Property Passport"},{id:"inspector",label:"ð Inspector Mode"},{id:"exterior",label:"ð¿ Exterior Systems"}];
+const VIEWS=[{id:"snapshot",label:"🔍 Property Intelligence"},{id:"dashboard",label:"🏠 Owner Dashboard"},{id:"passport",label:"📗 Property Passport"},{id:"inspector",label:"🔎 Inspector Mode"},{id:"exterior",label:"🌿 Exterior Systems"}];
 
 function App(){
   const [screen,setScreen]=useState("entry"); // entry | snapshot | buyer | realtor | dashboard | lifecycle | retail
@@ -4433,7 +4433,7 @@ function App(){
         <div style={{marginLeft:"auto",display:"flex",gap:8,alignItems:"center"}}>
           <a href="index.html" style={{fontSize:11,background:"#D8F3DC",color:"#1C4A2E",border:"1px solid rgba(28,74,46,0.2)",borderRadius:8,padding:"5px 12px",cursor:"pointer",fontFamily:"inherit",textDecoration:"none",fontWeight:600}}>← Back to HOMI</a>
           <a href="supply-chain.html" style={{background:C.green,color:"white",border:"none",borderRadius:8,padding:"6px 14px",fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"inherit",textDecoration:"none",display:"flex",alignItems:"center",gap:5}}>
-            ð Partner Intelligence
+            📊 Partner Intelligence
           </a>
           <div style={{fontSize:11,color:C.textMuted}}>
             {view==="snapshot"&&"142 Maple Ridge Drive · Allentown PA"}
@@ -4476,8 +4476,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
   <div class="hs-left">
     <span style="font-size:22px">&#127968;</span>
     <div>
-      <div class="hs-label">42 Maple Street &mdash; HOMI Report</div>
-      <div class="hs-sub">Score 68 &nbsp;·&nbsp; $18,400 projected &nbsp;·&nbsp; Moderate Risk</div>
+      <div class="hs-label">42 Maple Street — HOMI Report</div>
+      <div class="hs-sub">Score 68  ·  $18,400 projected  ·  Moderate Risk</div>
     </div>
   </div>
   <div class="hs-actions">
