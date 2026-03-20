@@ -435,7 +435,7 @@ function HomeownerDashboard(){
           {urgent>0&&<div style={{marginTop:8,background:C.redPale,color:C.red,fontSize:11,fontWeight:700,padding:"4px 10px",borderRadius:8,display:"flex",alignItems:"center",gap:5}}><span>â </span>{urgent} urgent item{urgent>1?"s":""}</div>}
         </div>
         {navItems.map(n=>(
-          <button key={n.id} className={`nav-btn${tab===n.id?" active":""}`} onClick={()=>setTab(n.id)}>
+          <button key={n.id} className={`nav-btn${tab===n.id?" active":""}`} onClick={()=>n.id==="spend"?window.open("https://spendplanning1921.netlify.app/","_blank"):setTab(n.id)}>
             <Icon name={n.icon} size={16} color={tab===n.id?C.green:C.textMuted}/>{n.label}
           </button>
         ))}
