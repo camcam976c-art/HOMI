@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>HOMI: Realtor View · 142 Maple Ridge Drive</title>
+<title>HOMI - Realtor View · 142 Maple Ridge Drive</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
@@ -936,17 +936,17 @@ const PROPERTY = {
 };
 
 const STRENGTHS = [
-  { icon: "✅", text: "HVAC system", note: "Replaced 2021 : strong remaining life" },
+  { icon: "✅", text: "HVAC system", note: "Replaced 2021 - strong remaining life" },
   { icon: "✅", text: "Plumbing", note: "No issues found in March 2026 inspection" },
   { icon: "✅", text: "Full inspection on record", note: "March 2026 · professional certified" },
   { icon: "✅", text: "Foundation & structure", note: "Solid, no movement or cracking noted" },
 ];
 
 const FLAGS = [
-  { icon: "🔴", text: "Water heater", note: "Age exceeds expected lifespan, replace before listing", urgency: "urgent" },
+  { icon: "🔴", text: "Water heater", note: "Age exceeds expected lifespan - replace before listing", urgency: "urgent" },
   { icon: "🟡", text: "Windows & doors", note: "Seals degrading, high-cost item ($8-14k estimate)", urgency: "high" },
-  { icon: "🟡", text: "Roof", note: "Attention needed by 2027 : disclose proactively", urgency: "high" },
-  { icon: "🟠", text: "Electrical panel", note: "Overdue for update : buyer may request credit", urgency: "attention" },
+  { icon: "🟡", text: "Roof", note: "Attention needed by 2027 - disclose proactively", urgency: "high" },
+  { icon: "🟠", text: "Electrical panel", note: "Overdue for update - buyer may request credit", urgency: "attention" },
 ];
 
 const COMPS = [
@@ -997,16 +997,16 @@ const DISCLOSURES = {
   required: [
     { id: "wh", title: "Water heater age & condition", detail: "Unit is past expected lifespan. Required disclosure in PA." },
     { id: "roof", title: "Roof condition & projected replacement", detail: "Attention needed by 2027. Must disclose known material defects." },
-    { id: "elec", title: "Electrical panel : update overdue", detail: "Current panel may not meet modern load requirements. Disclose." },
+    { id: "elec", title: "Electrical panel - update overdue", detail: "Current panel may not meet modern load requirements. Disclose." },
   ],
   recommended: [
-    { id: "win", title: "Windows & doors : seal degradation", detail: "High-cost item. Proactive disclosure builds buyer trust." },
+    { id: "win", title: "Windows & doors - seal degradation", detail: "High-cost item. Proactive disclosure builds buyer trust." },
     { id: "insp", title: "Full inspection completed March 2026", detail: "Share the full report to demonstrate transparency." },
   ],
   optional: [
-    { id: "hvac", title: "HVAC replacement year (2021)", detail: "Positive disclosure : strengthens value argument." },
-    { id: "plumb", title: "Plumbing condition : no issues", detail: "Positive disclosure : reinforces HOMI score validity." },
-    { id: "found", title: "Foundation integrity : no issues", detail: "Buyers appreciate proactive transparency on structure." },
+    { id: "hvac", title: "HVAC replacement year (2021)", detail: "Positive disclosure - strengthens value argument." },
+    { id: "plumb", title: "Plumbing condition - no issues", detail: "Positive disclosure - reinforces HOMI score validity." },
+    { id: "found", title: "Foundation integrity - no issues", detail: "Buyers appreciate proactive transparency on structure." },
   ],
 };
 
@@ -1014,26 +1014,26 @@ const SELLER_PREP = [
   { rank: 1, urgent: true, title: "Replace water heater", detail: "Buyers will flag immediately. At ~$1,200-$1,800 installed, it eliminates biggest objection.", roi: "Est. saves $3-5k in concessions", cost: "~$1,400" },
   { rank: 2, title: "Electrical panel update", detail: "Pre-listing update or buyer credit of $2,500 offered upfront prevents deal-killing negotiations.", roi: "Reduces days on market", cost: "~$2,200-$3,500" },
   { rank: 3, title: "Obtain roof inspection report", detail: "Formal report dated 2026 sets the record straight. Prevents buyer low-ball on perceived risk.", roi: "Credibility + timeline clarity", cost: "~$350" },
-  { rank: 4, title: "Window caulking / seal refresh", detail: "Cosmetic fix addresses visible sign of wear. Not a full replacement : improves showing appeal.", roi: "Improves showing impression", cost: "~$200-$500 DIY" },
+  { rank: 4, title: "Window caulking / seal refresh", detail: "Cosmetic fix addresses visible sign of wear. Not a full replacement - improves showing appeal.", roi: "Improves showing impression", cost: "~$200-$500 DIY" },
   { rank: 5, title: "Professional deep clean + staging consult", detail: "Score is strong. Presentation amplifies perceived value of HVAC, plumbing, and inspection record.", roi: "Maximizes first-showing impact", cost: "~$600-$900" },
 ];
 
 const OBJECTIONS = [
   {
-    q: '"The water heater is at end of life, we want a credit."',
-    a: 'Acknowledged : and already priced in. The list price accounts for this item. We have three comparable quotes if you\'d like to review. A $1,400 replacement is far less than the buyer\'s agent will suggest. Consider offering to replace before closing to remove the objection entirely.'
+    q: '"The water heater is at end of life - we want a credit."',
+    a: 'Acknowledged - and already priced in. The list price accounts for this item. We have three comparable quotes if you\'d like to review. A $1,400 replacement is far less than the buyer\'s agent will suggest. Consider offering to replace before closing to remove the objection entirely.'
   },
   {
     q: '"The electrical panel is outdated. That\'s a safety concern."',
-    a: 'The panel has been in use without issue and passed the March 2026 inspection. We\'re offering a $2,500 buyer credit at closing specifically to address this. That\'s a clean, documented resolution, not a flag that should alter price.'
+    a: 'The panel has been in use without issue and passed the March 2026 inspection. We\'re offering a $2,500 buyer credit at closing specifically to address this. That\'s a clean, documented resolution - not a flag that should alter price.'
   },
   {
-    q: '"The roof will need replacement in 2027, that\'s a major cost."',
+    q: '"The roof will need replacement in 2027 - that\'s a major cost."',
     a: 'We have a professional inspection and report confirming the roof is in serviceable condition today. The 2027 timeline is a conservative planning estimate. Buyers get a properly documented property with no surprises. That\'s actually a premium, not a discount.'
   },
   {
     q: '"72/100 isn\'t a top score. Why should we pay asking price?"',
-    a: '72 is above the median for homes of this age in this zip code. The score reflects a full HOMI inspection : not an estimate. Comp at 317 Elmhurst (68 score) sold for $379k with no inspection record at all. Documented condition commands a premium.'
+    a: '72 is above the median for homes of this age in this zip code. The score reflects a full HOMI inspection - not an estimate. Comp at 317 Elmhurst (68 score) sold for $379k with no inspection record at all. Documented condition commands a premium.'
   },
 ];
 
@@ -1102,12 +1102,12 @@ const ZONING_DATA = {
   rows: [
     { icon: '🏗️', label: 'ADU / In-law Suite', value: 'Permitted with conditional use approval', badge: 'zb-amber', badgeText: 'Conditional' },
     { icon: '🏡', label: 'Home Business', value: 'Low-impact home occupation permitted (no signage, no employees on-site)', badge: 'zb-green', badgeText: 'Permitted' },
-    { icon: '🌊', label: 'Flood Zone', value: 'Zone X, Minimal flood hazard. No FEMA flood insurance required.', badge: 'zb-green', badgeText: 'Zone X' },
+    { icon: '🌊', label: 'Flood Zone', value: 'Zone X - Minimal flood hazard. No FEMA flood insurance required.', badge: 'zb-green', badgeText: 'Zone X' },
     { icon: '🏕️', label: 'Short-Term Rental (Airbnb)', value: 'Owner-occupied STR permitted with annual license ($125/yr)', badge: 'zb-amber', badgeText: 'Licensed' },
-    { icon: '🏢', label: 'Adjacent Parcel (E)', value: 'R-2 Residential : multi-family buffer. No commercial zoning within 0.3 mi.', badge: 'zb-blue', badgeText: 'R-2 Adj.' },
+    { icon: '🏢', label: 'Adjacent Parcel (E)', value: 'R-2 Residential - multi-family buffer. No commercial zoning within 0.3 mi.', badge: 'zb-blue', badgeText: 'R-2 Adj.' },
     { icon: '📐', label: 'Setbacks', value: 'Front: 30 ft · Rear: 35 ft · Side: 10 ft each', badge: 'zb-blue', badgeText: 'Standard' },
     { icon: '🔨', label: 'Zoning Change History', value: 'No rezoning activity within 0.5 mi in past 5 years', badge: 'zb-green', badgeText: 'Stable' },
-    { icon: '🏗️', label: 'Nearby Development Pipeline', value: '12-unit townhome project approved at 880 Cedar Lane (0.4 mi), est. completion 2027', badge: 'zb-amber', badgeText: 'Nearby' },
+    { icon: '🏗️', label: 'Nearby Development Pipeline', value: '12-unit townhome project approved at 880 Cedar Lane (0.4 mi) - est. completion 2027', badge: 'zb-amber', badgeText: 'Nearby' },
   ],
 };
 
@@ -1121,11 +1121,11 @@ const VITALITY_DATA = {
     { label: 'HOA Health', value: 'N/A', cls: 'good', trend: 'No HOA', trendCls: 'flat', isText: true },
   ],
   permits: [
-    { icon: '🔨', text: '288 Maple Ridge Dr, Addition/renovation permit', date: 'Jan 2026' },
-    { icon: '🏠', text: '74 Birchwood Ln, New roof permit', date: 'Feb 2026' },
-    { icon: '⚡', text: '156 Elmhurst Ave: Electrical upgrade', date: 'Mar 2026' },
-    { icon: '🌿', text: '41 Canopy Ct, Landscaping/deck permit', date: 'Mar 2026' },
-    { icon: '🚿', text: '310 Cedar Lane: Bathroom remodel', date: 'Feb 2026' },
+    { icon: '🔨', text: '288 Maple Ridge Dr - Addition/renovation permit', date: 'Jan 2026' },
+    { icon: '🏠', text: '74 Birchwood Ln - New roof permit', date: 'Feb 2026' },
+    { icon: '⚡', text: '156 Elmhurst Ave - Electrical upgrade', date: 'Mar 2026' },
+    { icon: '🌿', text: '41 Canopy Ct - Landscaping/deck permit', date: 'Mar 2026' },
+    { icon: '🚿', text: '310 Cedar Lane - Bathroom remodel', date: 'Feb 2026' },
   ],
   newBusiness: [
     { icon: '☕', name: 'Ground & Vine Coffee', dist: '0.3 mi', note: 'Opened Dec 2025' },
@@ -1138,10 +1138,10 @@ const VITALITY_DATA = {
 function Sparkline({ data, color = 'var(--green-mid)', width = 60, height = 24 }) {
   if (!data || data.length < 2) return null;
   const min = Math.min(...data), max = Math.max(...data);
-  const range = max, min || 1;
+  const range = max - min || 1;
   const pts = data.map((v, i) => {
     const x = (i / (data.length - 1)) * (width - 4) + 2;
-    const y = height - 2 - ((v, min) / range) * (height - 4);
+    const y = height - 2 - ((v - min) / range) * (height - 4);
     return `${x},${y}`;
   }).join(' ');
   return (
@@ -1170,7 +1170,7 @@ function NeighborhoodIntelligence() {
       <div className="card" style={{ borderLeft: '4px solid var(--green-mid)', marginBottom: 8 }}>
         <div className="card-title">🏙️ Neighborhood Intelligence</div>
         <div className="card-subtitle" style={{ marginBottom: 0 }}>
-          Local market trends, schools, safety, zoning & vitality for Allentown 18104 · Sample data : clearly labeled
+          Local market trends, schools, safety, zoning & vitality for Allentown 18104 · Sample data - clearly labeled
         </div>
       </div>
 
@@ -1189,7 +1189,7 @@ function NeighborhoodIntelligence() {
       {sub === 'market' && (
         <div className="fade-in">
           <div className="card">
-            <div className="card-title">📈 Market Trends: Allentown 18104</div>
+            <div className="card-title">📈 Market Trends - Allentown 18104</div>
             <div className="card-subtitle">Q1 2026 · 6-month trend window · Illustrative sample data</div>
 
             {/* Inventory gauge */}
@@ -1286,7 +1286,7 @@ function NeighborhoodIntelligence() {
             <div style={{ marginTop: 16, padding: '14px 18px', background: '#FFF8E8', border: '1px solid #F5D08A', borderRadius: 'var(--radius-sm)' }}>
               <div style={{ fontSize: 13, fontWeight: 600, color: '#92540A', marginBottom: 4 }}>📋 Realtor Talking Point</div>
               <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>
-                Parkland School District is consistently ranked among the top 15% of Pennsylvania districts. For buyers with school-age children, this address's school assignments, especially Parkland High School : are a genuine price-support factor in this zip code.
+                Parkland School District is consistently ranked among the top 15% of Pennsylvania districts. For buyers with school-age children, this address's school assignments - especially Parkland High School - are a genuine price-support factor in this zip code.
               </div>
             </div>
 
@@ -1409,7 +1409,7 @@ function NeighborhoodIntelligence() {
             <div style={{ marginTop: 12, padding: '14px 18px', background: '#F0FAF2', border: '1px solid #B7DFC0', borderRadius: 'var(--radius-sm)' }}>
               <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--green-dark)', marginBottom: 4 }}>📋 Realtor Talking Point</div>
               <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>
-                R-1 zoning with no commercial adjacency protects the neighborhood character. The ADU conditional use option and STR licensing both add flexibility for buyers considering investment or multigenerational living, worth mentioning to the right buyer profile.
+                R-1 zoning with no commercial adjacency protects the neighborhood character. The ADU conditional use option and STR licensing both add flexibility for buyers considering investment or multigenerational living - worth mentioning to the right buyer profile.
               </div>
             </div>
 
@@ -1425,7 +1425,7 @@ function NeighborhoodIntelligence() {
         <div className="fade-in">
           <div className="card">
             <div className="card-title">🌱 Neighborhood Vitality</div>
-            <div className="card-subtitle">Livability scores, permit activity, and new business openings, Allentown 18104</div>
+            <div className="card-subtitle">Livability scores, permit activity, and new business openings - Allentown 18104</div>
 
             <div className="section-label">Livability Scores</div>
             <div className="vitality-grid">
@@ -1439,7 +1439,7 @@ function NeighborhoodIntelligence() {
             </div>
 
             <div className="section-label" style={{ marginTop: 18 }}>Recent Permit Activity - 0.3 mi Radius</div>
-            <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 10 }}>High permit activity signals neighbors are investing in their homes, a positive ownership pride indicator</div>
+            <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 10 }}>High permit activity signals neighbors are investing in their homes - a positive ownership pride indicator</div>
             {VITALITY_DATA.permits.map((p, i) => (
               <div className="permit-row" key={i}>
                 <span className="permit-icon">{p.icon}</span>
@@ -1465,7 +1465,7 @@ function NeighborhoodIntelligence() {
             <div style={{ marginTop: 18, padding: '14px 18px', background: '#F0FAF2', border: '1px solid #B7DFC0', borderRadius: 'var(--radius-sm)' }}>
               <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--green-dark)', marginBottom: 4 }}>📋 Realtor Talking Point</div>
               <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>
-                The neighborhood has 5 active renovation permits within 0.3 miles and 3 new businesses in the last 4 months. Average neighbor tenure of 8.3 years signals stability and community investment. These are the details that move buyers emotionally, use them.
+                The neighborhood has 5 active renovation permits within 0.3 miles and 3 new businesses in the last 4 months. Average neighbor tenure of 8.3 years signals stability and community investment. These are the details that move buyers emotionally - use them.
               </div>
             </div>
 
@@ -1480,14 +1480,14 @@ function NeighborhoodIntelligence() {
 }
 
 // ── AI SYSTEM PROMPT ──────────────────────────────────────────────
-const AI_SYSTEM = `You are HOMI's AI Realtor Advisor : a seasoned real estate expert helping a listing agent represent 142 Maple Ridge Drive, Allentown PA 18104.
+const AI_SYSTEM = `You are HOMI's AI Realtor Advisor - a seasoned real estate expert helping a listing agent represent 142 Maple Ridge Drive, Allentown PA 18104.
 
 PROPERTY DETAILS:
 - Built 2004 · 2,847 sq ft · 4bd/2.5ba
 - List price: $387,500
 - HOMI Health Score: 72/100 (High Confidence)
 - Full professional inspection: March 2026
-- Flagged systems: Water Heater (urgent, end of life), Roof (attention needed by 2027), Electrical Panel (overdue for update), Windows & Doors (seal degradation, high cost)
+- Flagged systems: Water Heater (urgent - end of life), Roof (attention needed by 2027), Electrical Panel (overdue for update), Windows & Doors (seal degradation, high cost)
 - Strong systems: HVAC (replaced 2021), Plumbing (clear), Foundation (solid)
 
 NEIGHBORHOOD INTELLIGENCE (Allentown 18104, Q1 2026):
@@ -1495,7 +1495,7 @@ NEIGHBORHOOD INTELLIGENCE (Allentown 18104, Q1 2026):
 - Avg DOM: 28 days (down from 40 six months ago) · List-to-sale ratio: 98.6%
 - Active listings in zip: 47 (down from 71 last quarter) · Cash buyer share: 22%
 - Buyer pool: ~340-480 active buyers searching $350k-$415k in Lehigh County this month
-- Schools: Parkland School District (8/10 district rating) · Springhouse Elementary 8/10 · Orefield Middle 7/10 · Parkland High 8/10, all stable boundaries
+- Schools: Parkland School District (8/10 district rating) · Springhouse Elementary 8/10 · Orefield Middle 7/10 · Parkland High 8/10 - all stable boundaries
 - Crime: Low-Medium overall · Safer than 68% of PA zip codes · All crime categories trending down YoY
 - Zoning: R-1 Single-Family · No commercial adjacency within 0.3 mi · Zone X (no flood risk) · ADU conditional use permitted
 - Vitality: 5 active renovation permits within 0.3 mi · 3 new businesses opened in 4 months · Avg neighbor tenure 8.3 years
@@ -1515,7 +1515,7 @@ function ScoreRing({ score }) {
       <circle
         cx={cx} cy={cy} r={r} fill="none"
         stroke="#C9963A" strokeWidth="8"
-        strokeDasharray={`${dash} ${circ, dash}`}
+        strokeDasharray={`${dash} ${circ - dash}`}
         strokeDashoffset={circ * 0.25}
         strokeLinecap="round"
         style={{ transition: 'stroke-dasharray 1s ease' }}
@@ -1697,10 +1697,10 @@ function DisclosureChecklist() {
     <div className="fade-in">
       <div className="card">
         <div className="card-title">📝 Disclosure Preparation Checklist</div>
-        <div className="card-subtitle">Items the seller should disclose based on HOMI record : organized by disclosure type</div>
+        <div className="card-subtitle">Items the seller should disclose based on HOMI record - organized by disclosure type</div>
         {renderSection(DISCLOSURES.required, 'disc-required', '🔴 Required Disclosure')}
         {renderSection(DISCLOSURES.recommended, 'disc-recommended', '🟡 Recommended Disclosure')}
-        {renderSection(DISCLOSURES.optional, 'disc-optional', '✅ Optional. Builds Trust')}
+        {renderSection(DISCLOSURES.optional, 'disc-optional', '✅ Optional - Builds Trust')}
         <button className="generate-btn" onClick={generate}>
           <span>📄</span> Generate Disclosure Summary
         </button>
@@ -1745,7 +1745,7 @@ function DOMPredictor() {
         </div>
 
         <div className="dom-visual">
-          <div className="dom-visual-title">Visual Comparison, Estimated Days on Market</div>
+          <div className="dom-visual-title">Visual Comparison - Estimated Days on Market</div>
           {scenarios.map((s, i) => (
             <div className="dom-row" key={i}>
               <div className="dom-row-label">{s.label}</div>
@@ -1759,7 +1759,7 @@ function DOMPredictor() {
         </div>
 
         <div className="dom-disclaimer">
-          ⚠️ Estimate only : not a guarantee. Based on HOMI condition score, average Allentown 18104 DOM (Q1 2026: ~28 days), and illustrative pricing scenarios. Actual results vary with market conditions, buyer demand, and property presentation.
+          ⚠️ Estimate only - not a guarantee. Based on HOMI condition score, average Allentown 18104 DOM (Q1 2026: ~28 days), and illustrative pricing scenarios. Actual results vary with market conditions, buyer demand, and property presentation.
         </div>
       </div>
     </div>
@@ -1771,7 +1771,7 @@ function SellerPrep() {
     <div className="fade-in">
       <div className="card">
         <div className="card-title">🔧 Seller Prep Recommendations</div>
-        <div className="card-subtitle">What to fix before listing: ordered by ROI impact</div>
+        <div className="card-subtitle">What to fix before listing - ordered by ROI impact</div>
         {SELLER_PREP.map((p, i) => (
           <div className="prep-item" key={i}>
             <div className={`prep-rank ${p.urgent ? 'urgent' : ''}`}>{p.rank}</div>
@@ -1795,7 +1795,7 @@ function BuyerObjections() {
     <div className="fade-in">
       <div className="card">
         <div className="card-title">🛡️ Buyer Objection Anticipator</div>
-        <div className="card-subtitle">Likely objections based on flagged systems, with suggested realtor responses</div>
+        <div className="card-subtitle">Likely objections based on flagged systems - with suggested realtor responses</div>
         {OBJECTIONS.map((o, i) => (
           <div className="objection-item" key={i}>
             <div className="objection-q"><span>💬</span> {o.q}</div>
