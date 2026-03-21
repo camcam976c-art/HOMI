@@ -81,7 +81,7 @@ const PROPERTY = {address:"142 Maple Ridge Drive",city:"Allentown, PA 18104",bui
 
 const SYSTEMS = [
   {id:"water-heater",name:"Water Heater",icon:"💧",installed:2018,lifespan:12,condition:"urgent",pct:67,nextEvent:"Replace within 18 months",nextYear:2026,urgency:"act",urgencyLabel:"Act Now",costLow:900,costHigh:1800,maintLow:0,maintHigh:100,diy:false,detail:"Sediment buildup detected and efficiency is dropping. This system is entering its replacement window. Replacement is the most cost-effective path. A tankless upgrade ($2,200-$3,500) offers long-term energy savings.",savingsMonths:12,priority:1,timelineX:12},
-  {id:"electrical",name:"Electrical Panel",icon:"⚡",installed:2004,lifespan:40,condition:"attention",pct:30,nextEvent:"Panel inspection overdue",nextYear:2026,urgency:"plan",urgencyLabel:"Plan This Year",costLow:3000,costHigh:6000,maintLow:200,maintHigh:400,diy:false,detail:"200A panel from 2004. Inspection is overdue - common in homes this age. No immediate replacement expected, but a safety audit is recommended this year.",savingsMonths:36,priority:2,timelineX:22},
+  {id:"electrical",name:"Electrical Panel",icon:"⚡",installed:2004,lifespan:40,condition:"attention",pct:30,nextEvent:"Panel inspection overdue",nextYear:2026,urgency:"plan",urgencyLabel:"Plan This Year",costLow:3000,costHigh:6000,maintLow:200,maintHigh:400,diy:false,detail:"200A panel from 2004. Inspection is overdue – common in homes this age. No immediate replacement expected, but a safety audit is recommended this year.",savingsMonths:36,priority:2,timelineX:22},
   {id:"roof",name:"Roof",icon:"🏠",installed:2004,lifespan:25,condition:"fair",pct:84,nextEvent:"Entering repair window 2027",nextYear:2027,urgency:"plan",urgencyLabel:"Plan This Year",costLow:11000,costHigh:15000,maintLow:500,maintHigh:1200,diy:false,detail:"Architectural shingles showing granule loss. 80 freeze cycles/year accelerates wear. Inspection + minor repairs recommended before full replacement window opens.",savingsMonths:48,priority:3,timelineX:38},
   {id:"hvac",name:"HVAC System",icon:"❄️",installed:2016,lifespan:15,condition:"good",pct:60,nextEvent:"Annual service due 2026",nextYear:2031,urgency:"watch",urgencyLabel:"On Track",costLow:7000,costHigh:9500,maintLow:150,maintHigh:300,diy:false,detail:"Carrier 2-stage system in good condition. Annual tune-up extends life 3-5 years. Filter replacement every 90 days is recommended for Zone 5A climates.",savingsMonths:60,priority:4,timelineX:65},
   {id:"exterior",name:"Exterior & Siding",icon:"🏡",installed:2004,lifespan:30,condition:"good",pct:40,nextEvent:"Caulking recommended this season",nextYear:2030,urgency:"watch",urgencyLabel:"On Track",costLow:4000,costHigh:8000,maintLow:300,maintHigh:800,diy:true,detail:"Vinyl siding in good shape. Caulking around windows and doors prevents moisture intrusion. Power wash + touch-up paint on trim recommended this spring.",savingsMonths:60,priority:5,timelineX:55},
@@ -199,7 +199,7 @@ function CostForecast({scenario,setScenario}){
     return {y1:Math.round(2400*m),y3:Math.round(8200*m),y5:Math.round(18500*m),y10:Math.round(41000*m)};
   },[scenario]);
 
-  // SVG timeline - proportional to actual years 2025-2035
+  // SVG timeline – proportional to actual years 2025-2035
   const events = [
     {year:2025,label:"Landscaping",color:"#2D6A4F",r:6,cost:1200},
     {year:2026,label:"Water Heater",color:"#C0392B",r:10,cost:1350},
@@ -290,7 +290,7 @@ function StatusIndicator({monthlySavings}){
   const months = 60;
   // Accurate: start from $0 savings, project based on slider
   const projected = monthlySavings * months;
-  const gap = Math.max(0, upcomingCosts5yr - projected);
+  const gap = Math.max(0, upcomingCosts5yr – projected);
   const pct = Math.min(100, Math.round((projected/upcomingCosts5yr)*100));
   const adjustNeeded = gap>0 ? Math.ceil((gap/months)/25)*25 : 0;
 
@@ -566,7 +566,7 @@ function ScenarioComparison(){
   const [selected,setSelected] = useState("maintain");
   const sel = SCENARIOS.find(s=>s.id===selected);
   const nothing = SCENARIOS.find(s=>s.id==="nothing");
-  const savingsDelta = nothing.cost10 - sel.cost10;
+  const savingsDelta = nothing.cost10 – sel.cost10;
 
   return(
     <div style={{marginBottom:48}}>
@@ -628,7 +628,7 @@ function ScenarioComparison(){
           </div>
           {sel.id==="maintain"&&<HomiGuidance text="This is the recommended path for most homeowners. Planned maintenance prevents most emergencies and keeps your home value strong."/>}
           {sel.id==="proactive"&&<HomiGuidance text="Proactive upgrades typically add $15,000-$30,000 in assessed home value and significantly reduce energy costs over 10 years."/>}
-          {sel.id==="nothing"&&<HomiGuidance text="Deferred maintenance rarely saves money long-term. Small issues compound into expensive crises - often at the worst possible time."/>}
+          {sel.id==="nothing"&&<HomiGuidance text="Deferred maintenance rarely saves money long-term. Small issues compound into expensive crises – often at the worst possible time."/>}
         </div>
       )}
     </div>
