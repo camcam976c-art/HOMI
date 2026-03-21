@@ -597,7 +597,7 @@ function HomeownerDashboard(){
       </div>
     </div>
     <div style={{fontSize:14,fontWeight:600,color:"#1C4A2E",lineHeight:1.6,marginBottom:14}}>
-      Schedule an HVAC tune-up - it is the fastest way to raise your home health score and protect your investment.
+      Schedule an HVAC tune-up – it is the fastest way to raise your home health score and protect your investment.
     </div>
     <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:14}}>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 12px",background:"rgba(28,74,46,0.07)",borderRadius:10}}>
@@ -1364,7 +1364,7 @@ function ownerUpdateCap(verifiedScore){
 
 // Three-tier plausibility gate
 function plausibilityGate(ownerUp, verifiedScore){
-  const claimedDelta = ownerUp.claimedScore - verifiedScore;
+  const claimedDelta = ownerUp.claimedScore – verifiedScore;
   const cap = ownerUpdateCap(verifiedScore);
   const evEntry = EVIDENCE_LADDER.find(e=>e.key===ownerUp.evidence)||EVIDENCE_LADDER[0];
 
@@ -1444,7 +1444,7 @@ function computeHomeScore(systems, ownerUpdates=[], maintenanceBehavior=70){
   // Confidence: blend of source quality, freshness, and inferred ratio
   const avgConf = confCount>0 ? confTotal/confCount : 50;
   const inferredRatio = inferredCount/systems.length;
-  const confScore = avgConf * (1 - inferredRatio*0.3) * avgFreshness;
+  const confScore = avgConf * (1 – inferredRatio*0.3) * avgFreshness;
   const confLabel = confScore>=70?"High":confScore>=52?"Moderate":confScore>=38?"Limited":"Low";
   const confColor = confScore>=70?"#2D6A4F":confScore>=52?"#C9963A":confScore>=38?"#D97706":"#C0392B";
 
@@ -1959,7 +1959,7 @@ function TwoLayerScoreCard({compact=false}){
                   const state = getFreshnessState(sys.monthsAgo, sys.key);
                   const t = FRESHNESS_THRESHOLDS[sys.key]||{fresh:18,aging:36};
                   const maxMo = t.aging * 1.5;
-                  const pct = Math.max(4, Math.round((1 - sys.monthsAgo/maxMo)*100));
+                  const pct = Math.max(4, Math.round((1 – sys.monthsAgo/maxMo)*100));
                   return(
                     <div key={sys.key} style={{marginBottom:12}}>
                       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
@@ -4476,13 +4476,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
   <div class="hs-left">
     <span style="font-size:22px">&#127968;</span>
     <div>
-      <div class="hs-label">42 Maple Street - HOMI Report</div>
+      <div class="hs-label">42 Maple Street – HOMI Report</div>
       <div class="hs-sub">Score 68  ·  $18,400 projected  ·  Moderate Risk</div>
     </div>
   </div>
   <div class="hs-actions">
     <button class="hs-share" onclick="if(navigator.share){navigator.share({title:'HOMI Report',text:'42 Maple Street cost analysis',url:window.location.href})}else{navigator.clipboard.writeText(window.location.href).then(()=>alert('Link copied!'))}">&#128228; Share this Report</button>
-    <button class="hs-compare" onclick="alert('Compare feature coming soon - enter a second address to run side-by-side cost analysis.')">Compare Another Home</button>
+    <button class="hs-compare" onclick="alert('Compare feature coming soon – enter a second address to run side-by-side cost analysis.')">Compare Another Home</button>
   </div>
 </div>
 
