@@ -4447,7 +4447,7 @@ function App(){
         </div>
       </div>
       <div style={{flex:1,overflow:"hidden"}}>
-        {view==="snapshot"&&<HomeIntelligenceSnapshot onOwnerMode={()=>{setView("dashboard");setScreen("dashboard");}} onBuyerMode={()=>setScreen("buyer")} onRealtorMode={()=>setScreen("realtor")}/>}
+        {view==="snapshot"&&<HomeIntelligenceSnapshot onOwnerMode={()=>{setView("dashboard");setScreen("dashboard");}} onBuyerMode={()=>setScreen("buyer")} onRealtorMode={()=>window.location.href="/realtor"}/>}
         {view==="dashboard"&&<HomeownerDashboard/>}
         {view==="lifecycle"&&<LifecycleTimeline/>}
         {view==="retail"&&<RetailIntelligence/>}
