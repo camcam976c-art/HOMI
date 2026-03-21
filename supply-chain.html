@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>HOMI - Supply Chain Intelligence | Lehigh Valley PA</title>
+<title>HOMI – Supply Chain Intelligence | Lehigh Valley PA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -326,17 +326,17 @@ const SC_RECS=[
 ];
 
 const PROMOS=[
-  {urgency:'now', cat:'HVAC Filters & Maintenance',    zips:'18104, 18052',       hh:412, win:'Mar 15 - Jun 30', reason:'412 systems in 10-15yr window. Highest concentration W. Allentown.'},
-  {urgency:'now', cat:'Lawn & Pre-Emergent Treatments',zips:'18049, 18064, 18104',hh:344, win:'Now - May 31',    reason:'+31% spring surge. Central Valley / Nazareth cluster at peak.'},
-  {urgency:'soon',cat:'Water Heater Replacement Kits', zips:'18042, 18015, 18052',hh:290, win:'Apr 1 - Jul 15',  reason:'566 heaters 10-14yr. Bethlehem/Easton corridor highest density.'},
-  {urgency:'soon',cat:'Roofing Materials & Sealants',  zips:'18042, 18015',       hh:198, win:'May - Sep',       reason:'Storm events active. 40% of Bethlehem roofs 25yr+. Peak Jun-Aug.'},
-  {urgency:'plan',cat:'Exterior & Siding Supplies',    zips:'18064, 18049',       hh:160, win:'Apr - Jun',       reason:'290 homes Nazareth/Emmaus. 15-25yr siding lifecycle building.'},
-  {urgency:'plan',cat:'Electrical Panels & Supplies',  zips:'18104, 18052',       hh:123, win:'Jul - Sep',       reason:'W. Allentown 25yr+ panel aging profile. Demand rises Jun-Aug.'},
+  {urgency:'now', cat:'HVAC Filters & Maintenance',    zips:'18104, 18052',       hh:412, win:'Mar 15 – Jun 30', reason:'412 systems in 10-15yr window. Highest concentration W. Allentown.'},
+  {urgency:'now', cat:'Lawn & Pre-Emergent Treatments',zips:'18049, 18064, 18104',hh:344, win:'Now – May 31',    reason:'+31% spring surge. Central Valley / Nazareth cluster at peak.'},
+  {urgency:'soon',cat:'Water Heater Replacement Kits', zips:'18042, 18015, 18052',hh:290, win:'Apr 1 – Jul 15',  reason:'566 heaters 10-14yr. Bethlehem/Easton corridor highest density.'},
+  {urgency:'soon',cat:'Roofing Materials & Sealants',  zips:'18042, 18015',       hh:198, win:'May – Sep',       reason:'Storm events active. 40% of Bethlehem roofs 25yr+. Peak Jun-Aug.'},
+  {urgency:'plan',cat:'Exterior & Siding Supplies',    zips:'18064, 18049',       hh:160, win:'Apr – Jun',       reason:'290 homes Nazareth/Emmaus. 15-25yr siding lifecycle building.'},
+  {urgency:'plan',cat:'Electrical Panels & Supplies',  zips:'18104, 18052',       hh:123, win:'Jul – Sep',       reason:'W. Allentown 25yr+ panel aging profile. Demand rises Jun-Aug.'},
 ];
 
 const SIGNALS=[
   {icon:'❄️',cat:'HVAC Filter Demand',    reason:'412 systems entering 10-15yr lifecycle across market',   chg:'+27%',cls:'up',  timing:'now',timingLbl:'Order Now'},
-  {icon:'🌿',cat:'Lawn & Pre-Emergent',   reason:'Spring surge active - demand at seasonal peak, +31% YoY', chg:'+31%',cls:'up',  timing:'now',timingLbl:'Order Now'},
+  {icon:'🌿',cat:'Lawn & Pre-Emergent',   reason:'Spring surge active – demand at seasonal peak, +31% YoY', chg:'+31%',cls:'up',  timing:'now',timingLbl:'Order Now'},
   {icon:'🚿',cat:'Water Heater Units',    reason:'566 heaters in failure window across 3 ZIP zones',        chg:'+19%',cls:'up',  timing:'q2', timingLbl:'Stock by Q2'},
   {icon:'🏠',cat:'Roofing Materials',     reason:'Storm events Q1 2026 + 198 aging roofs entering window',  chg:'+18%',cls:'warn',timing:'q2', timingLbl:'Build Q2'},
   {icon:'🪟',cat:'Exterior Supplies',     reason:'290 homes 15-25yr systems, demand building into spring',   chg:'+22%',cls:'warn',timing:'q3', timingLbl:'Plan Q3'},
@@ -439,7 +439,7 @@ function PartnerRetail(){
       <div className="partner-kpis">
         {[
           {l:'Top Stock Priority',v:'HVAC Filters',s:'+27% demand, 412 homes in window'},
-          {l:'Spring Promo Now',v:'Lawn & Pre-emergent',s:'+31% YoY - peak window open'},
+          {l:'Spring Promo Now',v:'Lawn & Pre-emergent',s:'+31% YoY – peak window open'},
           {l:'Promo-Ready Homes',v:'1,322',s:'Flagged for system replacement'},
           {l:'Total Market Opp.',v:TOTAL_MKT,s:'24-month addressable spend'},
         ].map(k=><div key={k.l} className="pkv"><div className="pkv-l">{k.l}</div><div className="pkv-v">{k.v}</div><div className="pkv-s">{k.s}</div></div>)}
@@ -464,7 +464,7 @@ function PartnerRetail(){
           ))}
         </div>
       </div>
-      <div className="partner-note">📦 <strong>Seasonal Inventory Recommendation:</strong> Increase HVAC filter stock +27% by Apr 1 (3 weeks away). Pre-emergent lawn treatments are at peak demand NOW - any unsold inventory after May 31 represents a missed window. Water heater kits should be at full Q2 stock levels by April 15.</div>
+      <div className="partner-note">📦 <strong>Seasonal Inventory Recommendation:</strong> Increase HVAC filter stock +27% by Apr 1 (3 weeks away). Pre-emergent lawn treatments are at peak demand NOW – any unsold inventory after May 31 represents a missed window. Water heater kits should be at full Q2 stock levels by April 15.</div>
     </div>
   );
 }
@@ -482,7 +482,7 @@ function PartnerInsurance(){
           {l:'Electrical Flags',v:'123',s:'Panels aged 25+ years'},
         ].map(k=><div key={k.l} className="pkv"><div className="pkv-l">{k.l}</div><div className="pkv-v">{k.v}</div><div className="pkv-s">{k.s}</div></div>)}
       </div>
-      <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.8px',color:'var(--tm)',marginBottom:8}}>System Age Distribution - Risk Profile</div>
+      <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.8px',color:'var(--tm)',marginBottom:8}}>System Age Distribution – Risk Profile</div>
       <table className="partner-table">
         <thead><tr><th>System</th><th>Homes Flagged</th><th>Avg Age</th><th>% Past Lifespan</th><th>Risk Level</th><th>Underwriting Flag</th></tr></thead>
         <tbody>
@@ -510,24 +510,24 @@ function PartnerContractor(){
           {l:'HVAC Lead Volume',v:'412',s:'Homes in replacement window'},
           {l:'Roofing Leads',v:'198',s:'Active project opportunities'},
           {l:'Plumbing / Water Htr',v:'566',s:'Water heater replacements'},
-          {l:'Optimal Window',v:'Apr - Jun',s:'Peak scheduling opportunity'},
+          {l:'Optimal Window',v:'Apr – Jun',s:'Peak scheduling opportunity'},
         ].map(k=><div key={k.l} className="pkv"><div className="pkv-l">{k.l}</div><div className="pkv-v">{k.v}</div><div className="pkv-s">{k.s}</div></div>)}
       </div>
       <table className="partner-table">
         <thead><tr><th>Trade</th><th>Lead Volume (Q2)</th><th>Geo Concentration</th><th>Avg Job Value</th><th>Est. Revenue</th><th>Peak Window</th></tr></thead>
         <tbody>
           {[
-            ['HVAC','412 homes','18104, 18052 (W. Allentown)','$8,980','$3.7M','Apr - Jun'],
-            ['Roofing','198 homes','18015, 18042 (Bethlehem/Easton)','$22,727','$4.5M','Mar - May'],
-            ['Plumbing / Water Htr','566 homes','18104, 18052, 18042','$1,943','$1.1M','Jan - Mar'],
-            ['Electrical','123 homes','18104, 18052 (W. Allentown)','$5,285','$650K','Jun - Aug'],
-            ['Exterior / Siding','290 homes','18064, 18049 (Nazareth/Emmaus)','$7,931','$2.3M','Apr - Jun'],
+            ['HVAC','412 homes','18104, 18052 (W. Allentown)','$8,980','$3.7M','Apr – Jun'],
+            ['Roofing','198 homes','18015, 18042 (Bethlehem/Easton)','$22,727','$4.5M','Mar – May'],
+            ['Plumbing / Water Htr','566 homes','18104, 18052, 18042','$1,943','$1.1M','Jan – Mar'],
+            ['Electrical','123 homes','18104, 18052 (W. Allentown)','$5,285','$650K','Jun – Aug'],
+            ['Exterior / Siding','290 homes','18064, 18049 (Nazareth/Emmaus)','$7,931','$2.3M','Apr – Jun'],
           ].map((r,i)=>(
             <tr key={i}><td style={{fontWeight:600}}>{r[0]}</td><td>{r[1]}</td><td style={{color:'var(--tm)',fontSize:11}}>{r[2]}</td><td style={{fontWeight:700,color:'var(--g)'}}>{r[3]}</td><td style={{fontWeight:700}}>{r[4]}</td><td>{r[5]}</td></tr>
           ))}
         </tbody>
       </table>
-      <div className="partner-note">🔧 <strong>Scheduling Note:</strong> HVAC and exterior demand peaks simultaneously in Apr-Jun across W. Allentown ZIP codes - recommend recruiting additional installers in the 18104/18052 corridor before March 31 to avoid scheduling bottlenecks during peak season.</div>
+      <div className="partner-note">🔧 <strong>Scheduling Note:</strong> HVAC and exterior demand peaks simultaneously in Apr-Jun across W. Allentown ZIP codes – recommend recruiting additional installers in the 18104/18052 corridor before March 31 to avoid scheduling bottlenecks during peak season.</div>
     </div>
   );
 }
@@ -546,9 +546,9 @@ function PartnerLender(){
       </div>
       <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.8px',color:'var(--tm)',marginBottom:8}}>Condition Score Distribution</div>
       {[
-        {band:'Score <55 - At Risk',pct:18,homes:393,c:'var(--rd)'},
-        {band:'Score 55-64 - Aging',pct:34,homes:743,c:'var(--am)'},
-        {band:'Score 65-74 - Fair', pct:32,homes:699,c:'var(--gl2)'},
+        {band:'Score <55 – At Risk',pct:18,homes:393,c:'var(--rd)'},
+        {band:'Score 55-64 – Aging',pct:34,homes:743,c:'var(--am)'},
+        {band:'Score 65-74 – Fair', pct:32,homes:699,c:'var(--gl2)'},
         {band:'Score 75+ - Healthy',pct:16,homes:349,c:'var(--gl)'},
       ].map(r=>(
         <div key={r.band} style={{display:'grid',gridTemplateColumns:'180px 1fr 80px',gap:10,alignItems:'center',marginBottom:8}}>
@@ -610,7 +610,7 @@ function App(){
   useEffect(()=>{
     callClaude("Generate one urgent, specific supply chain insight for the Lehigh Valley PA market right now. Lead with a dollar amount or unit count, name the specific product category and ZIP codes, and say exactly what action to take this week. 2-3 sentences, no fluff.")
       .then(t=>{setProMsg(t);setProLoad(false);})
-      .catch(()=>{setProMsg("ZIP codes 18104 and 18052 have 412 HVAC systems entering the 10-15 year service window - representing $3.7M in addressable demand. Industry average inventory adjustment is +4%; HOMI-verified demand is running +27%. Place HVAC filter and parts orders this week to ensure stock before April 1 peak.");setProLoad(false);});
+      .catch(()=>{setProMsg("ZIP codes 18104 and 18052 have 412 HVAC systems entering the 10-15 year service window – representing $3.7M in addressable demand. Industry average inventory adjustment is +4%; HOMI-verified demand is running +27%. Place HVAC filter and parts orders this week to ensure stock before April 1 peak.");setProLoad(false);});
   },[]);
 
   const handleAI=async(q)=>{
@@ -660,7 +660,7 @@ function App(){
           <div><div className="bn">HOMI</div><div className="bs">Supply Chain Intelligence</div></div>
           <div className="nd"/>
           <div className="nbg"><div className="pd"/>Lehigh Valley PA · {TOTAL_HOMES.toLocaleString()} Homes Tracked</div>
-          <div className="nbg" style={{background:'rgba(201,150,58,0.12)',borderColor:'rgba(201,150,58,0.28)'}}>🌿 Spring 2026 - Peak Demand Season</div>
+          <div className="nbg" style={{background:'rgba(201,150,58,0.12)',borderColor:'rgba(201,150,58,0.28)'}}>🌿 Spring 2026 – Peak Demand Season</div>
         </div>
         <div className="nr">
           <button className="nb" onClick={()=>window.print()}>⬇ Download Report</button>
@@ -686,12 +686,12 @@ function App(){
       </div>
 
       {/* ═══════════════════════════════════════════════════════════
-          SECTION 1 - MARKET OVERVIEW
+          SECTION 1 – MARKET OVERVIEW
       ═══════════════════════════════════════════════════════════ */}
       <div className="metrics-hero" id="s-overview">
         <div className="mh-eye">Market Overview · Lehigh Valley PA</div>
         <div className="mh-head"><em>{TOTAL_HOMES.toLocaleString()} homes.</em> Every system aging. Every purchase need forecasted.</div>
-        <div className="mh-sub">HOMI aggregates verified home system lifecycle data - roof age, HVAC lifecycle, water heater vintage, electrical, landscaping - and converts it into a forward demand signal for your supply chain. Not historical sales. Actual infrastructure aging.</div>
+        <div className="mh-sub">HOMI aggregates verified home system lifecycle data – roof age, HVAC lifecycle, water heater vintage, electrical, landscaping – and converts it into a forward demand signal for your supply chain. Not historical sales. Actual infrastructure aging.</div>
         <div className="metrics-strip">
           {[
             {l:'Homes Tracked',     v:'2,184',  s:'Lehigh Valley PA metro',           bar:100},
@@ -710,7 +710,7 @@ function App(){
       </div>
 
       {/* ═══════════════════════════════════════════════════════════
-          AI PROACTIVE ALERT (top of content - push not pull)
+          AI PROACTIVE ALERT (top of content – push not pull)
       ═══════════════════════════════════════════════════════════ */}
       <div className="palert">
         <div className="pa-ic">
@@ -733,7 +733,7 @@ function App(){
       <div style={{display:'flex',flexDirection:'column',gap:0}}>
 
         {/* ═══════════════════════════════════════════════════════════
-            SECTION 2 - AI INTELLIGENCE PANEL
+            SECTION 2 – AI INTELLIGENCE PANEL
         ═══════════════════════════════════════════════════════════ */}
         <div className="section section-alt" id="s-ai">
           <SectionLabel label="AI Intelligence Panel"/>
@@ -747,7 +747,7 @@ function App(){
                   </svg>
                   HOMI Supply Chain Intelligence AI
                 </div>
-                <div className="aip-s">Ask about demand, inventory, timing, geography - full market data in context</div>
+                <div className="aip-s">Ask about demand, inventory, timing, geography – full market data in context</div>
               </div>
               <div style={{fontSize:10,color:'rgba(255,255,255,0.38)',textAlign:'right'}}>2,184 homes · 6 categories<br/>93% avg forecast accuracy</div>
             </div>
@@ -774,7 +774,7 @@ function App(){
         <div className="section-divider"/>
 
         {/* ═══════════════════════════════════════════════════════════
-            SECTION 3 - DEMAND HEATMAP / MARKET MAP
+            SECTION 3 – DEMAND HEATMAP / MARKET MAP
         ═══════════════════════════════════════════════════════════ */}
         <div className="section" id="s-map">
           <SectionLabel label="Demand Heatmap · Geographic View"/>
@@ -835,11 +835,11 @@ function App(){
         <div className="section-divider"/>
 
         {/* ═══════════════════════════════════════════════════════════
-            SECTION 4 - CATEGORY DEMAND FORECAST
+            SECTION 4 – CATEGORY DEMAND FORECAST
         ═══════════════════════════════════════════════════════════ */}
         <div className="section section-alt" id="s-categories">
           <SectionLabel label="Category Demand Forecast"/>
-          <div className="section-heading">All 6 Systems - Replacement Window Overview</div>
+          <div className="section-heading">All 6 Systems – Replacement Window Overview</div>
           <div className="section-sub">Click any category to highlight it in the map and supply plan below</div>
           <div className="cat-grid">
             {CATEGORIES.map(c=>(
@@ -894,11 +894,11 @@ function App(){
         <div className="section-divider"/>
 
         {/* ═══════════════════════════════════════════════════════════
-            SECTION 5 - SUPPLY CHAIN RECOMMENDATIONS
+            SECTION 5 – SUPPLY CHAIN RECOMMENDATIONS
         ═══════════════════════════════════════════════════════════ */}
         <div className="section" id="s-sc">
           <SectionLabel label="Supply Chain Recommendations"/>
-          <div className="section-heading">What to Order - and When</div>
+          <div className="section-heading">What to Order – and When</div>
           <div className="section-sub" style={{marginBottom:10}}>HOMI-verified demand vs industry average inventory adjustment. The gap is your competitive advantage.</div>
 
           <div className="gap-warn">
@@ -948,12 +948,12 @@ function App(){
         <div className="section-divider"/>
 
         {/* ═══════════════════════════════════════════════════════════
-            SECTION 6 - SEASONAL SIGNALS / PROMOTIONAL CALENDAR
+            SECTION 6 – SEASONAL SIGNALS / PROMOTIONAL CALENDAR
         ═══════════════════════════════════════════════════════════ */}
         <div className="section section-alt" id="s-seasonal">
           <SectionLabel label="Seasonal Signals · Promotional Calendar"/>
           <div className="section-heading">Live Demand Signals & Promotion Intelligence</div>
-          <div className="section-sub">Spring 2026 - Active Season · What's accelerating and when to promote it</div>
+          <div className="section-sub">Spring 2026 – Active Season · What's accelerating and when to promote it</div>
           <div className="g2">
             <div>
               <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'1px',color:'var(--tm)',marginBottom:10}}>Live Demand Signals</div>
@@ -995,7 +995,7 @@ function App(){
         <div className="section-divider"/>
 
         {/* ═══════════════════════════════════════════════════════════
-            SECTION 7 - PARTNER INTELLIGENCE
+            SECTION 7 – PARTNER INTELLIGENCE
         ═══════════════════════════════════════════════════════════ */}
         <div className="section" id="s-partner">
           <SectionLabel label="Partner Intelligence Views"/>
@@ -1018,7 +1018,7 @@ function App(){
         <div className="section-divider"/>
 
         {/* ═══════════════════════════════════════════════════════════
-            SECTION 8 - DATA API
+            SECTION 8 – DATA API
         ═══════════════════════════════════════════════════════════ */}
         <div className="section">
           <SectionLabel>Data API & Market Intelligence Access</SectionLabel>
@@ -1071,27 +1071,27 @@ function App(){
         </div>
 
         {/* ═══════════════════════════════════════════════════════════
-            SECTION 9 - SALES DATA CONNECTOR
+            SECTION 9 – SALES DATA CONNECTOR
         ═══════════════════════════════════════════════════════════ */}
         <div className="section section-alt">
           <div className="connect-panel">
             <div style={{fontSize:30,marginBottom:8}}>📊</div>
             <div style={{fontSize:18,fontWeight:700,color:'var(--tx)',marginBottom:6,fontFamily:'Playfair Display,serif'}}>Connect Your Sales Data</div>
-            <div style={{fontSize:13,color:'var(--tm)',lineHeight:1.65,maxWidth:420,margin:'0 auto 16px'}}>HOMI shows demand signal. Your POS shows actual sales. Connect them to see exactly where you're leaving revenue on the table - and prove HOMI's forecast accuracy against your own numbers.</div>
+            <div style={{fontSize:13,color:'var(--tm)',lineHeight:1.65,maxWidth:420,margin:'0 auto 16px'}}>HOMI shows demand signal. Your POS shows actual sales. Connect them to see exactly where you're leaving revenue on the table – and prove HOMI's forecast accuracy against your own numbers.</div>
             <button className="cta-btn">Connect Home Depot Sales Data →</button>
             <div className="cp-preview">
               {[{l:'HOMI Demand Signal',v:'+27%',s:'HVAC, Q2 2026'},{l:'Your Sales Trend',v:'-',s:'Connect to reveal'},{l:'Inventory Gap $',v:'-',s:'Unlocked after connect'}].map(s=>(
                 <div key={s.l} className="cpp"><div className="cpp-l">{s.l}</div><div className="cpp-v">{s.v}</div><div className="cpp-s">{s.s}</div></div>
               ))}
             </div>
-            <div style={{marginTop:10,fontSize:11,color:'var(--tm)',fontStyle:'italic'}}>Once connected, HOMI becomes part of your planning workflow - not a report you read once.</div>
+            <div style={{marginTop:10,fontSize:11,color:'var(--tm)',fontStyle:'italic'}}>Once connected, HOMI becomes part of your planning workflow – not a report you read once.</div>
           </div>
         </div>
 
         <div className="section-divider"/>
 
         {/* ═══════════════════════════════════════════════════════════
-            SECTION 9 - DATA API PITCH
+            SECTION 9 – DATA API PITCH
         ═══════════════════════════════════════════════════════════ */}
         <div className="section" id="s-api">
           <SectionLabel label="Data API · Access Tiers"/>
