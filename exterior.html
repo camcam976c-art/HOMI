@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>HOMI – Exterior Systems & Landscaping</title>
+<title>HOMI: Exterior Systems & Landscaping</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -330,7 +330,7 @@ const { useState, useEffect, useRef } = React;
 /* ══════ DATA ══════ */
 const riskItems = [
   { label: "Drainage",       status: "attention", detail: "Downspouts too close to foundation", alert: true },
-  { label: "Roof Envelope",  status: "fair",      detail: "21 yrs – approaching end of life",   warn: true },
+  { label: "Roof Envelope",  status: "fair",      detail: "21 yrs, approaching end of life",   warn: true },
   { label: "Tree Root Risk", status: "low",        detail: "Closest tree at 18 ft" },
   { label: "Flood Exposure", status: "low",        detail: "FEMA Zone X" },
   { label: "Hail / Storm",   status: "moderate",   detail: "Zone 5A affects roof lifespan" },
@@ -338,15 +338,15 @@ const riskItems = [
 ];
 
 const drainageItems = [
-  { name: "Gutters",       status: "fair",      note: "Partial blockage near NE corner – clean before summer" },
-  { name: "Downspouts",    status: "attention", note: "Two discharge within 18\" of foundation – extend to 4 ft minimum (urgent)" },
-  { name: "Yard Grading",  status: "good",      note: "Slopes away on 3 sides; east side flat – monitor" },
+  { name: "Gutters",       status: "fair",      note: "Partial blockage near NE corner : clean before summer" },
+  { name: "Downspouts",    status: "attention", note: "Two discharge within 18\" of foundation, extend to 4 ft minimum (urgent)" },
+  { name: "Yard Grading",  status: "good",      note: "Slopes away on 3 sides; east side flat, monitor" },
   { name: "Water Pooling", status: "good",      note: "No standing water observed" },
 ];
 
 const hardscapeItems = [
-  { name: "Deck",           installed: 2004, status: "attention", note: "Surface boards weathering – seal this season", cost: "$150-$300", urgent: true },
-  { name: "Patio",          installed: 2008, status: "good",      note: "Minor crack at SE edge – fill with caulk",     cost: "$20-$50" },
+  { name: "Deck",           installed: 2004, status: "attention", note: "Surface boards weathering : seal this season", cost: "$150-$300", urgent: true },
+  { name: "Patio",          installed: 2008, status: "good",      note: "Minor crack at SE edge : fill with caulk",     cost: "$20-$50" },
   { name: "Walkways",       installed: 2004, status: "good",      note: "No heave or trip hazards",                     cost: null },
   { name: "Retaining Wall", installed: 2004, status: "good",      note: "Stable, no movement",                          cost: null },
 ];
@@ -359,25 +359,25 @@ const treeRisks = [
 
 const envelopeData = {
   roof: {
-    name: "Roof", sub: "Asphalt Shingle – Installed 2004", status: "fair",
+    name: "Roof", sub: "Asphalt Shingle, Installed 2004", status: "fair",
     items: [
       { key: "Age",                 val: "21 years",                         tone: "amber" },
       { key: "Material",            val: "Architectural shingle" },
       { key: "Est. remaining life", val: "4-9 years",                        tone: "amber" },
       { key: "Last inspection",     val: "Not on record",                    tone: "amber" },
-      { key: "Hail vulnerability",  val: "Moderate – Zone 5A" },
+      { key: "Hail vulnerability",  val: "Moderate: Zone 5A" },
       { key: "Recommended action",  val: "Schedule inspection this season",  tone: "amber" },
     ],
     callout: { type: "urgent", text: "At 21 years with moderate hail exposure, a roof inspection is overdue. Budget for replacement within the next 3-7 years.", cost: "$9,000-$18,000" },
   },
   siding: {
-    name: "Siding & Cladding", sub: "Vinyl Siding – Installed 2004", status: "good",
+    name: "Siding & Cladding", sub: "Vinyl Siding, Installed 2004", status: "good",
     items: [
       { key: "Age",                  val: "21 years" },
-      { key: "Material",             val: "Vinyl – double 4\" lap" },
-      { key: "Condition",            val: "Good – no warping or gaps" },
-      { key: "Paint/seal cycle",     val: "N/A – vinyl" },
-      { key: "Trim condition",       val: "Fair – inspect caulk at corners", tone: "amber" },
+      { key: "Material",             val: "Vinyl : double 4\" lap" },
+      { key: "Condition",            val: "Good : no warping or gaps" },
+      { key: "Paint/seal cycle",     val: "N/A : vinyl" },
+      { key: "Trim condition",       val: "Fair : inspect caulk at corners", tone: "amber" },
       { key: "Est. remaining life",  val: "15-25 years",                     tone: "green" },
     ],
     callout: { type: "info", text: "Re-caulk trim penetrations, corners, and window surrounds this season. Caulk failure allows moisture intrusion behind vinyl panels.", cost: "$40-$120 DIY" },
@@ -388,18 +388,18 @@ const envelopeData = {
       { key: "Type",              val: "Poured concrete" },
       { key: "Visible cracks",    val: "None observed" },
       { key: "Efflorescence",     val: "None observed" },
-      { key: "Waterproofing",     val: "Status unknown – not on record", tone: "amber" },
-      { key: "East-side grading", val: "Flat – monitor for pooling",     tone: "amber" },
-      { key: "Drainage risk",     val: "Moderate – downspout proximity" },
+      { key: "Waterproofing",     val: "Status unknown : not on record", tone: "amber" },
+      { key: "East-side grading", val: "Flat : monitor for pooling",     tone: "amber" },
+      { key: "Drainage risk",     val: "Moderate : downspout proximity" },
     ],
     callout: { type: "urgent", text: "Downspout proximity to the east side is the highest-ROI action on this property. Extending discharge to 4 ft reduces foundation water risk significantly.", cost: "$40-$120 DIY" },
   },
   windows: {
-    name: "Doors & Windows", sub: "Mixed – Original 2004 / Updated 2016", status: "moderate",
+    name: "Doors & Windows", sub: "Mixed: Original 2004 / Updated 2016", status: "moderate",
     items: [
-      { key: "Window age",         val: "21 years – original" },
-      { key: "IGU seal failures",  val: "1 noted – front bedroom",          tone: "amber" },
-      { key: "Weatherstripping",   val: "Fair – garage & patio door",       tone: "amber" },
+      { key: "Window age",         val: "21 years, original" },
+      { key: "IGU seal failures",  val: "1 noted, front bedroom",          tone: "amber" },
+      { key: "Weatherstripping",   val: "Fair : garage & patio door",       tone: "amber" },
       { key: "Front door caulking",val: "Needs refresh",                    tone: "amber" },
       { key: "Storm door",         val: "Good condition" },
       { key: "Est. action needed", val: "Caulk + weatherstrip refresh",     tone: "amber" },
@@ -411,13 +411,13 @@ const envelopeData = {
 const calendarData = {
   March: [
     { text: "Apply pre-emergent herbicide before soil reaches 55°F", urgent: false },
-    { text: "Prune Silver Maple – Feb-Mar window, don't delay", urgent: true },
+    { text: "Prune Silver Maple, Feb-Mar window, don't delay", urgent: true },
     { text: "Aerate lawn if compacted areas observed", urgent: false },
     { text: "Sow cool-season grass seed in bare patches", urgent: false },
   ],
   April: [
     { text: "Mulch tree rings 2-3\" deep (keep 3\" clear of trunk)", urgent: false },
-    { text: "First mow at 3.5\" blade height – don't cut lower", urgent: false },
+    { text: "First mow at 3.5\" blade height, don't cut lower", urgent: false },
     { text: "Check and activate irrigation system", urgent: false },
     { text: "Plant cool-season annuals in containers", urgent: false },
   ],
@@ -425,19 +425,19 @@ const calendarData = {
     { text: "Apply slow-release lawn fertilizer", urgent: false },
     { text: "Treat arborvitae scale insects with horticultural oil before new growth", urgent: true },
     { text: "Trim hedges and foundation plantings", urgent: false },
-    { text: "Inspect deck surface – seal if not done", urgent: true },
+    { text: "Inspect deck surface : seal if not done", urgent: true },
   ],
   June: [
     { text: "Water lawn deeply 1× per week (1 inch minimum)", urgent: false },
     { text: "Deadhead spent perennials to encourage reblooming", urgent: false },
     { text: "Check downspout extensions after heavy rain events", urgent: false },
-    { text: "Weed control – apply post-emergent as needed", urgent: false },
+    { text: "Weed control : apply post-emergent as needed", urgent: false },
   ],
   September: [
     { text: "Overseed bare and thin patches with tall fescue blend", urgent: false },
     { text: "Apply fall lawn fertilizer (high-potassium blend)", urgent: false },
     { text: "Cut back overgrown perennials", urgent: false },
-    { text: "Clean gutters – first pass before leaf drop", urgent: true },
+    { text: "Clean gutters : first pass before leaf drop", urgent: true },
   ],
   October: [
     { text: "Plant spring-flowering bulbs (tulips, daffodils)", urgent: false },
@@ -457,17 +457,17 @@ const treeInventory = [
   { name: "Silver Maple",    age: "~20 yr", location: "Front left",   status: "healthy",   pruneWindow: "Feb-Mar",       note: "Crown thinning due 2026. Schedule arborist.", attention: true },
   { name: "Norway Spruce",   age: "~15 yr", location: "Back right",   status: "healthy",   pruneWindow: "Late winter",    note: "No action needed currently." },
   { name: "Red Oak",         age: "~25 yr", location: "Back left",    status: "healthy",   pruneWindow: "Nov-Mar",        note: "Native, low maintenance." },
-  { name: "Arborvitae (×3)", age: "~10 yr", location: "Side fence",   status: "attention", pruneWindow: "After treatment",note: "Scale insects detected – treat before pruning.", attention: true },
+  { name: "Arborvitae (×3)", age: "~10 yr", location: "Side fence",   status: "attention", pruneWindow: "After treatment",note: "Scale insects detected : treat before pruning.", attention: true },
 ];
 
 const diagItems = [
-  { icon: "🌲", plant: "Arborvitae ×3",     issue: "Scale insects – moderate severity", status: "attention", treatment: "Apply horticultural oil spray before new growth in early spring. Coat all branches. Repeat in 10-14 days if needed.", diy: true },
-  { icon: "🌱", plant: "Lawn – South Zone", issue: "Thin coverage – low severity",       status: "fair",      treatment: "Overseed in September with tall fescue blend for Zone 5A. Rake and top-dress with compost before seeding.", diy: true },
+  { icon: "🌲", plant: "Arborvitae ×3",     issue: "Scale insects : moderate severity", status: "attention", treatment: "Apply horticultural oil spray before new growth in early spring. Coat all branches. Repeat in 10-14 days if needed.", diy: true },
+  { icon: "🌱", plant: "Lawn: South Zone", issue: "Thin coverage : low severity",       status: "fair",      treatment: "Overseed in September with tall fescue blend for Zone 5A. Rake and top-dress with compost before seeding.", diy: true },
 ];
 
 const weatherAlerts = [
-  { id: 1, type: "advisory", icon: "🌡️", badge: "Frost Advisory", text: "Frost warning tonight – protect tender annuals and container plants." },
-  { id: 2, type: "info",     icon: "🌧️", badge: "Rain Alert",     text: "Heavy rain expected Thursday – verify downspout extensions are clear." },
+  { id: 1, type: "advisory", icon: "🌡️", badge: "Frost Advisory", text: "Frost warning tonight : protect tender annuals and container plants." },
+  { id: 2, type: "info",     icon: "🌧️", badge: "Rain Alert",     text: "Heavy rain expected Thursday : verify downspout extensions are clear." },
 ];
 
 const AI_QUICK_PROMPTS = [
@@ -562,7 +562,7 @@ function UrgentBanner() {
     <div className="urgent-banner">
       <span className="urgent-banner-icon">🚨</span>
       <div className="urgent-banner-body">
-        <div className="urgent-banner-label">Action Required – Foundation Risk</div>
+        <div className="urgent-banner-label">Action Required: Foundation Risk</div>
         <div className="urgent-banner-text">
           <strong>Two downspouts discharge within 18" of the foundation.</strong> This is the highest-priority action on this property. Extend discharge before the next heavy rain.
         </div>
@@ -776,7 +776,7 @@ function WeatherCard() {
           <div className="weather-metric-icon">🌊</div>
           <div className="weather-metric-value" style={{fontSize:"15px",color:"var(--blue)"}}>Low</div>
           <div className="weather-metric-label">Flood Risk</div>
-          <div className="weather-metric-detail">FEMA Zone X – outside 500-yr floodplain</div>
+          <div className="weather-metric-detail">FEMA Zone X : outside 500-yr floodplain</div>
         </div>
         <div className="weather-metric">
           <div className="weather-metric-icon">💨</div>
@@ -997,7 +997,7 @@ function PlantDiagCard() {
         <div className="diag-card coming-soon">
           <div style={{fontSize:"32px"}}>📷</div>
           <div className="coming-soon-label">AI Plant ID</div>
-          <div className="coming-soon-sub">Coming soon – upload a photo to identify plant issues instantly</div>
+          <div className="coming-soon-sub">Coming soon : upload a photo to identify plant issues instantly</div>
         </div>
       </div>
       <ScoreFeed type="engagement" />
@@ -1013,7 +1013,7 @@ function CalendarCard() {
     <div className="card">
       <div className="card-header">
         <div className="card-title">📅 Seasonal Maintenance Calendar</div>
-        <span style={{fontSize:"11.5px",background:"var(--green-pale)",color:"var(--green)",padding:"4px 11px",borderRadius:"8px",fontWeight:600}}>Zone 5A – Lehigh Valley PA</span>
+        <span style={{fontSize:"11.5px",background:"var(--green-pale)",color:"var(--green)",padding:"4px 11px",borderRadius:"8px",fontWeight:600}}>Zone 5A, Lehigh Valley PA</span>
       </div>
       <div className="month-pills">
         {months.map(m => (
