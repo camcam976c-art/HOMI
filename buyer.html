@@ -2141,25 +2141,52 @@ function HomeIntelligenceSnapshot({onOwnerMode,onBuyerMode,onRealtorMode}){
           <div>
             <div style={{fontSize:11,color:C.textMuted,letterSpacing:1.2,marginBottom:6}}>PROPERTY INTELLIGENCE RECORD</div>
             <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:30,fontWeight:700,color:C.green,marginBottom:4}}>{d.address}</h1>
-            <div style={{fontSize:14,color:C.textMuted}}>{d.city} Â· Built {d.built} Â· {d.sqft} sq ft Â· {d.beds}bd / {d.baths}ba</div>
+            <div style={{fontSize:14,color:C.textMuted}}>{d.city} · Built {d.built} · {d.sqft} sq ft · {d.beds}bd / {d.baths}ba</div>
           </div>
-          <div style={{display:"flex",gap:10,flexShrink:0}}>
-            <button onClick={onBuyerMode} style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:11,padding:"9px 18px",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit",color:C.textMid,transition:"all .2s"}}
-              onMouseEnter={e=>e.currentTarget.style.borderColor=C.greenLight} onMouseLeave={e=>e.currentTarget.style.borderColor=C.border}>
-              ð Buyer View
-            </button>
-            <button onClick={onRealtorMode} style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:11,padding:"9px 18px",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit",color:C.textMid,transition:"all .2s"}}
-              onMouseEnter={e=>e.currentTarget.style.borderColor=C.greenLight} onMouseLeave={e=>e.currentTarget.style.borderColor=C.border}>
-              ð· Realtor View
-            </button>
-            <button onClick={onOwnerMode} style={{background:C.green,border:"none",borderRadius:11,padding:"9px 20px",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",color:"white",transition:"all .2s"}}
-              onMouseEnter={e=>e.currentTarget.style.background=C.greenMid} onMouseLeave={e=>e.currentTarget.style.background=C.green}>
-              ð  I Own This Home â
+        </div>
+
+        {/* HERO IMAGE + SCORE PANEL */}
+        <div style={{display:"grid",gridTemplateColumns:"1fr 280px",borderRadius:16,overflow:"hidden",border:"1px solid "+C.border,marginBottom:16}}>
+          <div style={{position:"relative",height:280,background:C.greenPale,overflow:"hidden"}}>
+            <img src="/hero-house.jpg" alt={d.address} style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 30%"}}
+              onError={e=>{e.currentTarget.parentElement.style.background="linear-gradient(160deg,"+C.greenPale+" 0%,"+C.green+" 100%)";e.currentTarget.style.display="none";}}/>
+          </div>
+          <div style={{background:C.white,padding:"20px 18px",display:"flex",flexDirection:"column",gap:10,borderLeft:"1px solid "+C.border}}>
+            <div style={{textAlign:"center",paddingBottom:10,borderBottom:"1px solid "+C.border}}>
+              <div style={{width:76,height:76,borderRadius:"50%",border:"6px solid "+C.creamDark,borderTopColor:C.gold,borderRightColor:C.gold,borderBottomColor:C.gold,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 6px",flexDirection:"column"}}>
+                <span style={{fontSize:24,fontWeight:700,color:C.green,lineHeight:1}}>{SCORE_RESULT.composite}</span>
+                <span style={{fontSize:9,color:C.textMuted}}>/100</span>
+              </div>
+              <div style={{fontSize:14,fontWeight:700,color:C.green}}>Fair condition</div>
+              <div style={{fontSize:11,color:C.textMuted,marginTop:1}}>+4 pts vs 6 months ago</div>
+              <div style={{display:"flex",gap:5,justifyContent:"center",marginTop:6,flexWrap:"wrap"}}>
+                <span style={{fontSize:10,background:C.greenPale,color:C.greenMid,padding:"2px 7px",borderRadius:5}}>Verified {SCORE_RESULT.verified}</span>
+                <span style={{fontSize:10,background:"#FAEEDA",color:"#633806",padding:"2px 7px",borderRadius:5}}>+{SCORE_RESULT.ownerBoost} owner</span>
+              </div>
+            </div>
+            <div style={{fontSize:10,color:C.textMuted,fontWeight:600,letterSpacing:.06,marginBottom:4}}>TOP RISKS</div>
+            <div style={{display:"flex",alignItems:"center",gap:7,fontSize:12,fontWeight:600,color:C.textMid}}>
+              <div style={{width:8,height:8,borderRadius:"50%",background:C.red,flexShrink:0}}/>Water Heater — 9/12 yrs
+            </div>
+            <div style={{filter:"blur(3px)",userSelect:"none",pointerEvents:"none",fontSize:12,color:C.textMuted}}>
+              <div style={{display:"flex",alignItems:"center",gap:7}}><div style={{width:8,height:8,borderRadius:"50%",background:C.amber,flexShrink:0}}/>Roof — repair window 2027</div>
+            </div>
+            <div style={{fontSize:10,color:C.textMuted,textAlign:"right"}}>+2 more hidden</div>
+            <button style={{background:C.green,color:"#fff",border:"none",borderRadius:10,padding:"9px 12px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",marginTop:"auto"}}>
+              See all risks and costs — $10
             </button>
           </div>
         </div>
 
-        {/* Score + cost + flags row */}
+        {/* NARRATIVE BAR */}
+        <div style={{background:C.white,borderLeft:"3px solid "+C.gold,borderRadius:"0 10px 10px 0",padding:"12px 16px",marginBottom:20,fontSize:13,color:C.textMid,lineHeight:1.65,boxShadow:"0 1px 4px rgba(0,0,0,.06)"}}>
+          This home looks <strong style={{color:C.green}}>move-in ready</strong> — but has <strong style={{color:C.red}}>3 hidden risks</strong>, including an aging water heater nearing end of life.
+          Expect <strong style={{color:C.gold}}>$1,250–$2,450</strong> in maintenance costs over the next 12 months.
+          <br/><strong>This home</strong> may require moderate investment in the next 3–5 years. <span style={{color:C.gold,fontWeight:600,cursor:"pointer",borderBottom:"1px solid "+C.gold+"66"}}>Unlock the full story →</span>
+        </div>
+
+        {/* placeholder */}
+        <div style={{display:"none"}}{/* Score + cost + flags row */}
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:18,animation:"fadeUp .4s ease .08s both",alignItems:"start"}}>
           {/* Score */}
           <TwoLayerScoreCard compact={true}/>
@@ -2167,93 +2194,117 @@ function HomeIntelligenceSnapshot({onOwnerMode,onBuyerMode,onRealtorMode}){
           {/* Cost forecast */}
           <div className="card" style={{padding:24}}>
             <div style={{fontSize:11,color:C.textMuted,letterSpacing:1,marginBottom:14}}>ESTIMATED FUTURE COSTS</div>
-            {[{label:"Next 12 months",low:1250,high:2450,color:C.red,pct:20},{label:"3-year outlook",low:4850,high:9800,color:C.amber,pct:50},{label:"5-year outlook",low:13400,high:24000,color:C.gold,pct:75},{label:"10-year outlook",low:38200,high:58000,color:C.green,pct:100}].map(row=>(
-              <div key={row.label} style={{marginBottom:12}}>
-                <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}>
-                  <span style={{fontSize:12,color:C.textMid,fontWeight:500}}>{row.label}</span>
-                  <span style={{fontSize:13,fontWeight:700,color:row.color}}>${row.low.toLocaleString()} - ${row.high.toLocaleString()}</span>
-                </div>
-                <div style={{height:6,background:C.creamDark,borderRadius:3,overflow:"hidden"}}>
-                  <div style={{width:`${row.pct}%`,height:"100%",background:`linear-gradient(90deg,${row.color}66,${row.color})`,borderRadius:3}}/>
-                </div>
+            <div style={{marginBottom:10}}>
+              <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+                <span style={{fontSize:12,color:C.textMid,fontWeight:500}}>Next 12 months</span>
+                <span style={{fontSize:13,fontWeight:700,color:C.red}}>$1,250 – $2,450</span>
               </div>
-            ))}
-            <div style={{marginTop:14,padding:"10px 14px",background:C.greenPale,borderRadius:10,fontSize:12,color:C.greenMid,fontWeight:600}}>
-              ð¡ Zillow tells you what it costs today. HOMI tells you what it'll cost tomorrow.
+              <div style={{height:6,background:C.creamDark,borderRadius:3,overflow:"hidden"}}>
+                <div style={{width:"20%",height:"100%",background:"linear-gradient(90deg,"+C.red+"66,"+C.red+")",borderRadius:3}}/>
+              </div>
+            </div>
+            <div style={{position:"relative",marginTop:4}}>
+              <div style={{filter:"blur(5px)",userSelect:"none",pointerEvents:"none"}}>
+                {[{label:"3-year outlook",val:"$4,850 – $9,800",pct:"50%",color:C.amber},{label:"5-year outlook",val:"$13,400 – $24,000",pct:"75%",color:C.gold},{label:"10-year outlook",val:"$38,200 – $58,000",pct:"100%",color:C.green}].map(r=>(
+                  <div key={r.label} style={{marginBottom:8}}>
+                    <div style={{display:"flex",justifyContent:"space-between",marginBottom:3}}>
+                      <span style={{fontSize:12,color:C.textMid}}>{r.label}</span>
+                      <span style={{fontSize:13,fontWeight:700,color:r.color}}>{r.val}</span>
+                    </div>
+                    <div style={{height:6,background:C.creamDark,borderRadius:3,overflow:"hidden"}}>
+                      <div style={{width:r.pct,height:"100%",background:r.color,borderRadius:3}}/>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <button style={{background:C.green,color:"#fff",border:"none",borderRadius:20,padding:"6px 14px",fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:6}}>
+                  Unlock 3 / 5 / 10yr forecast →
+                </button>
+              </div>
             </div>
           </div>
-
-          {/* Risk flags */}
+                    {/* Risk flags */}
           <div className="card" style={{padding:24}}>
-            <div style={{fontSize:11,color:C.textMuted,letterSpacing:1,marginBottom:14}}>RISK FLAGS</div>
-            {d.flags.map((f,i)=>(
-              <div key={i} style={{display:"flex",gap:12,padding:"12px 14px",background:f.color===C.red?C.redPale:C.amberPale,borderRadius:12,marginBottom:10,borderLeft:`3px solid ${f.color}`}}>
-                <div style={{width:8,height:8,borderRadius:"50%",background:f.color,marginTop:4,flexShrink:0}}/>
-                <div>
-                  <div style={{fontSize:13,fontWeight:700,color:f.color}}>{f.label}</div>
-                  <div style={{fontSize:12,color:C.textMid,marginTop:2,lineHeight:1.5}}>{f.note}</div>
+            <div style={{fontSize:11,color:C.textMuted,letterSpacing:1,marginBottom:14}}>TOP RISKS</div>
+            <div style={{display:"flex",gap:10,padding:"10px 12px",background:C.redPale,borderRadius:10,marginBottom:10,borderLeft:"3px solid "+C.red}}>
+              <div style={{width:8,height:8,borderRadius:"50%",background:C.red,marginTop:4,flexShrink:0}}/>
+              <div>
+                <div style={{fontSize:13,fontWeight:700,color:C.textMid,marginBottom:2}}>Water Heater</div>
+                <div style={{fontSize:12,color:C.textMuted}}>Replacement likely within 18 months</div>
+              </div>
+            </div>
+            <div style={{position:"relative"}}>
+              <div style={{filter:"blur(4px)",userSelect:"none",pointerEvents:"none"}}>
+                <div style={{display:"flex",gap:10,padding:"10px 12px",background:C.amberPale,borderRadius:10,marginBottom:8,borderLeft:"3px solid "+C.amber}}>
+                  <div style={{width:8,height:8,borderRadius:"50%",background:C.amber,marginTop:4}}/>
+                  <div><div style={{fontSize:13,fontWeight:700,color:C.textMid}}>Roof</div><div style={{fontSize:12,color:C.textMuted}}>Entering repair window by 2027</div></div>
+                </div>
+                <div style={{display:"flex",gap:10,padding:"10px 12px",background:C.amberPale,borderRadius:10,borderLeft:"3px solid "+C.amber}}>
+                  <div style={{width:8,height:8,borderRadius:"50%",background:C.amber,marginTop:4}}/>
+                  <div><div style={{fontSize:13,fontWeight:700,color:C.textMid}}>Electrical</div><div style={{fontSize:12,color:C.textMuted}}>Panel inspection overdue</div></div>
                 </div>
               </div>
-            ))}
-            <div style={{padding:"11px 14px",background:C.greenPale,borderRadius:12,borderLeft:`3px solid ${C.greenMid}`}}>
-              <div style={{fontSize:12,fontWeight:600,color:C.greenMid}}>4 systems in good health</div>
-              <div style={{fontSize:11,color:C.textMuted,marginTop:2}}>Plumbing, HVAC, Exterior, Landscaping on track</div>
+              <div style={{position:"absolute",top:0,right:0,bottom:0,display:"flex",alignItems:"center",justifyContent:"flex-end",paddingRight:4}}>
+                <button style={{background:C.creamDark,color:C.textMuted,border:"none",borderRadius:12,padding:"3px 10px",fontSize:10,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>+2 hidden</button>
+              </div>
+            </div>
+            <div style={{display:"flex",gap:10,padding:"10px 12px",background:C.greenPale,borderRadius:10,marginTop:10,borderLeft:"3px solid "+C.greenLight}}>
+              <div style={{width:8,height:8,borderRadius:"50%",background:C.greenLight,marginTop:4,flexShrink:0}}/>
+              <div><div style={{fontSize:12,fontWeight:700,color:C.greenMid}}>4 systems healthy</div><div style={{fontSize:11,color:C.textMuted}}>Plumbing, HVAC, Exterior, Landscaping</div></div>
+            </div>
+            <button style={{background:C.green,color:"#fff",border:"none",borderRadius:10,padding:"9px 14px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",width:"100%",marginTop:14}}>
+              See all risks and costs — $10
+            </button>
+          </div>
+                  {/* System lifecycle grid */}
+        <div style={{marginTop:24}}>
+          <div style={{fontSize:12,color:C.textMuted,fontWeight:600,letterSpacing:.06,textTransform:"uppercase",marginBottom:10}}>System Lifecycle Intelligence</div>
+          <div className="card" style={{padding:20,position:"relative",overflow:"hidden"}}>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:10,filter:"blur(4px)",userSelect:"none",pointerEvents:"none"}}>
+              {[{n:"Roof",p:84,c:C.red},{n:"HVAC",p:60,c:C.amber},{n:"Water Htr",p:58,c:C.amber},{n:"Electrical",p:53,c:C.amber},{n:"Plumbing",p:53,c:C.greenLight},{n:"Exterior",p:70,c:C.amber},{n:"Landscape",p:21,c:C.greenLight}].map(s=>(
+                <div key={s.n} style={{textAlign:"center"}}>
+                  <div style={{fontSize:10,color:C.textMuted,marginBottom:4}}>{s.n}</div>
+                  <div style={{height:48,background:C.creamDark,borderRadius:4,position:"relative",overflow:"hidden"}}>
+                    <div style={{position:"absolute",bottom:0,left:0,right:0,height:s.p+"%",background:s.c,borderRadius:4}}/>
+                  </div>
+                  <div style={{fontSize:10,marginTop:3,fontWeight:600,color:s.c}}>{s.p}%</div>
+                </div>
+              ))}
+            </div>
+            <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:"rgba(250,246,240,.75)",gap:6}}>
+              <div style={{fontSize:13,color:C.textMid,fontWeight:600}}>🔒 Know what will break — and when — before you buy</div>
+              <button style={{background:C.green,color:"#fff",border:"none",borderRadius:10,padding:"10px 24px",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",marginTop:4}}>
+                Unlock full lifecycle — $10
+              </button>
             </div>
           </div>
         </div>
-
-        {/* System lifecycle grid */}
-        <div style={{animation:"fadeUp .4s ease .16s both"}}>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-            <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:20,color:C.green}}>System Lifecycle Intelligence</h2>
-            <div style={{fontSize:12,color:C.textMuted}}>Click any system for details</div>
-          </div>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:10}}>
-            {d.systems.map((sys,i)=>{
-              const pct=Math.min(100,Math.round(((2025-sys.installed)/sys.lifespan)*100));
-              const sc=stC[sys.status];
-              const isActive=activeSystem===i;
-              return(
-                <div key={i} onClick={()=>setActiveSystem(isActive?null:i)} style={{background:isActive?C.green:C.white,border:`1.5px solid ${isActive?C.green:sc.bg}`,borderRadius:14,padding:"14px 10px",textAlign:"center",cursor:"pointer",transition:"all .2s",boxShadow:isActive?"0 4px 18px rgba(28,74,46,.2)":"none"}}>
-                  <div style={{width:38,height:38,borderRadius:11,background:isActive?"rgba(255,255,255,0.15)":sc.bg,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 8px"}}>
-                    <Icon name={sys.icon} size={20} color={isActive?"white":sc.color}/>
+                <div style={{marginTop:24}}>
+          <div style={{fontSize:12,color:C.textMuted,fontWeight:600,letterSpacing:.06,textTransform:"uppercase",marginBottom:10}}>Recommended Next Actions</div>
+          <div className="card" style={{padding:0,overflow:"hidden"}}>
+            <div style={{display:"flex",alignItems:"center",gap:12,padding:"12px 16px",borderBottom:"1px solid "+C.border}}>
+              <div style={{width:8,height:8,borderRadius:"50%",background:C.red,flexShrink:0}}/>
+              <span style={{fontSize:13,color:C.textMid,flex:1}}>Replace HVAC filter — overdue</span>
+              <span style={{fontSize:10,fontWeight:700,background:C.redPale,color:C.red,padding:"3px 9px",borderRadius:8}}>Act now</span>
+            </div>
+            <div style={{position:"relative"}}>
+              <div style={{filter:"blur(4px)",userSelect:"none",pointerEvents:"none"}}>
+                {d.actions.slice(1).map((a,i)=>(
+                  <div key={i} style={{display:"flex",alignItems:"center",gap:12,padding:"10px 16px",borderBottom:"1px solid "+C.border}}>
+                    <div style={{width:8,height:8,borderRadius:"50%",background:a.urgency==="now"?C.red:C.amber,flexShrink:0}}/>
+                    <span style={{fontSize:13,color:C.textMid,flex:1}}>{a.text}</span>
+                    <span style={{fontSize:10,fontWeight:700,background:a.urgency==="now"?C.redPale:C.amberPale,color:a.urgency==="now"?C.red:C.amber,padding:"3px 9px",borderRadius:8}}>{a.urgency==="now"?"Act Now":"Up Next"}</span>
                   </div>
-                  <div style={{fontSize:11,fontWeight:700,color:isActive?"white":C.text,lineHeight:1.3,marginBottom:6}}>{sys.name}</div>
-                  <div style={{height:4,background:isActive?"rgba(255,255,255,0.2)":C.creamDark,borderRadius:2,overflow:"hidden",marginBottom:5}}>
-                    <div style={{width:`${pct}%`,height:"100%",background:isActive?C.goldLight:pct>80?C.red:pct>55?C.amber:C.greenMid,borderRadius:2}}/>
-                  </div>
-                  <div style={{fontSize:10,color:isActive?"rgba(255,255,255,0.7)":sc.color,fontWeight:600}}>{pct}% used</div>
-                </div>
-              );
-            })}
-          </div>
-          {activeSystem!==null&&(()=>{
-            const sys=d.systems[activeSystem];const sc=stC[sys.status];const pct=Math.min(100,Math.round(((2025-sys.installed)/sys.lifespan)*100));
-            return(
-              <div style={{marginTop:12,background:C.green,borderRadius:14,padding:22,color:"white",display:"grid",gridTemplateColumns:"1fr 1fr 1fr 1fr",gap:16,animation:"fadeUp .25s ease"}}>
-                <div><div style={{fontSize:10,opacity:.6,marginBottom:5}}>INSTALLED</div><div style={{fontSize:18,fontWeight:700,fontFamily:"'Playfair Display',serif"}}>{sys.installed}</div><div style={{fontSize:11,opacity:.65,marginTop:1}}>{2025-sys.installed} years ago</div></div>
-                <div><div style={{fontSize:10,opacity:.6,marginBottom:5}}>LIFECYCLE USED</div><div style={{fontSize:18,fontWeight:700,fontFamily:"'Playfair Display',serif",color:pct>80?C.goldLight:pct>55?"#FFD580":"#86efac"}}>{pct}%</div><div style={{fontSize:11,opacity:.65,marginTop:1}}>of ~{sys.lifespan}-year lifespan</div></div>
-                <div><div style={{fontSize:10,opacity:.6,marginBottom:5}}>NEXT WINDOW</div><div style={{fontSize:16,fontWeight:700,fontFamily:"'Playfair Display',serif",color:C.goldLight}}>{sys.nextWindow}</div><div style={{fontSize:11,opacity:.65,marginTop:1}}>{sys.status==="urgent"?"Act soon":sys.status==="attention"?"Plan ahead":"On track"}</div></div>
-                <div><div style={{fontSize:10,opacity:.6,marginBottom:5}}>REPLACEMENT EST.</div><div style={{fontSize:16,fontWeight:700,fontFamily:"'Playfair Display',serif",color:C.goldLight}}>{sys.replaceCost}</div><div style={{fontSize:11,opacity:.65,marginTop:1}}>installed, Allentown PA</div></div>
+                ))}
               </div>
-            );
-          })()}
+              <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(250,246,240,.6)"}}>
+                <span style={{background:C.creamDark,color:C.textMuted,fontSize:11,fontWeight:600,padding:"4px 12px",borderRadius:10}}>+3 actions unlocked with full report</span>
+              </div>
+            </div>
+          </div>
         </div>
-
-        {/* Next actions + ownership CTA */}
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:18,animation:"fadeUp .4s ease .24s both"}}>
-          <div className="card" style={{padding:22}}>
-            <h3 style={{fontFamily:"'Playfair Display',serif",fontSize:17,color:C.green,marginBottom:14}}>Recommended Next Actions</h3>
-            {d.actions.map((a,i)=>(
-              <div key={i} style={{display:"flex",alignItems:"center",gap:12,padding:"10px 12px",borderRadius:10,background:C.cream,marginBottom:8}}>
-                <div style={{width:8,height:8,borderRadius:"50%",background:a.urgency==="now"?C.red:C.amber,flexShrink:0}}/>
-                <span style={{fontSize:13,color:C.textMid,flex:1}}>{a.text}</span>
-                <span style={{fontSize:10,fontWeight:700,background:a.urgency==="now"?C.redPale:C.amberPale,color:a.urgency==="now"?C.red:C.amber,padding:"2px 9px",borderRadius:8}}>{a.urgency==="now"?"Act Now":"Up Next"}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Ownership CTA */}
+        {/* Ownership CTA */}
           <div style={{background:`linear-gradient(135deg,${C.green},${C.greenMid})`,borderRadius:18,padding:26,color:"white",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
             <div>
               <div style={{fontSize:11,opacity:.65,letterSpacing:1,marginBottom:8}}>THIS IS YOUR HOME?</div>
@@ -4474,15 +4525,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </style>
 <div id="homi-sticky">
   <div class="hs-left">
-    <span style="font-size:22px">&#127968;</span>
+    <span style="font-size:16px;">⚠️</span>
     <div>
-      <div class="hs-label">42 Maple Street - HOMI Report</div>
-      <div class="hs-sub">Score 68 Â Â·Â  $18,400 projected Â Â·Â  Moderate Risk</div>
+      <div class="hs-label">3 risks flagged &nbsp;&middot;&nbsp; $1,250&ndash;$2,450 <strong>expected</strong></div>
+      <div class="hs-sub">142 Maple Ridge Drive &nbsp;&middot;&nbsp; HOMI Report</div>
     </div>
   </div>
   <div class="hs-actions">
-    <button class="hs-share" onclick="if(navigator.share){navigator.share({title:'HOMI Report',text:'42 Maple Street cost analysis',url:window.location.href})}else{navigator.clipboard.writeText(window.location.href).then(()=>alert('Link copied!'))}">&#128228; Share this Report</button>
-    <button class="hs-compare" onclick="alert('Compare feature coming soon - enter a second address to run side-by-side cost analysis.')">Compare Another Home</button>
+    <button class="hs-share">See the real cost of this home &nbsp;&mdash;&nbsp; $10 &#9654;</button>
   </div>
 </div>
 
