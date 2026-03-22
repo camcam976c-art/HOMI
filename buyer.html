@@ -355,7 +355,7 @@ function ProviderModal({provider,onClose}){
       <div style={{background:C.white,borderRadius:20,padding:32,maxWidth:420,width:"90%",boxShadow:"0 20px 60px rgba(0,0,0,0.2)",animation:"fadeUp .25s ease"}} onClick={e=>e.stopPropagation()}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:20}}>
           <div>
-            <div className="pill" style={{background:provider.badge==="HOMI Preferred"?C.greenPale:C.amberPale,color:provider.badge==="HOMI Preferred"?C.greenMid:C.amber,marginBottom:8}}>â­ {provider.badge}</div>
+            <div className="pill" style={{background:provider.badge==="HOMI Preferred"?C.greenPale:C.amberPale,color:provider.badge==="HOMI Preferred"?C.greenMid:C.amber,marginBottom:8}}>⭐ {provider.badge}</div>
             <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:20,color:C.green}}>{provider.name}</h2>
             <div style={{fontSize:12,color:C.textMuted,marginTop:3}}>{provider.service} · {provider.dist} away</div>
           </div>
@@ -718,7 +718,7 @@ function HomeownerDashboard(){
                 <div key={i} className="provider-card" onClick={()=>setSelProvider(p)} style={{animation:`fadeUp .4s ease ${i*.07}s both`}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
                     <div>
-                      <div className="pill" style={{background:p.badge==="HOMI Preferred"?C.greenPale:C.amberPale,color:p.badge==="HOMI Preferred"?C.greenMid:C.amber,marginBottom:6}}>{p.badge==="HOMI Preferred"?"ð":p.badge==="Highly Rated"?"â­":"â"} {p.badge}</div>
+                      <div className="pill" style={{background:p.badge==="HOMI Preferred"?C.greenPale:C.amberPale,color:p.badge==="HOMI Preferred"?C.greenMid:C.amber,marginBottom:6}}>{p.badge==="HOMI Preferred"?"ð":p.badge==="Highly Rated"?"⭐":"â"} {p.badge}</div>
                       <div style={{fontFamily:"'Playfair Display',serif",fontSize:16,fontWeight:700,color:C.green}}>{p.name}</div>
                       <div style={{fontSize:12,color:C.textMuted,marginTop:2}}>{p.service} · {p.dist} away</div>
                     </div>
@@ -2111,7 +2111,7 @@ function SnapshotEntry({onEnter}){
       </div>
       {/* Social proof */}
       <div style={{display:"flex",gap:28,marginTop:44,animation:"fadeUp .6s ease .35s both"}}>
-        {[["🏠","47,000+","Property records"],["🔍","$2.3B","In lifecycle costs tracked"],["â­","4.9/5","Homeowner rating"]].map(([icon,val,label])=>(
+        {[["🏠","47,000+","Property records"],["🔍","$2.3B","In lifecycle costs tracked"],["⭐","4.9/5","Homeowner rating"]].map(([icon,val,label])=>(
           <div key={label} style={{textAlign:"center"}}>
             <div style={{fontSize:18,marginBottom:4}}>{icon}</div>
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:20,fontWeight:700,color:C.goldLight}}>{val}</div>
