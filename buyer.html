@@ -2154,13 +2154,13 @@ function HomeIntelligenceSnapshot({onOwnerMode,onBuyerMode,onRealtorMode}){
           <div style={{background:C.white,padding:"20px 18px",display:"flex",flexDirection:"column",gap:10,borderLeft:"1px solid "+C.border}}>
             <div style={{textAlign:"center",paddingBottom:10,borderBottom:"1px solid "+C.border}}>
               <div style={{width:76,height:76,borderRadius:"50%",border:"6px solid "+C.creamDark,borderTopColor:C.gold,borderRightColor:C.gold,borderBottomColor:C.gold,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 6px",flexDirection:"column"}}>
-                <span style={{fontSize:24,fontWeight:700,color:C.green,lineHeight:1}}>{SCORE_RESULT.composite}</span>
+                <span style={{fontSize:24,fontWeight:700,color:C.green,lineHeight:1}}>{SCORE_RESULT.oes}</span>
                 <span style={{fontSize:9,color:C.textMuted}}>/100</span>
               </div>
               <div style={{fontSize:14,fontWeight:700,color:C.green}}>Fair condition</div>
               <div style={{fontSize:11,color:C.textMuted,marginTop:1}}>+4 pts vs 6 months ago</div>
               <div style={{display:"flex",gap:5,justifyContent:"center",marginTop:6,flexWrap:"wrap"}}>
-                <span style={{fontSize:10,background:C.greenPale,color:C.greenMid,padding:"2px 7px",borderRadius:5}}>Verified {SCORE_RESULT.verified}</span>
+                <span style={{fontSize:10,background:C.greenPale,color:C.greenMid,padding:"2px 7px",borderRadius:5}}>Verified {SCORE_RESULT.vis}</span>
                 <span style={{fontSize:10,background:"#FAEEDA",color:"#633806",padding:"2px 7px",borderRadius:5}}>+{SCORE_RESULT.ownerBoost} owner</span>
               </div>
             </div>
@@ -3984,7 +3984,7 @@ function PropertyPassport(){
                   {label:"Verified Intelligence Score", value:vis,           color:C.greenMid, bar:true,  sub:"Inspector Â· provider Â· permit data"},
                   {label:"Owner Enhanced Score",         value:oes,           color:scoreColor,  bar:true,  sub:`Includes +${ownerBoost.toFixed(1)} pts owner evidence`},
                   {label:"Score Confidence",             value:confLabel,     color:confColor,   bar:false, sub:"Freshness Ã verification quality"},
-                  {label:"Verification Coverage",        value:verifCoverage+"%",color:C.blue,  bar:true,  sub:`${SCORE_RESULT.verifiedSystemCount} of ${D.systems.length} systems verified`},
+                  {label:"Verification Coverage",        value:verifCoverage+"%",color:C.blue,  bar:true,  sub:`${SCORE_RESULT.visSystemCount} of ${D.systems.length} systems verified`},
                 ].map(row=>(
                   <div key={row.label} style={{display:"flex",alignItems:"center",gap:10}}>
                     <div style={{minWidth:180}}>
