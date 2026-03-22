@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>HOMI: The Credit Score for Homes</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<title>HOMI - The Credit Score for Homes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:#FAF6F0;color:#1A1A1A;}
@@ -12,70 +12,81 @@ a{text-decoration:none;}
 
 /* NAV */
 nav{background:#fff;border-bottom:1px solid #E4DDD3;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-.logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#1C4A2E;letter-spacing:-0.5px;}
-.logo span{color:#C9963A;}
 .nav-tag{font-size:11px;font-weight:700;background:#D8F3DC;color:#1C4A2E;padding:4px 12px;border-radius:20px;letter-spacing:.4px;}
 
 /* HERO */
-.hero{padding:80px 40px 60px;text-align:center;max-width:800px;margin:0 auto;}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;background:#FDF3E0;color:#C9963A;border:1px solid rgba(201,150,58,.3);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;margin-bottom:24px;}
-.hero h1{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;color:#1C4A2E;line-height:1.15;margin-bottom:20px;}
-.hero h1 span{color:#C9963A;}
-.hero p{font-size:18px;color:#3A3A3A;line-height:1.75;margin-bottom:36px;max-width:620px;margin-left:auto;margin-right:auto;}
-.hero-cta{display:inline-flex;align-items:center;gap:8px;background:#1C4A2E;color:#fff;padding:14px 32px;border-radius:12px;font-size:15px;font-weight:600;letter-spacing:.2px;transition:all .2s;}
-.hero-cta:hover{background:#2D6A4F;transform:translateY(-1px);box-shadow:0 4px 14px rgba(28,74,46,.25);}
+.hero{padding:88px 40px 80px;text-align:center;max-width:820px;margin:0 auto;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:#FDF3E0;color:#C9963A;border:1px solid rgba(201,150,58,.3);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;letter-spacing:.6px;margin-bottom:28px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:46px;font-weight:700;color:#1C4A2E;line-height:1.2;margin-bottom:22px;}
+.hero h1 .accent{color:#C9963A;}
+.hero-sub{font-size:18px;color:#8A8A8A;line-height:1.7;}
 
-/* WHAT IS HOMI */
-.section{padding:60px 40px;max-width:1000px;margin:0 auto;}
-.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#8A8A8A;margin-bottom:12px;text-align:center;}
-.section h2{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:#1C4A2E;margin-bottom:16px;text-align:center;}
-.section p{font-size:16px;color:#8A8A8A;line-height:1.8;max-width:700px;text-align:center;margin:0 auto;}
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 40px 64px;max-width:1000px;margin:0 auto;}
+.stat-card{background:#fff;border:1px solid #E4DDD3;border-radius:16px;padding:32px 20px;text-align:center;}
+.stat-num{font-family:'Playfair Display',serif;font-size:44px;font-weight:700;color:#1C4A2E;margin-bottom:10px;line-height:1;}
+.stat-label{font-size:13px;color:#8A8A8A;line-height:1.65;}
 
-/* STATS ROW */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:0 40px 60px;max-width:1000px;margin:0 auto;}
-.stat-card{background:#fff;border:1px solid #E4DDD3;border-radius:18px;padding:28px;text-align:center;}
-.stat-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:#1C4A2E;margin-bottom:6px;}
-.stat-label{font-size:13px;color:#8A8A8A;line-height:1.5;}
+/* TENSION */
+.tension{padding:64px 40px 64px;text-align:center;max-width:680px;margin:0 auto;}
+.tension p{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#1C4A2E;line-height:1.52;}
+.tension p strong{color:#C9963A;font-style:normal;font-weight:700;}
 
-/* PLATFORM VIEWS */
-.views-section{padding:20px 40px 60px;max-width:1000px;margin:0 auto;}
-.views-section h2{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:#1C4A2E;margin-bottom:8px;}
-.views-section .sub{font-size:15px;color:#8A8A8A;margin-bottom:36px;}
-.views-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-.view-card{background:#fff;border:1px solid #E4DDD3;border-radius:18px;padding:24px;transition:all .2s;cursor:pointer;}
-.view-card:hover{border-color:#52B788;transform:translateY(-2px);box-shadow:0 8px 24px rgba(28,74,46,.08);}
-.view-icon{font-size:28px;margin-bottom:12px;}
-.view-title{font-size:15px;font-weight:700;color:#1C4A2E;margin-bottom:6px;}
-.view-desc{font-size:13px;color:#8A8A8A;line-height:1.6;margin-bottom:16px;}
-.view-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#1C4A2E;background:#D8F3DC;padding:6px 14px;border-radius:8px;transition:all .15s;}
-.view-link:hover{background:#1C4A2E;color:#fff;}
+/* BRIDGE */
+.bridge{padding:0 40px 80px;text-align:center;max-width:620px;margin:0 auto;}
+.bridge p{font-size:19px;color:#8A8A8A;line-height:1.82;}
 
 /* HOW IT WORKS */
-.how{background:#1C4A2E;padding:60px 40px;text-align:center;}
-.how h2{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:#fff;margin-bottom:12px;}
-.how p{font-size:16px;color:rgba(255,255,255,.8);max-width:600px;margin:0 auto 40px;}
-.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto;}
-.how-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:24px;text-align:left;}
-.how-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:#F0C97A;margin-bottom:10px;}
-.how-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;}
-.how-desc{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;}
+.how{background:#1C4A2E;padding:80px 40px 80px;text-align:center;}
+.how h2{font-family:'Playfair Display',serif;font-size:38px;font-weight:700;color:#fff;margin-bottom:52px;}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto 44px;}
+.how-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px 24px;text-align:left;transition:all .2s;}
+.how-card:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.22);}
+.how-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:#F0C97A;margin-bottom:14px;line-height:1;}
+.how-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px;}
+.how-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.75;}
+.how-footer{font-size:18px;color:rgba(255,255,255,.9);font-style:italic;max-width:520px;margin:0 auto;line-height:1.75;}
 
-/* CARFAX */
-.carfax{padding:60px 40px;max-width:800px;margin:0 auto;text-align:center;}
-.carfax-quote{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:#1C4A2E;line-height:1.6;margin-bottom:20px;font-style:italic;}
-.carfax-sub{font-size:15px;color:#8A8A8A;line-height:1.7;}
+/* PLATFORM VIEWS */
+.views-section{padding:80px 40px;max-width:1000px;margin:0 auto;}
+.views-section h2{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:#1C4A2E;margin-bottom:10px;text-align:center;}
+.views-section .sub{font-size:14px;color:#8A8A8A;margin-bottom:40px;text-align:center;}
+.views-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.view-card{background:#fff;border:1px solid #E4DDD3;border-radius:16px;padding:26px 22px;transition:all .22s;cursor:pointer;display:block;text-decoration:none;}
+.view-card:hover{border-color:#52B788;transform:translateY(-3px);box-shadow:0 10px 32px rgba(28,74,46,.1);}
+.view-icon{font-size:28px;margin-bottom:12px;display:block;}
+.view-title{font-size:14px;font-weight:700;color:#1C4A2E;margin-bottom:6px;}
+.view-desc{font-size:13px;color:#8A8A8A;line-height:1.68;}
+
+/* CLOSING */
+.closing{background:#fff;padding:88px 40px 80px;text-align:center;border-top:1px solid #E4DDD3;}
+.closing-inner{max-width:720px;margin:0 auto;}
+.closing h2{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;color:#1C4A2E;line-height:1.18;margin-bottom:16px;}
+.closing h2 span{color:#C9963A;}
+.closing p{font-size:18px;color:#8A8A8A;line-height:1.75;margin-bottom:48px;}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;background:#1C4A2E;color:#fff;padding:17px 40px;border-radius:12px;font-size:16px;font-weight:600;letter-spacing:.3px;transition:all .2s;}
+.cta-btn:hover{background:#2D6A4F;transform:translateY(-2px);box-shadow:0 6px 24px rgba(28,74,46,.28);}
 
 /* FOOTER */
-footer{background:#fff;border-top:1px solid #E4DDD3;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;}
+footer{background:#FAF6F0;border-top:1px solid #E4DDD3;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;}
 .footer-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#1C4A2E;}
 .footer-info{font-size:13px;color:#8A8A8A;}
 .footer-badge{font-size:11px;font-weight:700;background:#FDF3E0;color:#C9963A;padding:4px 12px;border-radius:20px;}
 
 @media(max-width:700px){
-  .hero h1{font-size:36px;}
-  .stats,.views-grid,.how-grid{grid-template-columns:1fr;}
-  nav{padding:14px 20px;}
-  .section,.views-section,.carfax{padding-left:20px;padding-right:20px;}
+ nav{padding:14px 20px;}
+ .hero{padding:56px 20px 48px;}
+ .hero h1{font-size:30px;}
+ .stats{grid-template-columns:1fr;padding:0 20px 64px;}
+ .tension{padding:48px 20px 48px;}
+ .tension p{font-size:23px;}
+ .bridge{padding:0 20px 60px;}
+ .how{padding:60px 20px 56px;}
+ .how-grid,.views-grid{grid-template-columns:1fr;}
+ .views-section{padding:60px 20px;}
+ .closing{padding:64px 20px 60px;}
+ .closing h2{font-size:36px;}
+ footer{flex-direction:column;gap:12px;text-align:center;padding:20px;}
 }
 </style>
 </head>
@@ -83,120 +94,121 @@ footer{background:#fff;border-top:1px solid #E4DDD3;padding:24px 40px;display:fl
 
 <!-- NAV -->
 <nav>
-  <div class="logo" style="display:flex;align-items:center;gap:8px;"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#1C4A2E"/><path d="M18 7L5.5 17h2.5v11h7v-6.5h6V28h7V17h2.5L18 7Z" stroke="#FAF6F0" stroke-width="1.8" stroke-linejoin="round" fill="none"/><rect x="21.5" y="10" width="2.5" height="4.5" fill="#FAF6F0" rx="0.5"/><path d="M18 24.5c0 0-5-3.5-5-6.5 0-1.7 1.3-3 3-3 .9 0 1.7.5 2 1.2.3-.7 1.1-1.2 2-1.2 1.7 0 3 1.3 3 3 0 3-5 6.5-5 6.5Z" fill="#FAF6F0"/></svg><span style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#1C4A2E;letter-spacing:-0.5px;">HOMI<span style="color:#C9963A;">.</span></span></div>
-  <span class="nav-tag">&#127969; Lifecycle Intelligence for Homes</span>
+ <div style="display:flex;align-items:center;gap:8px;">
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="36" height="36" rx="8" fill="#1C4A2E"/><path d="M18 7L5.5 17h2.5v11h7v-6.5h6V28h7V17h2.5L18 7Z" stroke="#FAF6F0" stroke-width="1.8" stroke-linejoin="round" fill="none"/><rect x="21.5" y="10" width="2.5" height="4.5" fill="#FAF6F0" rx="0.5"/><path d="M18 24.5c0 0-5-3.5-5-6.5 0-1.7 1.3-3 3-3 .9 0 1.7.5 2 1.2.3-.7 1.1-1.2 2-1.2 1.7 0 3 1.3 3 3 0 3-5 6.5-5 6.5Z" fill="#FAF6F0"/></svg>
+  <span style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#1C4A2E;letter-spacing:-0.5px;">HOMI<span style="color:#C9963A;">.</span></span>
+ </div>
+ <span class="nav-tag">&#127969; Know your home. Know your costs.</span>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-badge">&#10022; The Credit Score for Homes</div>
-  <h1>Every home deserves a <span>living record.</span></h1>
-  <p>HOMI tells you what a home will actually cost, before you buy it, and every year after. We give buyers, realtors, inspectors, and homeowners a complete, AI-powered view of a property's health and future expenses.</p>
-  <a href="https://homiplatform.netlify.app/buyer" class="hero-cta">Explore the Platform &#8594;</a>
+ <div class="hero-badge">&#10022; The Credit Score for Homes</div>
+ <h1>Homes are the largest asset most people own. Yet there&rsquo;s still <span class="accent">no system of record</span> for them.</h1>
+ <p class="hero-sub">No history. No clear costs. No way to track anything.</p>
 </div>
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat-card">
-    <div class="stat-num">85M+</div>
-    <div class="stat-label">Owner-occupied homes in the US with no system of record</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-num">$0</div>
-    <div class="stat-label">What homeowners expect things will cost after closing</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-num">$4.4T</div>
-    <div class="stat-label">US residential real estate market, and no predictive cost layer exists yet</div>
-  </div>
+ <div class="stat-card">
+  <div class="stat-num">85M+</div>
+  <div class="stat-label">Homes with no reliable record</div>
+ </div>
+ <div class="stat-card">
+  <div class="stat-num">$88K</div>
+  <div class="stat-label">Spent before most people understand their home</div>
+ </div>
+ <div class="stat-card">
+  <div class="stat-num">$4.4T</div>
+  <div class="stat-label">Market still operating without cost clarity</div>
+ </div>
 </div>
 
-<!-- WHAT IS HOMI -->
-<div class="section">
-  <div class="section-label">The Problem</div>
-  <h2>Homes are the largest asset most people own. Yet there is still no system of record for them.</h2>
-  <p>A car has CARFAX. A home has nothing. Buyers inherit unknown systems. Realtors advise without data. Homeowners guess at maintenance. Inspectors file reports no one can act on. HOMI changes all of that : building a persistent, intelligent record of a property's condition, history, and future needs.</p>
+<!-- TENSION -->
+<div class="tension">
+ <p>You wouldn&rsquo;t buy a used car without a CARFAX. So why are you spending <strong>40x more on a home</strong> with less information?</p>
 </div>
 
-<!-- PLATFORM VIEWS -->
-<div class="views-section">
-  <h2>Six stakeholder views. One platform.</h2>
-  <p class="sub">Click any view to explore the live prototype.</p>
-  <div class="views-grid">
-    <div class="view-card">
-      <div class="view-icon">🏠</div>
-      <div class="view-title">Homeowner Dashboard</div>
-      <div class="view-desc">Track systems, manage tasks, plan spending, and build a documented record of your home's health over time.</div>
-      <a href="https://homiplatform.netlify.app/buyer" class="view-link" target="_blank">Explore →</a>
-      <a href="https://homiplatform.netlify.app/spend-planner" class="view-link" target="_blank" style="margin-top:8px;">Spend Planner →</a>
-    </div>
-    <div class="view-card">
-      <div class="view-icon">🏡</div>
-      <div class="view-title">Realtor Advisory</div>
-      <div class="view-desc">Full property intelligence for agents, neighborhood data, market signals, listing strategy, and AI-powered client advisory.</div>
-      <a href="https://homiplatform.netlify.app/realtor" class="view-link" target="_blank">Explore →</a>
-    </div>
-    <div class="view-card">
-      <div class="view-icon">🔍</div>
-      <div class="view-title">Inspector Platform</div>
-      <div class="view-desc">Structured inspection reports with AI scoring, system health analysis, and shareable findings for buyers and sellers.</div>
-      <a href="https://inspectorview1921.netlify.app/" class="view-link" target="_blank">Explore →</a>
-    </div>
-    <div class="view-card">
-      <div class="view-icon">🔑</div>
-      <div class="view-title">Buyer Intelligence</div>
-      <div class="view-desc">AI-powered buyer reports, home health score, negotiation builder, repair cost estimates, and smart offer guidance.</div>
-      <a href="https://homiplatform.netlify.app/buyer" class="view-link" target="_blank">Explore →</a>
-    </div>
-    <div class="view-card">
-      <div class="view-icon">🏘️</div>
-      <div class="view-title">Partner Intelligence</div>
-      <div class="view-desc">Market data and replacement cycle intelligence for manufacturers, retailers, and service networks.</div>
-      <a href="https://homiplatform.netlify.app/supply-chain" class="view-link" target="_blank">Explore →</a>
-    </div>
-    <div class="view-card">
-      <div class="view-icon">🌿</div>
-      <div class="view-title">Exterior Assessment</div>
-      <div class="view-desc">Visual condition scoring for a property's exterior systems, roof, siding, landscaping, and curb appeal analysis.</div>
-      <a href="https://homiplatform.netlify.app/exterior" class="view-link" target="_blank">Explore →</a>
-    </div>
-  </div>
+<!-- BRIDGE -->
+<div class="bridge">
+ <p>HOMI gives your home a living record, so you always know what it&rsquo;s worth and what it will cost.</p>
 </div>
 
 <!-- HOW IT WORKS -->
 <div class="how">
-  <h2>How HOMI Works</h2>
-  <p>A living record that grows more valuable with every year of homeownership.</p>
-  <div class="how-grid">
-    <div class="how-card">
-      <div class="how-num">01</div>
-      <div class="how-title">At the Transaction</div>
-      <div class="how-desc">Buyers, realtors, and inspectors use HOMI to understand the true condition of a property before closing, not just the listing price.</div>
-    </div>
-    <div class="how-card">
-      <div class="how-num">02</div>
-      <div class="how-title">During Ownership</div>
-      <div class="how-desc">Homeowners track maintenance, plan capital expenditures, and book trusted service providers, building a verified record year over year.</div>
-    </div>
-    <div class="how-card">
-      <div class="how-num">03</div>
-      <div class="how-title">At Resale</div>
-      <div class="how-desc">That record becomes a credible, documented history that supports a stronger asking price and builds buyer trust, just like CARFAX does for cars.</div>
-    </div>
+ <h2>How It Works</h2>
+ <div class="how-grid">
+  <div class="how-card">
+   <div class="how-num">01</div>
+   <div class="how-title">Before You Buy</div>
+   <div class="how-desc">See the real condition and future costs before you commit.</div>
   </div>
+  <div class="how-card">
+   <div class="how-num">02</div>
+   <div class="how-title">While You Own</div>
+   <div class="how-desc">Track everything. Plan ahead. Stay in control.</div>
+  </div>
+  <div class="how-card">
+   <div class="how-num">03</div>
+   <div class="how-title">When You Sell</div>
+   <div class="how-desc">Turn your home&rsquo;s history into proof buyers trust.</div>
+  </div>
+ </div>
+ <p class="how-footer">Your home doesn&rsquo;t stay the same. Neither should your understanding of it.</p>
 </div>
 
-<!-- CARFAX SECTION -->
-<div class="carfax">
-  <div class="carfax-quote">"HOMI is what CARFAX did for vehicle history combined with what Kelley Blue Book did for value visibility, but for the largest asset most people will ever own."</div>
-  <div class="carfax-sub">CARFAX built a $650M business on a data layer for cars. The US housing market is 10x larger, and no equivalent exists. The most valuable product in residential real estate is not the booking or the listing. It is the longitudinal data and trust built over time.</div>
+<!-- PLATFORM VIEWS -->
+<div class="views-section">
+ <h2>Built for everyone who touches the home.</h2>
+ <p class="sub">Explore each view to see how it works.</p>
+ <div class="views-grid">
+  <a href="https://homiplatform.netlify.app/buyer" class="view-card" target="_blank">
+   <span class="view-icon">&#127968;</span>
+   <div class="view-title">Homeowner Dashboard</div>
+   <div class="view-desc">Stay on top of your home, costs, systems, everything.</div>
+  </a>
+  <a href="https://homiplatform.netlify.app/realtor" class="view-card" target="_blank">
+   <span class="view-icon">&#127969;</span>
+   <div class="view-title">Realtor Advisory</div>
+   <div class="view-desc">Give clients insight they can&rsquo;t get anywhere else.</div>
+  </a>
+  <a href="https://homiplatform.netlify.app/inspector" class="view-card" target="_blank">
+   <span class="view-icon">&#128269;</span>
+   <div class="view-title">Inspector Platform</div>
+   <div class="view-desc">Turn reports into decisions people can use.</div>
+  </a>
+  <a href="https://homiplatform.netlify.app/buyer" class="view-card" target="_blank">
+   <span class="view-icon">&#128273;</span>
+   <div class="view-title">Buyer Intelligence</div>
+   <div class="view-desc">Know what a home will cost before you buy it.</div>
+  </a>
+  <a href="https://homiplatform.netlify.app/supply-chain" class="view-card" target="_blank">
+   <span class="view-icon">&#129309;</span>
+   <div class="view-title">Partner Intelligence</div>
+   <div class="view-desc">Understand homes at scale, systems, timelines, value.</div>
+  </a>
+  <a href="https://homiplatform.netlify.app/exterior" class="view-card" target="_blank">
+   <span class="view-icon">&#127807;</span>
+   <div class="view-title">Exterior Assessment</div>
+   <div class="view-desc">See condition, risk, and maintenance in seconds.</div>
+  </a>
+ </div>
+</div>
+
+<!-- CLOSING -->
+<div class="closing">
+ <div class="closing-inner">
+  <h2>Every home deserves a <span>living record.</span></h2>
+  <p>And every homeowner deserves to know what they actually own.</p>
+  <a href="https://homiplatform.netlify.app/buyer" class="cta-btn">See your home&rsquo;s true cost &rarr;</a>
+ </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">HOMI.</div>
-  <div class="footer-info">Allentown, PA · Patent Pending · Trademark Pending · Founded 2025</div>
-  <div class="footer-badge">&#10022; Applying to YC S25</div>
+ <div class="footer-logo">HOMI.</div>
+ <div class="footer-info">Allentown, PA &middot; Patent Pending &middot; Trademark Pending &middot; Founded 2025</div>
+ <div class="footer-badge">&#10022; Applying to YC S25</div>
 </footer>
 
 </body>
