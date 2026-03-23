@@ -6,7 +6,954 @@
   <title>HOMI — Owner Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: #F7F3EE; color: #1C1C1C; min-height: 100vh; }
+    :root {
+      --green: #1C4A2E; --green-mid: #2D6A4F; --green-light: #52B788; --green-pale: #D8F3DC;
+      --cream: #F7F3EE; --cream-dark: #EDE7DD; --gold: #C9963A; --gold-light: #E8B84B;
+      --text: #1C1C1C; --text-mid: #4A4A4A; --text-muted: #8A8A8A; --border: #E0D8CF;
+      --red: #C0392B; --red-pale: #FDEDEC; --amber: #D97706; --amber-pale: #FEF3C7;
+      --sidebar-width: 236px; --topbar-height: 52px;
+      --radius: 14px; --radius-sm: 8px;
+    }
+    #loading { position: fixed; inset: 0; background: var(--green); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+    #loading span { font-family: 'Playfair Display', serif; font-size: 28px; color: white; letter-spacing: 3px; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .app { display: flex; min-height: 100vh; }
+    .sidebar { width: var(--sidebar-width); background: var(--green); color: white; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto; z-index: 100; }
+    .sidebar-brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; padding: 22px 20px 16px; color: white; text-decoration: none; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.1); display: block; }
+    .sidebar-home { padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-home .lbl { font-size: 9px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 4px; }
+    .sidebar-home h2 { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600; color: white; line-height: 1.3; }
+    .sidebar-home p { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+    .alert-pill { display: inline-block; margin-top: 8px; background: var(--red); color: white; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 20px; }
+    .sidebar-nav { flex: 1; padding: 8px; }
+    .nav-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 12px; border: none; background: transparent; color: rgba(255,255,255,0.62); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400; border-radius: 8px; cursor: pointer; text-align: left; transition: all 0.14s; }
+    .nav-btn:hover { background: rgba(255,255,255,0.08); color: white; }
+    .nav-btn.active { background: rgba(255,255,255,0.13); color: white; font-weight: 600; }
+    .nav-btn .sub { font-size: 10px; color: rgba(255,255,255,0.38); display: block; line-height: 1; margin-top: 1px; }
+    .nav-btn.active .sub { color: rgba(255,255,255,0.55); }
+    .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--red); margin-left: auto; flex-shrink: 0; }
+    .nav-icon { width: 16px; text-align: center; font-size: 14px; flex-shrink: 0; }
+    .sidebar-score { padding: 14px 20px 18px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-score .lbl { font-size: 9px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 10px; }
+    .score-wrap { display: flex; align-items: center; gap: 12px; }
+    .main { margin-left: var(--sidebar-width); flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .topbar { background: white; border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: var(--topbar-height); position: sticky; top: 0; z-index: 90; }
+    .topbar-nav { display: flex; gap: 2px; }
+    .topbar-link { font-size: 12px; color: var(--text-muted); text-decoration: none; padding: 5px 10px; border-radius: 6px; font-weight: 400; transition: all 0.12s; }
+    .topbar-link:hover { background: var(--cream-dark); color: var(--text); }
+    .topbar-link.active { background: var(--green-pale); color: var(--green); font-weight: 600; }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .profile { font-size: 11px; color: var(--text-muted); }
+    .content { flex: 1; padding: 24px 28px 80px; }
+    .card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; }
+    .card-amber { background: #FFFBF2; border-color: var(--amber); }
+    .card-dark { background: var(--green); color: white; border-color: var(--green); }
+    .card-green-soft { background: #F0F9F4; border-color: var(--green-light); }
+    .eyebrow { font-size: 9px; text-transform: uppercase; letter-spacing: 1.4px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
+    .eyebrow-g { color: var(--green-mid); }
+    .eyebrow-gold { color: var(--gold); }
+    .serif { font-family: 'Playfair Display', serif; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; padding: 8px 18px; border-radius: var(--radius-sm); border: none; cursor: pointer; text-decoration: none; transition: all 0.14s; white-space: nowrap; }
+    .btn-primary { background: var(--green); color: white; }
+    .btn-primary:hover { background: var(--green-mid); }
+    .btn-secondary { background: var(--cream-dark); color: var(--green); }
+    .btn-secondary:hover { background: var(--border); }
+    .btn-gold { background: var(--gold); color: white; }
+    .btn-gold:hover { background: var(--gold-light); }
+    .btn-sm { padding: 6px 14px; font-size: 12px; }
+    .badge { display: inline-flex; align-items: center; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .badge-danger { background: var(--red-pale); color: var(--red); }
+    .badge-warning { background: var(--amber-pale); color: var(--amber); }
+    .badge-success { background: var(--green-pale); color: var(--green-mid); }
+    .badge-gold { background: var(--gold); color: white; font-size: 11px; padding: 4px 10px; }
+    .meter { height: 6px; background: var(--cream-dark); border-radius: 10px; overflow: hidden; margin: 6px 0; }
+    .meter-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease; }
+    .fill-green { background: var(--green-light); }
+    .fill-amber { background: var(--amber); }
+    .fill-red { background: var(--red); }
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+    .stat-card strong { display: block; font-family: 'Playfair Display', serif; font-size: 24px; color: var(--green); line-height: 1; margin-top: 2px; }
+    .stat-card .sub { font-size: 11px; color: var(--text-muted); margin-top: 3px; display: block; }
+    .sh { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
+    .task-list { list-style: none; }
+    .task-item { display: flex; align-items: flex-start; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--border); gap: 12px; }
+    .task-item:last-child { border-bottom: none; }
+    .task-item input[type=checkbox] { margin-top: 2px; accent-color: var(--green); width: 15px; height: 15px; flex-shrink: 0; cursor: pointer; }
+    .task-actions { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+    .sys-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 18px; }
+    .sys-card.urgent { border-left: 4px solid var(--red); }
+    .sys-card.attention { border-left: 4px solid var(--amber); }
+    .sys-card.good { border-left: 4px solid var(--green-light); }
+    .callout { border-radius: 8px; padding: 9px 13px; font-size: 12px; margin: 10px 0; line-height: 1.5; }
+    .callout-warn { background: var(--amber-pale); color: #92400E; border-left: 3px solid var(--amber); }
+    .callout-soft { background: var(--cream-dark); color: var(--text-mid); border-left: 3px solid var(--border); }
+    .history-list { list-style: none; }
+    .history-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--border); gap: 14px; }
+    .history-item:last-child { border-bottom: none; }
+    .ach { display: inline-flex; align-items: center; padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .ach.earned { background: var(--green-pale); color: var(--green-mid); }
+    .ach.locked { background: var(--cream-dark); color: var(--text-muted); }
+    .pro-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+    .game-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+    .game-card.featured { background: var(--green); border-color: var(--green); color: white; }
+    .game-card.locked { background: var(--cream-dark); opacity: 0.7; }
+    .game-card.featured .eyebrow { color: rgba(255,255,255,0.5); }
+    .fund-bar { height: 8px; background: var(--cream-dark); border-radius: 10px; overflow: hidden; margin: 4px 0 12px; }
+    .fund-bar-fill { height: 100%; border-radius: 10px; }
+    .sticky-footer { position: fixed; bottom: 0; left: var(--sidebar-width); right: 0; background: var(--green); padding: 12px 28px; display: flex; align-items: center; justify-content: space-between; z-index: 80; border-top: 2px solid var(--gold); }
+    .sticky-footer strong { font-family: 'Playfair Display', serif; font-size: 14px; color: white; }
+    .sticky-footer span { font-size: 12px; color: rgba(255,255,255,0.60); margin-left: 10px; }
+    /* Hero */
+    .hero { border-radius: 16px; overflow: hidden; margin-bottom: 18px; position: relative; background: linear-gradient(135deg, #1C4A2E 0%, #2D6A4F 55%, #3A8A65 100%); min-height: 188px; display: flex; align-items: flex-end; }
+    .hero::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 300'%3E%3Cpolygon points='220,210 420,70 620,210' fill='rgba(255,255,255,0.035)'/%3E%3Crect x='260' y='210' width='360' height='130' fill='rgba(255,255,255,0.035)'/%3E%3Crect x='365' y='248' width='70' height='92' fill='rgba(255,255,255,0.055)'/%3E%3Crect x='282' y='224' width='80' height='62' fill='rgba(255,255,255,0.04)'/%3E%3Crect x='488' y='224' width='80' height='62' fill='rgba(255,255,255,0.04)'/%3E%3Cpolygon points='30,300 190,135 350,300' fill='rgba(255,255,255,0.02)'/%3E%3Cpolygon points='530,300 710,140 890,300' fill='rgba(255,255,255,0.02)'/%3E%3C/svg%3E"); background-size: cover; background-position: center; }
+    .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.52) 0%, transparent 50%); }
+    .hero-score { position: absolute; top: 16px; right: 18px; background: rgba(255,255,255,0.14); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.20); border-radius: 12px; padding: 8px 16px; text-align: center; }
+    .hero-score .score-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: rgba(255,255,255,0.65); margin-bottom: 2px; }
+    .hero-score .score-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #E8B84B; line-height: 1; }
+    .hero-score .score-sub { font-size: 10px; color: rgba(255,255,255,0.60); margin-top: 2px; }
+    .hero-content { position: relative; z-index: 1; padding: 18px 22px; width: 100%; }
+    .hero-label { font-size: 11px; color: rgba(255,255,255,0.60); margin-bottom: 4px; }
+    .hero-content h1 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: white; line-height: 1.2; margin-bottom: 4px; }
+    .hero-meta { font-size: 13px; color: rgba(255,255,255,0.72); }
+    /* Overview grid */
+    .overview-grid { display: grid; grid-template-columns: 1fr 318px; gap: 18px; align-items: start; }
+    /* AI Panel */
+    .ai-panel { background: white; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; position: sticky; top: calc(var(--topbar-height) + 18px); }
+    .ai-header { background: var(--green); padding: 16px 18px; }
+    .ai-header-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .ai-icon { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .ai-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: white; }
+    .ai-subtitle { font-size: 11px; color: rgba(255,255,255,0.55); }
+    .ai-desc { font-size: 12px; color: rgba(255,255,255,0.68); line-height: 1.5; }
+    .ai-prompts { padding: 13px 16px; border-bottom: 1px solid var(--border); }
+    .ai-prompts-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 9px; }
+    .ai-prompt-btn { display: block; width: 100%; background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 11px; font-size: 12px; color: var(--green-mid); font-weight: 500; cursor: pointer; text-align: left; font-family: 'DM Sans', sans-serif; line-height: 1.4; transition: all 0.12s; margin-bottom: 6px; }
+    .ai-prompt-btn:last-child { margin-bottom: 0; }
+    .ai-prompt-btn:hover { background: var(--green-pale); border-color: var(--green-light); }
+    .ai-answer { padding: 13px 16px; border-bottom: 1px solid var(--border); background: #FAFAF7; }
+    .ai-answer-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--green-mid); margin-bottom: 6px; }
+    .ai-answer p { font-size: 13px; color: var(--text); line-height: 1.6; }
+    .ai-loading { font-size: 12px; color: var(--text-muted); font-style: italic; }
+    .ai-input-area { padding: 13px 16px; }
+    .ai-input-row { display: flex; gap: 8px; align-items: center; }
+    .ai-input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--cream); outline: none; }
+    .ai-input:focus { border-color: var(--green-light); }
+    .ai-send { background: var(--green); color: white; border: none; border-radius: 8px; padding: 9px 14px; font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; flex-shrink: 0; transition: background 0.12s; }
+    .ai-send:hover { background: var(--green-mid); }
+    .ai-send:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+    .ai-note { font-size: 10px; color: var(--text-muted); margin-top: 8px; line-height: 1.4; }
+    @media (max-width: 1100px) { .overview-grid { grid-template-columns: 1fr; } .ai-panel { position: static; } }
+    @media (max-width: 820px) { .sidebar { transform: translateX(-100%); } .main { margin-left: 0; } .sticky-footer { left: 0; } .g4 { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+<div id="loading"><span>HOMI</span></div>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect } = React;
+const C = { green:'#1C4A2E', greenMid:'#2D6A4F', greenLight:'#52B788', greenPale:'#D8F3DC', cream:'#F7F3EE', creamDark:'#EDE7DD', gold:'#C9963A', goldLight:'#E8B84B', text:'#1C1C1C', textMid:'#4A4A4A', textMuted:'#8A8A8A', border:'#E0D8CF', red:'#C0392B', redPale:'#FDEDEC', amber:'#D97706', amberPale:'#FEF3C7' };
+const HOME = { address:'142 Maple Ridge Dr.', city:'Allentown, PA', built:2004, sqft:'2,847', score:72, scoreLabel:'Fair Condition', ownerSince:2021 };
+const SYSTEMS = [
+  { id:'water', name:'Water Heater', age:9, lifespan:12, lastService:'2023', status:'urgent', pct:75, nextAction:'Plan replacement', costRange:'$900–$1,800', scoreImpact:'+8 pts', timing:'within 12–18 months', note:'Failure risk increases significantly the longer this is deferred.' },
+  { id:'hvac', name:'HVAC System', age:8, lifespan:15, lastService:'Oct 2024', status:'attention', pct:53, nextAction:'Schedule annual service', costRange:'$150–$250/yr', scoreImpact:'+3 pts', timing:'schedule this spring', note:'Deferred service reduces efficiency and accelerates wear.' },
+  { id:'electric', name:'Electrical', age:12, lifespan:40, lastService:'2019', status:'attention', pct:30, nextAction:'Panel inspection due', costRange:'$150–$250', scoreImpact:'+6 pts', timing:'next 30 days', note:'Unresolved flags can slow resale and raise insurer concerns.' },
+  { id:'roof', name:'Roof', age:12, lifespan:25, lastService:'2022', status:'good', pct:48, nextAction:'Inspect flashings', costRange:'$0–$150', scoreImpact:'+2 pts', timing:'plan by 2027', note:'Good shape — seasonal checks protect your timeline.' },
+];
+const TASKS_DEFAULT = [
+  { id:1, title:'Replace HVAC Filter', system:'HVAC', due:'Overdue', urgency:'now', cost:'$15–$30', pts:10, done:false },
+  { id:2, title:'Water Heater Flush', system:'Water Heater', due:'This month', urgency:'now', cost:'$0 DIY', pts:15, done:false },
+  { id:3, title:'Schedule Panel Inspection', system:'Electrical', due:'Next 30 days', urgency:'soon', cost:'$150–$250', pts:0, done:false },
+  { id:4, title:'Spring Lawn Treatment', system:'Landscaping', due:'This week', urgency:'soon', cost:'$80–$150', pts:5, done:false },
+  { id:5, title:'Roof Flashing Check', system:'Roof', due:'This season', urgency:'watch', cost:'$0 DIY', pts:5, done:true },
+  { id:6, title:'Test Smoke Detectors', system:'Electrical', due:'Monthly', urgency:'watch', cost:'$0 DIY', pts:3, done:true },
+];
+const HISTORY = [
+  { date:'Nov 2024', action:'HVAC annual service completed', system:'HVAC', cost:'$189', by:'Comfort Air Co.', impact:'+3' },
+  { date:'Sep 2024', action:'Replaced water heater anode rod', system:'Water Heater', cost:'$45', by:'DIY', impact:'+1' },
+  { date:'Jul 2024', action:'Exterior caulking — windows & doors', system:'Exterior', cost:'$220', by:'HomeRight Pros', impact:'+2' },
+  { date:'Apr 2024', action:'Spring gutter cleaning', system:'Exterior', cost:'$140', by:'DIY', impact:'+1' },
+  { date:'Jan 2024', action:'Smoke detector batteries replaced', system:'Electrical', cost:'$0', by:'DIY', impact:'+1' },
+  { date:'Oct 2023', action:'Roof inspection completed', system:'Roof', cost:'$275', by:'Ridge Pro Roofing', impact:'+2' },
+];
+const PROS = [
+  { name:'Comfort Air & Heating', type:'HVAC Service', dist:'2.1 mi', rating:'4.9', reviews:127, tag:'HOMI Preferred', tc:'success', reasons:['Specializes in homes like yours','Available this week','Great value for annual service'] },
+  { name:'Bright Electric Co.', type:'Electrical', dist:'3.4 mi', rating:'4.8', reviews:89, tag:'Licensed & Insured', tc:'warning', reasons:['Panel inspection specialist','Available tomorrow','Highly rated for fast scheduling'] },
+];
+const SECTIONS = [
+  { id:'overview', label:'Overview', sub:'Your home base', icon:'🏠', alert:true },
+  { id:'systems', label:'Systems', sub:'3 need attention', icon:'⚙️', alert:true },
+  { id:'tasks', label:'My Tasks', sub:'2 urgent', icon:'✅', alert:true },
+  { id:'pros', label:'Find a Pro', sub:'Vetted pros nearby', icon:'🔧' },
+  { id:'planner', label:'Spend Planner', sub:'5-yr forecast', icon:'📊' },
+  { id:'history', label:'Home History', sub:'6 events logged', icon:'📋' },
+  { id:'bored', label:'Bored?', sub:'Learn & play', icon:'🎯' },
+];
+const AI_PROMPTS = ['When should I replace my water heater?','What maintenance is most urgent this season?','How do I improve my HOMI score?','What will this home cost me over 5 years?'];
+
+function ScoreRing({ score, size=54, stroke=5 }) {
+  const r = (size-stroke*2)/2, circ = 2*Math.PI*r;
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ transform:'rotate(-90deg)', flexShrink:0 }}>
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth={stroke}/>
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={C.gold} strokeWidth={stroke} strokeDasharray={circ} strokeDashoffset={circ*(1-score/100)} strokeLinecap="round"/>
+      <text x={size/2} y={size/2} textAnchor="middle" dominantBaseline="central" style={{ transform:`rotate(90deg)`, transformOrigin:`${size/2}px ${size/2}px`, fontFamily:"'Playfair Display',Georgia,serif", fontSize:size*0.29, fontWeight:700, fill:'white' }}>{score}</text>
+    </svg>
+  );
+}
+
+function AIAdvisor() {
+  const [input, setInput] = useState('');
+  const [answer, setAnswer] = useState('');
+  const [loading, setLoading] = useState(false);
+  const ask = async (q) => {
+    const question = q || input;
+    if (!question.trim()) return;
+    setLoading(true); setAnswer(''); setInput(question);
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000,
+          system:`You are HOMI, a warm home advisor. The homeowner is at 142 Maple Ridge Dr., Allentown PA. Built 2004, 2847 sqft, score 72/100. Systems: Water Heater age 9 urgent, HVAC age 8 attention, Electrical age 12 attention, Roof age 12 good. Answer warmly and concisely in 2-4 sentences.`,
+          messages:[{ role:'user', content:question }] }),
+      });
+      const data = await res.json();
+      setAnswer(data.content?.[0]?.text || 'Sorry, I had trouble with that. Try again.');
+    } catch { setAnswer('Having trouble connecting. Try again in a moment.'); }
+    setLoading(false);
+  };
+  return (
+    <div className="ai-panel">
+      <div className="ai-header">
+        <div className="ai-header-row">
+          <div className="ai-icon">🏠</div>
+          <div><div className="ai-title">HOMI Advisor</div><div className="ai-subtitle">AI · Knows your home</div></div>
+        </div>
+        <p className="ai-desc">Ask anything about 142 Maple Ridge Dr. — maintenance, timing, costs, or what to fix first.</p>
+      </div>
+      <div className="ai-prompts">
+        <div className="ai-prompts-label">Suggested questions</div>
+        {AI_PROMPTS.map(q => <button key={q} className="ai-prompt-btn" onClick={() => ask(q)}>{q}</button>)}
+      </div>
+      {(loading || answer) && (
+        <div className="ai-answer">
+          {loading ? <p className="ai-loading">Thinking about your home…</p> : (<><div className="ai-answer-label">HOMI Advisor</div><p>{answer}</p></>)}
+        </div>
+      )}
+      <div className="ai-input-area">
+        <div className="ai-input-row">
+          <input className="ai-input" type="text" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key==='Enter' && ask()} placeholder="Ask me anything about your home…"/>
+          <button className="ai-send" onClick={() => ask()} disabled={loading}>Ask</button>
+        </div>
+        <p className="ai-note">Powered by your real home data — systems, age, and HOMI score.</p>
+      </div>
+    </div>
+  );
+}
+
+function Overview({ tasks, setSection }) {
+  const urgent = tasks.filter(t => t.urgency === 'now' && !t.done);
+  const done = tasks.filter(t => t.done);
+  const availablePts = tasks.filter(t => !t.done).reduce((s,t) => s + t.pts, 0);
+  const earnedPts = done.reduce((s,t) => s + t.pts, 0);
+
+  return (
+    <div>
+
+      {/* Hero */}
+      <div style={{ borderRadius:16, overflow:'hidden', marginBottom:20, position:'relative', background:'linear-gradient(160deg, #2D6A4F 0%, #1C4A2E 40%, #163D26 100%)', minHeight:230 }}>
+        <svg viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg" style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover' }} preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2D6A4F"/><stop offset="100%" stopColor="#1C4A2E"/></linearGradient>
+            <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#163D26"/><stop offset="100%" stopColor="#0F2B1A"/></linearGradient>
+          </defs>
+          <rect width="900" height="240" fill="url(#sky)"/>
+          <rect x="0" y="200" width="900" height="40" fill="url(#ground)"/>
+          <ellipse cx="140" cy="155" rx="55" ry="50" fill="#1A4A2A" opacity="0.9"/>
+          <ellipse cx="125" cy="145" rx="40" ry="38" fill="#2D6A4F" opacity="0.8"/>
+          <rect x="135" y="185" width="10" height="20" fill="#0F2B1A"/>
+          <ellipse cx="760" cy="150" rx="60" ry="55" fill="#1A4A2A" opacity="0.9"/>
+          <ellipse cx="775" cy="140" rx="45" ry="42" fill="#2D6A4F" opacity="0.8"/>
+          <rect x="755" y="188" width="10" height="18" fill="#0F2B1A"/>
+          <ellipse cx="840" cy="170" rx="38" ry="34" fill="#1A4A2A" opacity="0.75"/>
+          <rect x="836" y="192" width="8" height="12" fill="#0F2B1A"/>
+          <rect x="290" y="120" width="320" height="100" fill="#F5EDE0" rx="3"/>
+          <polygon points="270,122 450,52 630,122" fill="#3D2B1F"/>
+          <polygon points="270,122 290,122 290,115" fill="#2A1E15"/>
+          <polygon points="630,122 610,122 610,115" fill="#2A1E15"/>
+          <rect x="530" y="62" width="24" height="42" fill="#4A3828"/>
+          <rect x="527" y="58" width="30" height="8" fill="#3D2B1F"/>
+          <rect x="415" y="158" width="70" height="62" fill="#8B6B4A" rx="2"/>
+          <rect x="415" y="158" width="70" height="62" fill="none" stroke="#7A5C3B" strokeWidth="1.5" rx="2"/>
+          <rect x="444" y="185" width="12" height="4" fill="#C9963A" rx="2"/>
+          <rect x="315" y="140" width="72" height="56" fill="#B8D4E8" rx="3"/>
+          <rect x="315" y="140" width="72" height="56" fill="none" stroke="#D4C4B0" strokeWidth="1.5" rx="3"/>
+          <line x1="351" y1="140" x2="351" y2="196" stroke="#D4C4B0" strokeWidth="1.5"/>
+          <line x1="315" y1="168" x2="387" y2="168" stroke="#D4C4B0" strokeWidth="1.5"/>
+          <rect x="515" y="140" width="72" height="56" fill="#B8D4E8" rx="3"/>
+          <rect x="515" y="140" width="72" height="56" fill="none" stroke="#D4C4B0" strokeWidth="1.5" rx="3"/>
+          <line x1="551" y1="140" x2="551" y2="196" stroke="#D4C4B0" strokeWidth="1.5"/>
+          <line x1="515" y1="168" x2="587" y2="168" stroke="#D4C4B0" strokeWidth="1.5"/>
+          <polygon points="430,220 470,220 490,240 410,240" fill="#D4C4B0" opacity="0.5"/>
+          <ellipse cx="305" cy="205" rx="22" ry="14" fill="#1A5C30"/>
+          <ellipse cx="595" cy="205" rx="22" ry="14" fill="#1A5C30"/>
+        </svg>
+        <div style={{ position:'absolute', top:16, right:16, display:'flex', flexDirection:'column', gap:7 }}>
+          <div style={{ background:'rgba(255,255,255,0.13)', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.20)', borderRadius:10, padding:'8px 14px', display:'flex', alignItems:'center', gap:8 }}>
+            <span style={{ fontSize:14 }}>🏠</span>
+            <div>
+              <span style={{ fontSize:11, color:'rgba(255,255,255,0.75)', fontWeight:600 }}>Home Health Score&nbsp;</span>
+              <span style={{ fontFamily:"'Playfair Display',Georgia,serif", fontSize:16, fontWeight:700, color:'#E8B84B' }}>7.2/10</span>
+            </div>
+          </div>
+          <div style={{ background:'rgba(201,150,58,0.25)', backdropFilter:'blur(8px)', border:'1px solid rgba(201,150,58,0.40)', borderRadius:10, padding:'7px 14px', display:'flex', alignItems:'center', gap:7 }}>
+            <span style={{ fontSize:13 }}>⚠️</span>
+            <span style={{ fontSize:11, fontWeight:600, color:'#FBBF24' }}>2 items need attention</span>
+          </div>
+        </div>
+        <div style={{ position:'absolute', bottom:0, left:0, right:0, background:'linear-gradient(to top, rgba(0,0,0,0.62) 0%, transparent 100%)', padding:'22px 24px 18px' }}>
+          <p style={{ fontSize:11, color:'rgba(255,255,255,0.58)', fontWeight:500, marginBottom:3 }}>YOUR HOME</p>
+          <h1 style={{ fontFamily:"'Playfair Display',Georgia,serif", fontSize:24, fontWeight:700, color:'white', lineHeight:1.2, marginBottom:4 }}>142 Maple Ridge Drive</h1>
+          <p style={{ fontSize:13, color:'rgba(255,255,255,0.72)', marginBottom:6 }}>Allentown, PA &nbsp;·&nbsp; Built 2004 &nbsp;·&nbsp; 2,847 sq ft</p>
+          <p style={{ fontSize:13, color:'rgba(255,255,255,0.85)', fontWeight:500 }}>Your home is in good shape — but 2 things need attention</p>
+        </div>
+        <div style={{ position:'absolute', bottom:16, right:16, background:'rgba(255,255,255,0.12)', backdropFilter:'blur(6px)', border:'1px solid rgba(255,255,255,0.18)', borderRadius:8, padding:'5px 11px', display:'flex', alignItems:'center', gap:6 }}>
+          <span style={{ fontSize:11 }}>🌿</span>
+          <span style={{ fontSize:11, color:'rgba(255,255,255,0.80)', fontWeight:500 }}>Spring 2025 &nbsp;·&nbsp; Home age: 21 years</span>
+        </div>
+      </div>
+
+      {/* KPI cards */}
+      <div className="g4" style={{ marginBottom:18 }}>
+        {[
+          { label:'TASKS DUE', value: urgent.length, sub:'need action now', color: C.red },
+          { label:'COMING UP', value:'4', sub:'in next 60 days', color: C.amber },
+          { label:'COMPLETED', value: done.length, sub:'this season', color: C.greenMid },
+          { label:'EST. THIS YEAR', value:'$1,050', sub:'planned maintenance', color: C.green },
+        ].map(({ label, value, sub, color }) => (
+          <div key={label} style={{ background:'white', border:`1px solid ${C.border}`, borderRadius:14, padding:'18px 20px', position:'relative', overflow:'hidden' }}>
+            <div style={{ position:'absolute', top:12, right:14, width:48, height:48, borderRadius:'50%', background: color + '18' }}/>
+            <p style={{ fontSize:9, fontWeight:700, textTransform:'uppercase', letterSpacing:'1.2px', color:C.textMuted, marginBottom:6 }}>{label}</p>
+            <p style={{ fontFamily:"'Playfair Display',Georgia,serif", fontSize:32, fontWeight:700, color, lineHeight:1, marginBottom:5 }}>{value}</p>
+            <p style={{ fontSize:12, color:C.textMuted }}>{sub}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Red action alert bar */}
+      <div style={{ background:'linear-gradient(135deg, #C0392B 0%, #E74C3C 100%)', borderRadius:12, padding:'16px 22px', marginBottom:18, display:'flex', alignItems:'center', justifyContent:'space-between', boxShadow:'0 4px 20px rgba(192,57,43,0.25)' }}>
+        <div style={{ display:'flex', alignItems:'center', gap:14 }}>
+          <div style={{ width:38, height:38, borderRadius:'50%', background:'rgba(255,255,255,0.20)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+            <span style={{ fontSize:18 }}>🔔</span>
+          </div>
+          <div>
+            <p style={{ fontSize:14, fontWeight:700, color:'white', marginBottom:3 }}>Action needed: 2 urgent items</p>
+            <p style={{ fontSize:13, color:'rgba(255,255,255,0.82)' }}>Your water heater is nearing end of life and your HVAC filter is overdue — both affect your home's health score.</p>
+          </div>
+        </div>
+        <button className="btn" onClick={() => setSection('tasks')} style={{ background:'rgba(255,255,255,0.22)', color:'white', border:'1.5px solid rgba(255,255,255,0.35)', borderRadius:9, padding:'9px 18px', flexShrink:0, marginLeft:16, fontSize:13, fontWeight:600 }}>
+          View Tasks →
+        </button>
+      </div>
+
+      {/* Cost Intelligence dark section */}
+      <div style={{ background:'linear-gradient(135deg, #1A1A1A 0%, #2C2C2C 100%)', borderRadius:14, padding:'24px 26px', marginBottom:18, position:'relative', overflow:'hidden' }}>
+        <div style={{ position:'absolute', right:24, top:'50%', transform:'translateY(-50%)', fontFamily:"'Playfair Display',Georgia,serif", fontSize:90, fontWeight:700, color:'rgba(255,255,255,0.05)', lineHeight:1, userSelect:'none' }}>68</div>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start' }}>
+          <div>
+            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:8 }}>
+              <p style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:'1.4px', color:C.gold }}>COST INTELLIGENCE</p>
+              <span style={{ background:'rgba(201,150,58,0.20)', color:C.goldLight, fontSize:10, fontWeight:700, padding:'3px 9px', borderRadius:20, border:`1px solid rgba(201,150,58,0.35)` }}>3-Year Forecast</span>
+            </div>
+            <p style={{ fontFamily:"'Playfair Display',Georgia,serif", fontSize:42, fontWeight:700, color:'white', lineHeight:1, marginBottom:6 }}>$18,400</p>
+            <p style={{ fontSize:13, color:'rgba(255,255,255,0.60)', marginBottom:12 }}>projected maintenance cost over the next 3 years</p>
+            <div style={{ display:'inline-flex', alignItems:'center', gap:7, background:'rgba(192,57,43,0.18)', border:'1px solid rgba(192,57,43,0.35)', borderRadius:8, padding:'7px 13px' }}>
+              <span style={{ fontSize:13 }}>⚠️</span>
+              <span style={{ fontSize:12, color:'#F87171', fontWeight:600 }}>Higher than 67% of homes in this price range</span>
+            </div>
+          </div>
+          <div style={{ textAlign:'right', flexShrink:0, paddingLeft:32 }}>
+            <div style={{ background:'rgba(255,255,255,0.07)', borderRadius:12, padding:'16px 20px', border:'1px solid rgba(255,255,255,0.10)' }}>
+              <p style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:'1px', color:'rgba(255,255,255,0.45)', marginBottom:4 }}>HOMI Score</p>
+              <p style={{ fontFamily:"'Playfair Display',Georgia,serif", fontSize:36, fontWeight:700, color:C.gold, lineHeight:1, marginBottom:4 }}>68</p>
+              <span style={{ display:'inline-block', background:'rgba(201,150,58,0.22)', color:C.goldLight, fontSize:11, fontWeight:700, padding:'3px 10px', borderRadius:20, border:`1px solid rgba(201,150,58,0.35)` }}>Moderate Risk</span>
+            </div>
+          </div>
+        </div>
+        <div style={{ display:'flex', gap:10, marginTop:18 }}>
+          <button className="btn btn-gold btn-sm" onClick={() => setSection('planner')}>View Full Cost Plan</button>
+          <button className="btn btn-sm" style={{ background:'rgba(255,255,255,0.09)', color:'rgba(255,255,255,0.75)', border:'1px solid rgba(255,255,255,0.15)' }}>Compare to Similar Homes</button>
+        </div>
+      </div>
+
+      {/* Systems + Tasks */}
+      <div className="g2" style={{ marginBottom:18 }}>
+        <div className="card">
+          <p className="eyebrow eyebrow-g">Your Home Systems</p>
+          <h3 className="serif" style={{ fontSize:17, color:C.green, margin:'4px 0 14px' }}>3 systems need attention</h3>
+          {[
+            { name:'Water Heater', pct:75, status:'urgent' },
+            { name:'HVAC System', pct:53, status:'attention' },
+            { name:'Electrical', pct:30, status:'attention' },
+            { name:'Roof', pct:48, status:'good' },
+          ].map(s => (
+            <div key={s.name} style={{ marginBottom:10 }}>
+              <div style={{ display:'flex', justifyContent:'space-between', fontSize:12, marginBottom:3 }}>
+                <span style={{ color:C.textMid, fontWeight:500 }}>{s.name}</span>
+                <span style={{ fontSize:10, fontWeight:700, padding:'2px 7px', borderRadius:10, background: s.status==='urgent' ? C.redPale : s.status==='attention' ? C.amberPale : C.greenPale, color: s.status==='urgent' ? C.red : s.status==='attention' ? C.amber : C.greenMid }}>
+                  {s.status==='urgent' ? 'Urgent' : s.status==='attention' ? 'Attention' : 'Good'}
+                </span>
+              </div>
+              <div className="meter"><div className={`meter-fill ${s.status==='urgent' ? 'fill-red' : s.status==='attention' ? 'fill-amber' : 'fill-green'}`} style={{ width: s.pct+'%' }}/></div>
+            </div>
+          ))}
+          <button className="btn btn-secondary btn-sm" style={{ marginTop:6 }} onClick={() => setSection('systems')}>View All Systems</button>
+        </div>
+        <div className="card">
+          <p className="eyebrow eyebrow-g">Upcoming Tasks</p>
+          <h3 className="serif" style={{ fontSize:17, color:C.green, margin:'4px 0 14px' }}>2 urgent, 2 this week</h3>
+          <ul className="task-list">
+            {tasks.filter(t => !t.done).slice(0,4).map(t => (
+              <li key={t.id} className="task-item">
+                <div>
+                  <p style={{ fontSize:13, fontWeight:600, color:C.text }}>{t.title}</p>
+                  <p style={{ fontSize:11, color:C.textMuted, marginTop:1 }}>{t.system} &middot; {t.due}</p>
+                </div>
+                <div style={{ display:'flex', alignItems:'center', gap:6, flexShrink:0 }}>
+                  {t.pts > 0 && <span style={{ background:C.gold, color:'white', fontSize:10, fontWeight:700, padding:'2px 8px', borderRadius:20 }}>+{t.pts} pts</span>}
+                  <span className={`badge badge-${t.urgency==='now' ? 'danger' : t.urgency==='soon' ? 'warning' : 'success'}`}>
+                    {t.urgency==='now' ? 'Act Now' : t.urgency==='soon' ? 'Up Next' : 'Watch'}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:12, paddingTop:12, borderTop:`1px solid ${C.border}` }}>
+            <p style={{ fontSize:12, color:C.textMuted }}><span style={{ color:C.gold, fontWeight:700 }}>+{availablePts} pts</span> available this week</p>
+            <button className="btn btn-secondary btn-sm" onClick={() => setSection('tasks')}>View All Tasks</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Gamification: Level Progress + Achievements */}
+      <div className="g2" style={{ marginBottom:18 }}>
+        <div className="card">
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
+            <div>
+              <p className="eyebrow eyebrow-g">Your Progress</p>
+              <h3 className="serif" style={{ fontSize:16, color:C.green, marginTop:3 }}>Level 3 &rarr; Level 4</h3>
+            </div>
+            <span style={{ background:C.gold, color:'white', fontSize:12, fontWeight:700, padding:'5px 12px', borderRadius:20 }}>Level 3</span>
+          </div>
+          <div style={{ marginBottom:4 }}>
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:12, marginBottom:5 }}>
+              <span style={{ color:C.textMid }}>320 / 500 pts to next level</span>
+              <span style={{ color:C.gold, fontWeight:700 }}>64%</span>
+            </div>
+            <div className="meter" style={{ height:10 }}><div className="meter-fill fill-green" style={{ width:'64%' }}/></div>
+          </div>
+          <div style={{ background:C.creamDark, borderRadius:9, padding:'11px 14px', marginTop:12 }}>
+            <p style={{ fontSize:11, fontWeight:700, color:C.textMuted, marginBottom:4 }}>THIS WEEK</p>
+            <p style={{ fontSize:13, color:C.textMid }}>Complete <strong style={{ color:C.text }}>2 urgent tasks</strong> to earn <span style={{ color:C.gold, fontWeight:700 }}>+{availablePts} pts</span> and reach Level 4</p>
+          </div>
+          <div style={{ display:'flex', gap:8, marginTop:12 }}>
+            <div style={{ flex:1, background:C.greenPale, borderRadius:8, padding:'9px 12px', textAlign:'center' }}>
+              <p style={{ fontFamily:"'Playfair Display',Georgia,serif", fontSize:20, fontWeight:700, color:C.greenMid }}>{earnedPts}</p>
+              <p style={{ fontSize:10, color:C.greenMid, fontWeight:600, marginTop:1 }}>pts earned</p>
+            </div>
+            <div style={{ flex:1, background:C.amberPale, borderRadius:8, padding:'9px 12px', textAlign:'center' }}>
+              <p style={{ fontFamily:"'Playfair Display',Georgia,serif", fontSize:20, fontWeight:700, color:C.amber }}>{availablePts}</p>
+              <p style={{ fontSize:10, color:C.amber, fontWeight:600, marginTop:1 }}>pts available</p>
+            </div>
+            <div style={{ flex:1, background:C.creamDark, borderRadius:8, padding:'9px 12px', textAlign:'center' }}>
+              <p style={{ fontFamily:"'Playfair Display',Georgia,serif", fontSize:20, fontWeight:700, color:C.green }}>320</p>
+              <p style={{ fontSize:10, color:C.textMuted, fontWeight:600, marginTop:1 }}>total pts</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="card">
+          <p className="eyebrow eyebrow-g">Achievements</p>
+          <h3 className="serif" style={{ fontSize:16, color:C.green, margin:'4px 0 14px', lineHeight:1.3 }}>Your home is building a stronger record</h3>
+          <div style={{ display:'flex', flexWrap:'wrap', gap:7, marginBottom:16 }}>
+            {[
+              { label:'HVAC Serviced', earned:true },
+              { label:'Maintenance On Track', earned:true },
+              { label:'Electrically Sound', earned:false },
+              { label:'Roof Certified', earned:false },
+              { label:'Water Heater Ready', earned:false },
+            ].map(a => (
+              <span key={a.label} style={{ display:'inline-flex', alignItems:'center', gap:5, padding:'5px 11px', borderRadius:20, fontSize:11, fontWeight:600, background: a.earned ? C.greenPale : C.creamDark, color: a.earned ? C.greenMid : C.textMuted }}>
+                {a.earned ? '✓' : '🔒'} {a.label}
+              </span>
+            ))}
+          </div>
+          <div style={{ background:C.greenPale, borderRadius:10, padding:'12px 14px', borderLeft:`3px solid ${C.greenLight}` }}>
+            <p style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:'1px', color:C.greenMid, marginBottom:4 }}>Next Achievement</p>
+            <p style={{ fontSize:13, fontWeight:700, color:C.green, marginBottom:2 }}>Electrically Sound</p>
+            <p style={{ fontSize:12, color:C.textMid, marginBottom:10 }}>Complete panel inspection &rarr; <span style={{ color:C.gold, fontWeight:700 }}>+15 pts</span></p>
+            <button className="btn btn-primary btn-sm" onClick={() => setSection('pros')}>Find an Electrician</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Recommended Pro */}
+      <div className="card card-green-soft" style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+        <div>
+          <p className="eyebrow eyebrow-g">Recommended for you</p>
+          <h3 className="serif" style={{ fontSize:17, color:C.green, margin:'4px 0 3px' }}>Schedule HVAC service before summer</h3>
+          <p style={{ fontSize:13, color:C.textMid }}>Comfort Air &amp; Heating &nbsp;·&nbsp; 2.1 mi away &nbsp;·&nbsp; 4.9 &#9733; &nbsp;·&nbsp; Available this week</p>
+        </div>
+        <button className="btn btn-primary btn-sm" style={{ flexShrink:0, marginLeft:20 }} onClick={() => setSection('pros')}>Get Quote</button>
+      </div>
+
+    </div>
+  );
+}
+
+
+function Systems({ setSection }) {
+  const [filter, setFilter] = useState('all');
+  const shown = filter==='all' ? SYSTEMS : SYSTEMS.filter(s => s.status===filter);
+  return (
+    <div>
+      <div className="sh">
+        <div>
+          <p className="eyebrow eyebrow-g">Systems</p>
+          <h1 className="serif" style={{ fontSize:26, color:C.green, fontWeight:700, lineHeight:1.2 }}>Your Home Systems</h1>
+          <p style={{ fontSize:13, color:C.textMuted, marginTop:2 }}>3 systems need attention &middot; $4,200 at risk in the next 12 months</p>
+        </div>
+        <div style={{ display:'flex', gap:6 }}>
+          {['all','urgent','attention','good'].map(f => (
+            <button key={f} onClick={() => setFilter(f)} style={{ padding:'5px 13px', borderRadius:20, border:`1.5px solid ${filter===f ? C.green : C.border}`, background: filter===f ? C.green : 'white', color: filter===f ? 'white' : C.textMid, fontSize:11, fontWeight:600, cursor:'pointer', fontFamily:'inherit', textTransform:'capitalize', transition:'all 0.14s' }}>
+              {f==='all' ? 'All' : f.charAt(0).toUpperCase()+f.slice(1)}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="g2">
+        {shown.map(sys => (
+          <div key={sys.id} className={`sys-card ${sys.status}`}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:11 }}>
+              <div>
+                <h2 className="serif" style={{ fontSize:16, color:C.green }}>{sys.name}</h2>
+                <p style={{ fontSize:11, color:C.textMuted, marginTop:2 }}>Age {sys.age} yrs &middot; Lifespan {sys.lifespan} yrs &middot; Last service {sys.lastService}</p>
+              </div>
+              <span className={`badge badge-${sys.status==='urgent' ? 'danger' : sys.status==='attention' ? 'warning' : 'success'}`}>{sys.status.charAt(0).toUpperCase()+sys.status.slice(1)}</span>
+            </div>
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:12, marginBottom:3 }}>
+              <span style={{ color:C.textMuted }}>Lifecycle used</span>
+              <strong style={{ color: sys.status==='urgent' ? C.red : sys.status==='attention' ? C.amber : C.greenMid }}>{sys.pct}%</strong>
+            </div>
+            <div className="meter"><div className={`meter-fill ${sys.status==='urgent' ? 'fill-red' : sys.status==='attention' ? 'fill-amber' : 'fill-green'}`} style={{ width:sys.pct+'%' }}/></div>
+            <div style={{ fontSize:12, margin:'9px 0', display:'flex', flexDirection:'column', gap:4 }}>
+              {[['Next action',sys.nextAction,C.text],['Est. cost',sys.costRange,C.textMid],['Score impact',sys.scoreImpact+' if addressed',C.greenMid],['Timing',sys.timing,C.textMid]].map(([lbl,val,col]) => (
+                <div key={lbl} style={{ display:'flex', gap:6 }}><span style={{ color:C.textMuted, minWidth:78 }}>{lbl}:</span><span style={{ color:col, fontWeight: lbl==='Score impact' ? 600 : 400 }}>{val}</span></div>
+              ))}
+            </div>
+            <div className={`callout ${sys.status==='urgent' ? 'callout-warn' : 'callout-soft'}`}>{sys.note}</div>
+            <div style={{ display:'flex', gap:8, marginTop:11 }}>
+              <button className="btn btn-secondary btn-sm" onClick={() => setSection('planner')}>Plan This</button>
+              <button className="btn btn-primary btn-sm" onClick={() => setSection('pros')}>Get Quote</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Tasks({ tasks, setTasks }) {
+  const toggle = id => setTasks(tasks.map(t => t.id===id ? { ...t, done:!t.done } : t));
+  const now = tasks.filter(t => t.urgency==='now' && !t.done);
+  const soon = tasks.filter(t => t.urgency==='soon' && !t.done);
+  const watch = tasks.filter(t => t.urgency==='watch' && !t.done);
+  const done = tasks.filter(t => t.done);
+  const completedPts = done.reduce((s,t) => s+t.pts, 0);
+  const Group = ({ label, items, color }) => items.length===0 ? null : (
+    <div className="card" style={{ marginBottom:12 }}>
+      <p style={{ fontSize:11, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px', color, marginBottom:9 }}>{label} &mdash; {items.length} remaining</p>
+      <ul className="task-list">
+        {items.map(t => (
+          <li key={t.id} className="task-item">
+            <div style={{ display:'flex', alignItems:'flex-start', gap:9 }}>
+              <input type="checkbox" checked={t.done} onChange={() => toggle(t.id)} aria-label={'Complete '+t.title}/>
+              <div><p style={{ fontSize:13, fontWeight:600, color:C.text }}>{t.title}</p><p style={{ fontSize:11, color:C.textMuted, marginTop:1 }}>{t.system} &middot; {t.due} &middot; {t.cost}</p></div>
+            </div>
+            <div className="task-actions">
+              {t.pts > 0 && <span className="badge badge-gold">+{t.pts} pts</span>}
+              <span className={`badge badge-${t.urgency==='now' ? 'danger' : t.urgency==='soon' ? 'warning' : 'success'}`} style={{ fontSize:10 }}>{t.urgency==='now' ? 'Act Now' : t.urgency==='soon' ? 'Up Next' : 'Watch'}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+  return (
+    <div>
+      <div className="sh">
+        <div>
+          <p className="eyebrow eyebrow-g">Tasks</p>
+          <h1 className="serif" style={{ fontSize:26, color:C.green, fontWeight:700 }}>My Tasks</h1>
+          <p style={{ fontSize:13, color:C.textMuted, marginTop:2 }}>{now.length} urgent &middot; {soon.length} upcoming &middot; +{tasks.filter(t=>!t.done).reduce((s,t)=>s+t.pts,0)} pts available</p>
+        </div>
+        <button className="btn btn-primary btn-sm">+ Add Task</button>
+      </div>
+      <div className="card" style={{ marginBottom:14 }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:7 }}>
+          <div><p className="eyebrow eyebrow-g">This week's progress</p><p className="serif" style={{ fontSize:16, color:C.green }}>{done.length} of {tasks.length} completed</p></div>
+          <span className="badge badge-gold">+{completedPts} pts earned</span>
+        </div>
+        <div className="meter" style={{ height:9 }}><div className="meter-fill fill-green" style={{ width:Math.round(done.length/tasks.length*100)+'%' }}/></div>
+      </div>
+      <Group label="Act Now" items={now} color={C.red}/>
+      <Group label="Up Next" items={soon} color={C.amber}/>
+      <Group label="Watch" items={watch} color={C.textMuted}/>
+      {done.length > 0 && (
+        <div className="card" style={{ background:C.creamDark }}>
+          <p style={{ fontSize:11, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.8px', color:C.textMuted, marginBottom:9 }}>Completed &mdash; {done.length}</p>
+          <ul className="task-list">
+            {done.map(t => (
+              <li key={t.id} className="task-item" style={{ opacity:0.55 }}>
+                <div style={{ display:'flex', alignItems:'flex-start', gap:9 }}>
+                  <input type="checkbox" checked={t.done} onChange={() => toggle(t.id)}/>
+                  <div><p style={{ fontSize:13, fontWeight:600, color:C.textMuted, textDecoration:'line-through' }}>{t.title}</p><p style={{ fontSize:11, color:C.textMuted }}>{t.system}</p></div>
+                </div>
+                {t.pts > 0 && <span className="badge badge-success" style={{ fontSize:10 }}>+{t.pts} pts</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Pros() {
+  return (
+    <div>
+      <div style={{ marginBottom:18 }}>
+        <p className="eyebrow eyebrow-g">Find a Pro</p>
+        <h1 className="serif" style={{ fontSize:26, color:C.green, fontWeight:700 }}>Get trusted help nearby</h1>
+        <p style={{ fontSize:13, color:C.textMuted, marginTop:2 }}>Recommended for your home, your tasks, and your timing.</p>
+      </div>
+      <div className="card card-amber" style={{ marginBottom:16 }}>
+        <p className="eyebrow" style={{ color:C.amber }}>You need help with</p>
+        <h2 className="serif" style={{ fontSize:17, color:C.green, margin:'4px 0 3px' }}>Water Heater Replacement</h2>
+        <p style={{ fontSize:13, color:C.textMid }}>Typical cost: $900–$1,800 &middot; Best timing: within 12–18 months</p>
+      </div>
+      <div className="g2" style={{ marginBottom:16 }}>
+        {PROS.map(pro => (
+          <div key={pro.name} className="pro-card">
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:9 }}>
+              <span className={`badge badge-${pro.tc}`}>{pro.tag}</span>
+              <span className="serif" style={{ fontSize:15, color:C.gold, fontWeight:700 }}>{pro.rating} &#9733;</span>
+            </div>
+            <h2 className="serif" style={{ fontSize:16, color:C.green, marginBottom:2 }}>{pro.name}</h2>
+            <p style={{ fontSize:11, color:C.textMuted, marginBottom:11 }}>{pro.type} &middot; {pro.dist} away</p>
+            <ul style={{ listStyle:'none', display:'flex', flexDirection:'column', gap:6, marginBottom:14 }}>
+              {pro.reasons.map(r => (
+                <li key={r} style={{ fontSize:13, color:C.textMid, paddingLeft:16, position:'relative' }}>
+                  <span style={{ position:'absolute', left:0, color:C.greenLight, fontWeight:700 }}>&#10003;</span>{r}
+                </li>
+              ))}
+            </ul>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+              <span style={{ fontSize:11, color:C.textMuted }}>{pro.reviews} reviews</span>
+              <button className="btn btn-primary btn-sm">Get Quote</button>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="card card-dark" style={{ textAlign:'center', padding:'22px 24px' }}>
+        <h2 className="serif" style={{ fontSize:18, marginBottom:6 }}>All HOMI providers are vetted</h2>
+        <p style={{ fontSize:13, color:'rgba(255,255,255,0.68)' }}>Licensed, insured, and reviewed by real homeowners in your area.</p>
+      </div>
+    </div>
+  );
+}
+
+function Planner() {
+  const funds = [{ label:'Water Heater Reserve', pct:100 },{ label:'Electrical Inspection', pct:100 },{ label:'HVAC Maintenance Fund', pct:72 },{ label:'Roof Reserve', pct:55 }];
+  return (
+    <div>
+      <div className="sh">
+        <div>
+          <p className="eyebrow eyebrow-g">Spend Planner</p>
+          <h1 className="serif" style={{ fontSize:26, color:C.green, fontWeight:700 }}>Plan for future home costs</h1>
+          <p style={{ fontSize:13, color:C.textMuted, marginTop:2 }}>You are on track. Savings covers projected costs over 5 years.</p>
+        </div>
+        <button className="btn btn-secondary btn-sm">Print Plan</button>
+      </div>
+      <div className="g2" style={{ marginBottom:14 }}>
+        <div className="card">
+          <p className="eyebrow eyebrow-g">Cost Forecast</p>
+          <h2 className="serif" style={{ fontSize:16, color:C.green, margin:'4px 0 13px' }}>What will my home cost over time?</h2>
+          <div className="g4">
+            {[['$1,728','1 yr'],['$5,904','3 yrs'],['$13,320','5 yrs'],['$29,520','10 yrs']].map(([amt,lbl]) => (
+              <div key={lbl} style={{ background:C.creamDark, borderRadius:9, padding:'11px 7px', textAlign:'center' }}>
+                <p className="serif" style={{ fontSize:14, color:C.green, fontWeight:700 }}>{amt}</p>
+                <p style={{ fontSize:10, color:C.textMuted, marginTop:2 }}>{lbl}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="card">
+          <p className="eyebrow eyebrow-g">Coverage</p>
+          <h2 className="serif" style={{ fontSize:16, color:C.green, margin:'4px 0 3px' }}>100% of 5-year forecast covered</h2>
+          <p style={{ fontSize:13, color:C.textMuted, marginBottom:9 }}>$19,500 saved vs. $18,500 projected</p>
+          <div className="meter" style={{ height:11 }}><div className="meter-fill fill-green" style={{ width:'100%' }}/></div>
+          <p style={{ fontSize:12, color:C.textMuted, marginTop:7 }}>Keep contributing monthly to stay ahead.</p>
+        </div>
+      </div>
+      <div className="card" style={{ marginBottom:14 }}>
+        <p className="eyebrow eyebrow-g">Next Best Move</p>
+        <h2 className="serif" style={{ fontSize:18, color:C.green, margin:'4px 0 13px' }}>Replace Water Heater</h2>
+        <div className="g3" style={{ marginBottom:16 }}>
+          {[['Why now','This system is entering its replacement window. Planning now avoids emergency costs.'],['Estimated cost','$900–$1,800 installed. Standard tank style in your region.'],['What to do','Save $95/month or request a quote from a licensed plumber now.']].map(([lbl,val]) => (
+            <div key={lbl} style={{ background:C.creamDark, borderRadius:9, padding:'13px 15px' }}>
+              <p style={{ fontSize:10, fontWeight:700, textTransform:'uppercase', letterSpacing:'1px', color:C.textMuted, marginBottom:5 }}>{lbl}</p>
+              <p style={{ fontSize:13, color:C.textMid, lineHeight:1.5 }}>{val}</p>
+            </div>
+          ))}
+        </div>
+        <div style={{ display:'flex', gap:9 }}>
+          <button className="btn btn-primary btn-sm">Save for This</button>
+          <button className="btn btn-secondary btn-sm">Get Quote</button>
+        </div>
+      </div>
+      <div className="g2">
+        <div className="card">
+          <p className="eyebrow eyebrow-g">Monthly Savings Plan</p>
+          <h2 className="serif" style={{ fontSize:16, color:C.green, margin:'4px 0 13px' }}>How much should I set aside?</h2>
+          <div style={{ background:C.creamDark, borderRadius:9, padding:'13px 15px', marginBottom:12 }}>
+            <p className="serif" style={{ fontSize:20, color:C.green, fontWeight:700 }}>$325/mo</p>
+            <p style={{ fontSize:12, color:C.textMuted }}>currently allocated</p>
+          </div>
+          {[['12 months','$3,900'],['24 months','$7,800'],['60 months','$19,500']].map(([lbl,amt]) => (
+            <div key={lbl} style={{ display:'flex', justifyContent:'space-between', padding:'7px 0', borderBottom:`1px solid ${C.border}`, fontSize:13 }}>
+              <span style={{ color:C.textMid }}>{lbl}</span><span style={{ color:C.green, fontWeight:700 }}>{amt}</span>
+            </div>
+          ))}
+        </div>
+        <div className="card">
+          <p className="eyebrow eyebrow-g">Reserve Status</p>
+          <h2 className="serif" style={{ fontSize:16, color:C.green, margin:'4px 0 13px' }}>Progress toward each fund</h2>
+          {funds.map(f => (
+            <div key={f.label} style={{ marginBottom:9 }}>
+              <div style={{ display:'flex', justifyContent:'space-between', fontSize:13, marginBottom:3 }}>
+                <span style={{ color:C.textMid }}>{f.label}</span>
+                <span style={{ color: f.pct===100 ? C.greenMid : C.amber, fontWeight:700 }}>{f.pct}%</span>
+              </div>
+              <div className="fund-bar"><div className="fund-bar-fill" style={{ width:f.pct+'%', background: f.pct===100 ? C.greenLight : C.amber }}/></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function History() {
+  return (
+    <div>
+      <div className="sh">
+        <div>
+          <p className="eyebrow eyebrow-g">Home History</p>
+          <h1 className="serif" style={{ fontSize:26, color:C.green, fontWeight:700 }}>Your home's living record</h1>
+          <p style={{ fontSize:13, color:C.textMuted, marginTop:2 }}>Every repair, service, and improvement adds proof of care.</p>
+        </div>
+        <button className="btn btn-primary btn-sm">+ Log Entry</button>
+      </div>
+      <div className="card" style={{ marginBottom:16 }}>
+        <ul className="history-list">
+          {HISTORY.map((item, i) => (
+            <li key={i} className="history-item">
+              <div style={{ display:'flex', gap:13 }}>
+                <div style={{ width:3, background: i===0 ? C.green : C.border, borderRadius:2, flexShrink:0, minHeight:38 }}/>
+                <div>
+                  <p style={{ fontSize:13, fontWeight:600, color:C.text }}>{item.action}</p>
+                  <p style={{ fontSize:11, color:C.textMuted, marginTop:2 }}>{item.system} &middot; {item.by}</p>
+                </div>
+              </div>
+              <div style={{ textAlign:'right', flexShrink:0 }}>
+                <p style={{ fontSize:13, fontWeight:700, color:C.green }}>{item.cost}</p>
+                <p style={{ fontSize:11, color:C.textMuted, marginTop:1 }}>{item.date}</p>
+                <span className="badge badge-success" style={{ marginTop:5, fontSize:9 }}>{item.impact} score</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="card card-dark" style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'22px 26px' }}>
+        <div>
+          <h2 className="serif" style={{ fontSize:18, marginBottom:5 }}>Your home's story adds real value</h2>
+          <p style={{ fontSize:13, color:'rgba(255,255,255,0.68)' }}>Homes with a complete record build more buyer trust and stronger resale confidence.</p>
+        </div>
+        <div style={{ textAlign:'center', flexShrink:0, paddingLeft:24 }}>
+          <p className="serif" style={{ fontSize:40, fontWeight:700, color:C.gold, lineHeight:1 }}>{HISTORY.length}</p>
+          <p style={{ fontSize:11, color:'rgba(255,255,255,0.55)', marginTop:3 }}>events logged</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Bored() {
+  return (
+    <div>
+      <div style={{ marginBottom:18 }}>
+        <p className="eyebrow eyebrow-g">Bored?</p>
+        <h1 className="serif" style={{ fontSize:26, color:C.green, fontWeight:700 }}>Learn your home while improving it</h1>
+        <p style={{ fontSize:13, color:C.textMuted, marginTop:2 }}>Weekly briefings, quizzes, and scenario games — powered by your real property data.</p>
+      </div>
+      <div className="card" style={{ marginBottom:16, display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+        <div><p className="eyebrow eyebrow-g">Level Progress</p><p className="serif" style={{ fontSize:16, color:C.green }}>Level 3 &#8594; Level 4</p></div>
+        <div style={{ flex:1, margin:'0 20px' }}>
+          <div className="meter" style={{ height:9 }}><div className="meter-fill fill-green" style={{ width:'64%' }}/></div>
+          <p style={{ fontSize:11, color:C.textMuted, marginTop:2 }}>320 / 500 pts</p>
+        </div>
+        <span className="badge badge-gold" style={{ fontSize:11 }}>Level 3</span>
+      </div>
+      <div className="g2">
+        <div className="game-card featured">
+          <p className="eyebrow">This Week</p>
+          <h2 className="serif" style={{ fontSize:18, color:'white' }}>Weekly Briefing</h2>
+          <p style={{ fontSize:13, color:'rgba(255,255,255,0.75)', flex:1 }}>Your water heater is approaching end of life. Planning now reduces failure risk and avoids emergency cost.</p>
+          <div style={{ display:'flex', alignItems:'center', gap:9, marginTop:4 }}>
+            <button className="btn btn-gold btn-sm">Read Briefing</button>
+            <span className="badge" style={{ background:'rgba(255,255,255,0.16)', color:'white', fontSize:11 }}>+5 pts</span>
+          </div>
+        </div>
+        <div className="game-card">
+          <p className="eyebrow eyebrow-g">Quiz</p>
+          <h2 className="serif" style={{ fontSize:16, color:C.green }}>Know Your Home</h2>
+          <p style={{ fontSize:13, color:C.textMid, flex:1, lineHeight:1.5 }}>Answer questions based on your real systems and climate zone.</p>
+          <div style={{ display:'flex', alignItems:'center', gap:9, marginTop:4 }}>
+            <button className="btn btn-secondary btn-sm">Start Quiz</button>
+            <span className="badge badge-gold">+15 pts</span>
+          </div>
+        </div>
+        <div className="game-card">
+          <p className="eyebrow eyebrow-g">Scenario Game</p>
+          <h2 className="serif" style={{ fontSize:16, color:C.green }}>What Would You Do?</h2>
+          <p style={{ fontSize:13, color:C.textMid, flex:1, lineHeight:1.5 }}>Make a maintenance decision and see how it changes your score, spend, and long-term risk.</p>
+          <div style={{ display:'flex', alignItems:'center', gap:9, marginTop:4 }}>
+            <button className="btn btn-secondary btn-sm">Play Scenario</button>
+            <span className="badge badge-gold">Up to +50 pts</span>
+          </div>
+        </div>
+        <div className="game-card locked">
+          <p className="eyebrow">Coming Soon</p>
+          <h2 className="serif" style={{ fontSize:16, color:C.textMuted }}>HOMI Sim</h2>
+          <p style={{ fontSize:13, color:C.textMuted, flex:1, lineHeight:1.5 }}>Unlock a personalized home simulation at Verified tier.</p>
+          <button className="btn btn-secondary btn-sm" disabled style={{ opacity:0.5, marginTop:4, cursor:'not-allowed' }}>Unlock at 85+</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const getHash = () => { const h = window.location.hash.replace('#',''); return SECTIONS.find(s => s.id===h) ? h : 'overview'; };
+  const [section, setSection] = useState(getHash);
+  const [tasks, setTasks] = useState(TASKS_DEFAULT);
+  const navigate = id => { setSection(id); window.history.replaceState(null,'','#'+id); };
+  useEffect(() => {
+    const onHash = () => setSection(getHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  const fc = {
+    overview:  { strong:'$6,200 expected this year', sub:'Plan ahead to reduce future cost impact' },
+    systems:   { strong:'3 systems driving future costs', sub:'See your full spend forecast' },
+    tasks:     { strong:'Complete tasks to reduce future spend', sub:'+35 pts and ~$300 saved available this week' },
+    pros:      { strong:'Get quotes before costs escalate', sub:'Budget now with your Spend Planner' },
+    history:   { strong:'Your record reduces future spend', sub:'A complete history lowers negotiation risk' },
+    bored:     { strong:'Your home knowledge saves money', sub:'Every briefing = smarter decisions' },
+  }[section] || { strong:'$6,200 expected this year', sub:'Plan ahead to reduce future cost impact' };
+  return (
+    <div className="app">
+      <aside className="sidebar">
+        <a className="sidebar-brand" href="/">HOMI</a>
+        <div className="sidebar-home">
+          <div className="lbl">Your Home</div>
+          <h2>{HOME.address}</h2>
+          <p>{HOME.city}</p>
+          <span className="alert-pill">2 items need attention</span>
+        </div>
+        <nav className="sidebar-nav">
+          {SECTIONS.map(s => (
+            <button key={s.id} className={`nav-btn${section===s.id ? ' active' : ''}`} onClick={() => navigate(s.id)}>
+              <span className="nav-icon">{s.icon}</span>
+              <div style={{ flex:1 }}><span>{s.label}</span><span className="sub">{s.sub}</span></div>
+              {s.alert && section!==s.id && <span className="nav-dot"/>}
+            </button>
+          ))}
+        </nav>
+        <div className="sidebar-score">
+          <div className="lbl">Home Health Score</div>
+          <div className="score-wrap">
+            <ScoreRing score={HOME.score}/>
+            <div>
+              <p className="serif" style={{ fontSize:13, color:'white', fontWeight:600 }}>{HOME.scoreLabel}</p>
+              <p style={{ fontSize:11, color:'rgba(255,255,255,0.50)', marginTop:1 }}>Built {HOME.built}</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <div className="main">
+        <header className="topbar">
+          <nav className="topbar-nav">
+            <a href="/" className="topbar-link">Property Intelligence</a>
+            <a className="topbar-link active">Owner Dashboard</a>
+            <a href="#" className="topbar-link">Property Passport</a>
+            <a href="#" className="topbar-link">Inspector Mode</a>
+          </nav>
+          <div className="topbar-right">
+            <a href="/" className="btn btn-secondary btn-sm">Back to HOMI</a>
+            <span className="profile">Alex Johnson &middot; Owner since {HOME.ownerSince}</span>
+          </div>
+        </header>
+        <div className="content" style={{ paddingBottom: section==='planner' ? 40 : 80 }}>
+          {section==='overview' && <Overview tasks={tasks} setSection={navigate}/>}
+          {section==='systems'  && <Systems setSection={navigate}/>}
+          {section==='tasks'    && <Tasks tasks={tasks} setTasks={setTasks}/>}
+          {section==='pros'     && <Pros/>}
+          {section==='planner'  && <Planner/>}
+          {section==='history'  && <History/>}
+          {section==='bored'    && <Bored/>}
+        </div>
+      </div>
+      {section !== 'planner' && (
+        <div className="sticky-footer">
+          <div><strong>{fc.strong}</strong><span>{fc.sub}</span></div>
+          <button className="btn btn-gold" onClick={() => navigate('planner')}>Plan My Costs</button>
+        </div>
+      )}
+    </div>
+  );
+}
+window.addEventListener('load', () => {
+  try {
+    document.getElementById('loading').style.display = 'none';
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+  } catch(e) {
+    document.getElementById('loading').innerHTML = '<span style="font-size:16px">Error — check console</span>';
+    console.error(e);
+  }
+});
+</script>
+</body>
+</html>
